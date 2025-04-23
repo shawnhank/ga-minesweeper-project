@@ -1,0 +1,16 @@
+# macOS system files
+.DS_Store
+
+# VS Code project settings (optional)
+.vscode/
+
+# Log files (if any testing/debugging later)
+*.log
+
+# Node stuff (if you ever test tools later)
+node_modules/
+
+# Thumbnails / temp assets / backups (if used in planning)
+*.tmp
+*.bak
+
