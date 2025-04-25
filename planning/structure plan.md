@@ -9,19 +9,6 @@
   - `isFlagged`: boolean
   - `surroundingMines`: number
 
-## Constants
-
-- `ROWS = 10`: Number of rows
-- `COLS = 10`: Number of columns
-- `TOTAL_MINES = 10`: Total number of mines
-
-## State Variables
-
-- `board`: 2D array of tiles (each a tile object)
-- `minesLeft`: how many mines remain unflagged
-- `isGameOver`: true if game is over
-- `cellsRevealedCount`: tracks revealed safe tiles
-
 ## init()
 
 1. Create an empty 10x10 board.
@@ -45,7 +32,7 @@
 3. If the tile has `surroundingMines > 0`:
     - Reveal the tile
     - Stop
-4. If surroundingMines is 0:
+4. If surroundingMines = 0:
     - Call `floodReveal(row, col)` to reveal adjacent tiles
 5. Check win condition
 
@@ -75,4 +62,3 @@
     - Mine counter
     - Restart button
     - Win/Loss display
-
