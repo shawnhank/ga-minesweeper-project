@@ -10,17 +10,25 @@
 <body>
   <div id="game-container">
     <h1 id="game-title">GA Minesweeper</h1>
+
     <div id="face-row">
+      <!-- Bomb Counter (future) -->
+      <div id="bomb-counter">
+        <!-- JS will insert number of bombs remaining here -->
+      </div>
+
       <!-- Face Button (Reset Button) -->
       <div id="face-button">😀</div>
+
+      <!-- Timer (future) -->
+      <div id="timer">
+        <!-- JS will insert elapsed time here -->
+      </div>
     </div>
+
     <div id="grid-wrapper">
-      <!-- Game Grid (9x9) -->
       <div id="game-board">
         <!-- 81 tiles -->
-        <!-- These will be generated manually here for now -->
-        <!-- You can later generate these dynamically in JS -->
-        <!-- 9 rows -->
         <div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div>
         <div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div>
         <div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div>
@@ -31,7 +39,8 @@
         <div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div>
         <div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div>
       </div>
-    </div>  
+    </div>
   </div>
+  <img id="ga-logo" src="images/ga-logo.png" alt="General Assembly Logo">
 </body>
 </html>
