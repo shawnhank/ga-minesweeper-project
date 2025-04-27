@@ -44,19 +44,6 @@ function startGame() {
 
 startGame();
 
-
-function drawBoard() {
-  // Iterates/loops over the board array and updates
-  // matching HTML tiles via DOM interaction
-  // Sets up the initial hidden state for each tile
-  // TODO: update tiles when they are revealed or flagged)
-}
-
-function resetGame() {
-  startGame();
-}
-
-
 function setMines() {
   // place mines into board array by setting mine = true.
   // board tracks mine positions directly. no need for array
@@ -76,9 +63,11 @@ function setMines() {
   }
 }
 
-
-function handleTileClick() {
-    // handles left and right mouse clicks on tiles
+function drawBoard() {
+  // Iterates/loops over the board array and updates
+  // matching HTML tiles via DOM interaction
+  // Sets up the initial hidden state for each tile
+  // TODO: update tiles when they are revealed or flagged)
 }
 
 function revealTile() {
@@ -91,26 +80,50 @@ function checkGameOver() {
   // did user clear all tiles without clicking mine? game over - win
 }
 
+function flagTile() {
+  // flag/unflag (right click) tile to mark as mine
+}
+
+function checkWin() {
+
+}
+
+
+function resetGame() {
+  startGame();
+}
+
+
+
+
+
+function handleTileClick() {
+    // handles left and right mouse clicks on tiles
+}
+
+
+
 function countMines() {
   // count mines in adjacent cells
 }
 
-function flagTile() {
-  // flag/unflag (right click) tile to mark as mine
-}
 
 /* TODO list of functions
 
 [X] init ... startGame
 [X] render  ... drawBoard
-[ ] place mines randomly ... setMines
-[ ] click tiles ... handleTileClick
-[ ] show/reveal tile ... revealTile
-[ ] game over check ...checkGameOver
-[ ] caclulate/locate mines countMines
-[ ] right click flag to indicate bomb location  ... flagTile
-[ ] win/lose  ... checkWin (checks win/lose status) isGameOver state v
+[X] place mines randomly ... setMines
+[] click tiles ... handleTileClick
+[] show/reveal tile ... revealTile
+[] game over check ...checkGameOver
+[] caclulate/locate mines countMines
+[] right click flag to indicate bomb location  ... flagTile
+[] win/lose  ... checkWin (checks win/lose status) isGameOver state v
 [X] reset game  ... resetGame to init  aka start over aka StartGame
+
+============
+Icebox features/function
+[] countFlag (for diplay flag ui element)
 
 */
 
