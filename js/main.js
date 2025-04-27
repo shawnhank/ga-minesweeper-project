@@ -51,7 +51,10 @@ startGame();
 
 
 function drawBoard() {
-
+  // Iterates/loops over the board array and updates
+  // matching HTML tiles via DOM interaction
+  // Sets up the initial hidden state for each tile
+  // TODO: update tiles when they are revealed or flagged)
 }
 
 function resetGame() {
@@ -60,33 +63,30 @@ function resetGame() {
 
 
 function setMines() {
-
+  // randomly place mines on board
 }
 
 function handleTileClick() {
-
+    // handles left and right mouse clicks on tiles
 }
 
 function revealTile() {
-
+  // reveals, shows, uncovers, unhides tile
 }
 
 function checkGameOver() {
-
+  // checks to see if game is over 
+  // did user click a tile with a mine - game over - lose
+  // did user clear all tiles without clicking mine? game over - win
 }
 
 function countMines() {
-
+  // count mines in adjacent cells
 }
 
 function flagTile() {
-
+  // flag/unflag (right click) tile to mark as mine
 }
-
-function isGameOver() {
-
-}
-
 
 /* TODO list of functions
 
