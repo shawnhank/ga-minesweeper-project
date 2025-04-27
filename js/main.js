@@ -20,32 +20,57 @@ let isGameOver;
 
 
 /*-------------------------------- Functions --------------------------------*/
+// function startGame() {
+//   // setting up board 2D array with empty cells
+//   board = [];
+//     // outer loop adding 9 rows to board
+//     for(let row = 0; row < BOARD_ROWS; row++) {
+//       // assign empty value to each row index position
+//       board[row] =[];
+//       // inner loop to add 9 columns
+//       for(let col = 0; col < BOARD_COLS; col++) {
+//         //for each cell position in the board sett intial values
+//         board[row][col] = {
+//           isMine: false,
+//           isRevealed: false,
+//           isFlagged: false,
+//           adjMineCount: null,   // mines in adjacent cells
+//           adjCells: [],         // all neighboring cells of selected cell
+//           rowIdx: row,
+//           colIdx: col
+//         };
+//     }
+//   }
+//   isGameOver = false;
+//   setMines();
+//   drawBoard();
+
+// };
+
 function startGame() {
-  // setting up board 2D array with empty cells
   board = [];
-    // outer loop adding 9 rows to board
-    for(let row = 0; row < BOARD_ROWS; row++) {
-      // assign empty value to each row index position
-      board[row] =[];
-      // inner loop to add 9 columns
-      for(let col = 0; col < BOARD_COLS; col++) {
-        //for each cell position in the board sett intial values
-        board[row][col] = {
-          isMine: false,
-          isRevealed: false,
-          isFlagged: false,
-          adjMineCount: null,   // mines in adjacent cells
-          adjCells: [],         // all neighboring cells of selected cell
-          rowIdx: row,
-          colIdx: col
-        };
-    }
+  // iterate through each tile 0 to 80 in the board
+  for (let i = 0; i < TOTAL_TILES; i++) {
+    // create an object for each board position/tile
+    // and set values for each postion
+    board[i] = {
+      isMine: false,
+      isRevealed: false,
+      isFlagged: false,
+      adjMineCount: null,   // mines in adjacent cells
+      adjCells: [],         // all neighboring cells of selected cell
+    };
   }
+
   isGameOver = false;
   setMines();
   drawBoard();
+}
 
-};
+
+
+
+
 
 startGame();
 
@@ -64,6 +89,11 @@ function resetGame() {
 
 function setMines() {
   // randomly place mines on board
+  let mineCounter = 0;
+  while (mineCounter < TOTAL_BOMBS) {
+
+  }
+
 }
 
 function handleTileClick() {
