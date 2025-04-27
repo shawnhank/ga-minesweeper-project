@@ -8,8 +8,8 @@ const TOTAL_MINES = 10;
 
 let board;
 let isGameOver;
-// let tilesRevealedCount;
-// let bombCounter;
+let tilesRevealedCount;
+let bombCounter;
 
 /*------------------------ Cached Element References ------------------------*/
 
@@ -32,15 +32,20 @@ function startGame() {
       isRevealed: false,
       isFlagged: false,
       adjMineCount: null,   // mines in adjacent cells
-      adjCells: [],         // all neighboring cells of selected cell
+      adjCells:[],         // all neighboring cells of selected cell
     };
   }
 
   isGameOver = false;
   setMines();
-  drawBoard();
+  renderBoard();
 }
 
+function render() {
+  renderBoard();
+  renderTile();
+  renderFlag();
+}
 
 startGame();
 
@@ -63,15 +68,16 @@ function setMines() {
   }
 }
 
-function drawBoard() {
+function renderBoard() {
   // Iterates/loops over the board array and updates
   // matching HTML tiles via DOM interaction
   // Sets up the initial hidden state for each tile
   // TODO: update tiles when they are revealed or flagged)
 }
 
-function revealTile() {
-  // reveals, shows, uncovers, unhides tile
+function renderTile() {
+  // reveals, shows, uncovers, unhides tile.
+  // called by render().
 }
 
 function checkGameOver() {
@@ -80,8 +86,9 @@ function checkGameOver() {
   // did user clear all tiles without clicking mine? game over - win
 }
 
-function flagTile() {
+function renderFlag() {
   // flag/unflag (right click) tile to mark as mine
+  // use contextMenu DOM property.
 }
 
 function checkWin() {
@@ -94,13 +101,12 @@ function resetGame() {
 }
 
 
-
-
-
 function handleTileClick() {
     // handles left and right mouse clicks on tiles
-}
+    function revealTile() {
 
+    }
+}
 
 
 function countMines() {
@@ -111,13 +117,13 @@ function countMines() {
 /* TODO list of functions
 
 [X] init ... startGame
-[X] render  ... drawBoard
+[X] render  ... renderBoard
 [X] place mines randomly ... setMines
 [] click tiles ... handleTileClick
-[] show/reveal tile ... revealTile
+[] show/reveal tile ... renderTile
 [] game over check ...checkGameOver
 [] caclulate/locate mines countMines
-[] right click flag to indicate bomb location  ... flagTile
+[] right click flag to indicate bomb location  ... renderFlag
 [] win/lose  ... checkWin (checks win/lose status) isGameOver state v
 [X] reset game  ... resetGame to init  aka start over aka StartGame
 
