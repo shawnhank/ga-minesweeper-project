@@ -21,7 +21,7 @@ let isGameOver;
 
 /*-------------------------------- Functions --------------------------------*/
 function init() {
-  // setting up board 2D array with empty data/values
+  // setting up board 2D array with empty cells
   board = [];
     // outer loop adding 9 rows to board
     for(let row = 0; row < BOARD_ROWS; row++) {
@@ -45,4 +45,19 @@ function init() {
 };
 
 init();
+
+/* list of functions
+
+[ ] init
+[ ] render  
+[ ] place bombs randomly
+[ ] click tiles
+[ ] show/reveal tile
+[ ] game over check
+[ ] caclulate/locate mines
+[ ] right click flag to indicate bomb location
+[ ] win/lose/
+[ ] reset game    
+
+*/
 
