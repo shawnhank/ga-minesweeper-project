@@ -42,35 +42,64 @@ function startGame() {
     }
   }
   isGameOver = false;
+  setMines();
   drawBoard();
-  
+
 };
 
-init();
-
-
-
+startGame();
 
 
 function drawBoard() {
 
 }
 
+function resetGame() {
+  startGame();
+}
 
 
+function setMines() {
 
-/* list of functions
+}
 
-[ ] init ... startGame
-[ ] render  ... drawBoard
+function handleTileClick() {
+
+}
+
+function revealTile() {
+
+}
+
+function checkGameOver() {
+
+}
+
+function countMines() {
+
+}
+
+function flagTile() {
+
+}
+
+function isGameOver() {
+
+}
+
+
+/* TODO list of functions
+
+[X] init ... startGame
+[X] render  ... drawBoard
 [ ] place mines randomly ... setMines
 [ ] click tiles ... handleTileClick
 [ ] show/reveal tile ... revealTile
 [ ] game over check ...checkGameOver
 [ ] caclulate/locate mines countMines
 [ ] right click flag to indicate bomb location  ... flagTile
-[ ] win/lose  ... checkWin (checks win/lose status)
-[ ] reset game  ... resetGame to init  aka start over aka StartGame
+[ ] win/lose  ... checkWin (checks win/lose status) isGameOver state v
+[X] reset game  ... resetGame to init  aka start over aka StartGame
 
 */
 
