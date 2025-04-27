@@ -2,7 +2,7 @@
 const BOARD_ROWS = 9;
 const BOARD_COLS = 9;
 const TOTAL_TILES = 81;
-const TOTAL_BOMBS = 10;
+const TOTAL_MINES = 10;
 
 /*---------------------------- Variables (state) ----------------------------*/
 
@@ -88,13 +88,24 @@ function resetGame() {
 
 
 function setMines() {
-  // randomly place mines on board
+  // place mines into board array by setting mine = true.
+  // board tracks mine positions directly. no need for array
+  // in this function. 
   let mineCounter = 0;
-  while (mineCounter < TOTAL_BOMBS) {
-
+  // while mineCounter is less than 10
+  while (mineCounter < TOTAL_MINES) {
+    // randomly select board[i] tile
+    let randomIndex = Math.floor(Math.random() * board.length);
+    // check/compare if isMine is false/empty
+    if (board[randomIndex].isMine === false) {
+      // set isMine to true
+      board[randomIndex].isMine = true;
+      // increment mineCounter by 1
+      mineCounter++;
+    }
   }
-
 }
+
 
 function handleTileClick() {
     // handles left and right mouse clicks on tiles
