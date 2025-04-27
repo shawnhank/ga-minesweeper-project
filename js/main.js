@@ -20,7 +20,7 @@ let isGameOver;
 
 
 /*-------------------------------- Functions --------------------------------*/
-function init() {
+function startGame() {
   // setting up board 2D array with empty cells
   board = [];
     // outer loop adding 9 rows to board
@@ -40,24 +40,37 @@ function init() {
           colIdx: col
         };
     }
-  isGameOver = false;
   }
+  isGameOver = false;
+  drawBoard();
+  
 };
 
 init();
 
+
+
+
+
+function drawBoard() {
+
+}
+
+
+
+
 /* list of functions
 
-[ ] init
-[ ] render  
-[ ] place bombs randomly
-[ ] click tiles
-[ ] show/reveal tile
-[ ] game over check
-[ ] caclulate/locate mines
-[ ] right click flag to indicate bomb location
-[ ] win/lose/
-[ ] reset game    
+[ ] init ... startGame
+[ ] render  ... drawBoard
+[ ] place mines randomly ... setMines
+[ ] click tiles ... handleTileClick
+[ ] show/reveal tile ... revealTile
+[ ] game over check ...checkGameOver
+[ ] caclulate/locate mines countMines
+[ ] right click flag to indicate bomb location  ... flagTile
+[ ] win/lose  ... checkWin (checks win/lose status)
+[ ] reset game  ... resetGame to init  aka start over aka StartGame
 
 */
 
