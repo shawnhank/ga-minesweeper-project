@@ -56,24 +56,29 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #999;
-  border-top: 2px solid #bcbcbc;
-  border-left: 2px solid #bcbcbc;
-  border-bottom: 2px solid #2c2c2c;
-  border-right: 2px solid #2c2c2c;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  background-color: #777;
+  border-top: 5px solid #bcbcbc;
+  border-left: 5px solid #bcbcbc;
+  border-bottom: 5px solid #2c2c2c;
+  border-right: 5px solid #2c2c2c;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.6);
   box-sizing: border-box;
   cursor: pointer;
 }
+#face-button:hover {
+  background-color: #666; /* Slightly lighter grey for hover */
+}
+
+
 
 #grid-wrapper {
-  border-top: 2px solid #bcbcbc;
-  border-left: 2px solid #bcbcbc;
-  border-bottom: 2px solid #2c2c2c;
-  border-right: 2px solid #2c2c2c;
+  border-top: 5px solid #bcbcbc;
+  border-left: 5px solid #bcbcbc;
+  border-bottom: 5px solid #2c2c2c;
+  border-right: 5px solid #2c2c2c;
   background-color: #888;
   padding: 4px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.6);
   display: inline-block;
 }
 
@@ -86,18 +91,17 @@ body {
 .tile {
   width: var(--tile-size);
   aspect-ratio: 1 / 1;
-  background-color: #999;
-  border-top: 2px solid #bcbcbc;
-  border-left: 2px solid #bcbcbc;
-  border-bottom: 2px solid #2c2c2c;
-  border-right: 2px solid #2c2c2c;
+  background-color: #777;
+  border-top: 4px solid #bcbcbc;
+  border-left: 4px solid #bcbcbc;
+  border-bottom: 4px solid #2c2c2c;
+  border-right: 4px solid #2c2c2c;
   box-sizing: border-box;
   cursor: pointer;
 }
 
 .tile:hover {
-  background-color: #777; /* Lighter grey on hover */
-  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3); /* Darker inner shadow on hover */
+  background-color: #666; /* Slightly lighter grey for hover */
 }
 
 #ga-logo {
