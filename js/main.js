@@ -41,16 +41,18 @@ function startGame() {
       };
       console.log(board);
     }
-  }
+  };
+
   // Set the game over flag to false initially
   isGameOver = false;
-  
+  console.log(isGameOver);
+
   // Place the mines randomly on the board
   setMines();
   
   // Update the board's display on the screen
   renderBoard();
-}
+};
 
 function render() {
   renderBoard();
@@ -74,7 +76,14 @@ function setMines() {
       board[randomRow][randomCol].isMine = true;
       mineCounter++;  // Increment the mine counter
     }
+    console.log(mineCounter);
   }
+}
+
+// calculate adjacent mine counts after setting mines
+function calculateAdjacentMines() {
+
+}
 
 function renderBoard() {
   // Loop through each row in the board array
@@ -86,6 +95,7 @@ function renderBoard() {
       const tileId = `r${rowIdx}c${colIdx}`;
       // Target the DOM element for the current tile using its ID
       const tileElement = document.getElementById(tileId);
+      console.log(`Tile ID: ${tileId}`, tileElement);
       // Check if the tile is revealed
       if (tileValue.isRevealed) {
         // If isMine = true, show a bomb icon (💣)
@@ -106,37 +116,34 @@ function renderBoard() {
       }
     });
   });
-}
+};
 
 
-// calculate adjacent mine counts
-//  calculateAdjacentMines();
-// }
 
 function renderTile() {
   // reveals, shows, uncovers, unhides tile.
   // called by render().
-}
+};
 
 function checkGameOver() {
   // checks to see if game is over 
   // did user click a tile with a mine - game over - lose
   // did user clear all tiles without clicking mine? game over - win
-}
+};
 
 function renderFlag() {
   // flag/unflag (right click) tile to mark as mine
   // use contextMenu DOM property.
-}
+};
 
 function checkWin() {
 
-}
+};
 
 
 function resetGame() {
   startGame();
-}
+};
 
 
 function handleTileClick() {
@@ -144,12 +151,12 @@ function handleTileClick() {
     function revealTile() {
 
     }
-}
+};
 
 
 function countMines() {
   // count mines in adjacent cells
-}
+};
 
 
 /* TODO list of functions
@@ -170,4 +177,3 @@ Icebox features/function
 [] countFlag (for diplay flag ui element)
 
 */
-
