@@ -16,7 +16,7 @@ let bombCounter;
 
 
 /*----------------------------- Event Listeners -----------------------------*/
-
+// 	addEventListener() is how we tell JavaScript to listen for an event happening.
 
 
 /*-------------------------------- Functions --------------------------------*/
@@ -151,7 +151,6 @@ function resetGame() {
 
 function handleTileClick(evtObj) {
     // will handle all the following
-    // 
       // 1. Guard: If game is over, return immediately (aka ignore click).
       if (isGameOver) return;
       console.log(isGameOver);
@@ -168,9 +167,18 @@ function handleTileClick(evtObj) {
       const colIdx = parseInt(tileId.slice(3, 4)); //3rd index of r3c7 or 7
       console.log(rowIdx, colIdx)
       // 4. If right-click (evtObj.button === 2):
-      //    a. preventDefault()
+      //    a. preventDefault()  //had to read about this.... 
       //    b. If tile already revealed, return.
       //    c. Toggle tile's isFlagged state.
+      if (evtObj.button === 2) {
+        evtObj.preventDefault();  // if right mouse button is clciked, don't open operating system context menu.
+        const clickedTile = board[rowIdx][colIdx];
+        console.log(clickedTile)
+         if (clickedTile.isRevealed === true) return;
+         else clickedTile.isFlagged = !clickedTile.isFlagged;    
+        console.log(clickedTile.isFlagged);
+        render();
+      }  
       // 5. If left-click (evtObj.button === 0):
       //    a. If tile is flagged, return.
       //    b. If tile already revealed, return.
@@ -180,7 +188,7 @@ function handleTileClick(evtObj) {
       //    a. Call render().
       //    b. Call checkWin().
       //     function revealTile() {
-
+      
     }
 
 
