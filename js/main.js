@@ -38,6 +38,7 @@ function startGame() {
         isFlagged: false,       // Default is not flagged
         adjMineCount: null,     // Adjacent mine count (null initially)
         adjCells: []            // List of adjacent cells (empty initially)
+        console.log(board);
       };
     }
   }
@@ -87,7 +88,7 @@ function renderBoard() {
     // Loop through each column in the current row
     rowArray.forEach((tileValue, colIdx) => {
       // Generate the cell's unique ID based on its row and column
-      const tileId = `c${colIdx}r${rowIdx}`;
+      const tileId = `r${rowIdx}c${colIdx}`;
       // Target the DOM element for the current tile using its ID
       const tileElement = document.getElementById(tileId);
       // Check if the tile is revealed
