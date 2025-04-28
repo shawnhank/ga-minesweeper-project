@@ -23,21 +23,30 @@ let bombCounter;
 
 function startGame() {
   board = [];
-  // iterate through each tile 0 to 80 in the board
-  for (let i = 0; i < TOTAL_TILES; i++) {
-    // create an object for each board position/tile
-    // and set values for each postion
-    board[i] = {
-      isMine: false,
-      isRevealed: false,
-      isFlagged: false,
-      adjMineCount: null,   // mines in adjacent cells
-      adjCells:[],         // all neighboring cells of selected cell
-    };
+  // Create each row in the board (2D array structure)
+  for (let rowIdx = 0; rowIdx < BOARD_ROWS; rowIdx++) {
+    // Initialize each row as an empty array
+    board[rowIdx] = [];  
+    // Create a column in the current row
+    for (let colIdx = 0; colIdx < BOARD_COLS; colIdx++) {
+      // Set each cell as an object with default values
+      // Each cell will store properties like mine status, revealed status, etc.
+      board[rowIdx][colIdx] = {
+        isMine: false,          // Default is not a mine
+        isRevealed: false,      // Default is hidden
+        isFlagged: false,       // Default is not flagged
+        adjMineCount: null,     // Adjacent mine count (null initially)
+        adjCells: []            // List of adjacent cells (empty initially)
+      };
+    }
   }
-
+  // Set the game over flag to false initially
   isGameOver = false;
+  
+  // Place the mines randomly on the board
   setMines();
+  
+  // Update the board's display on the screen
   renderBoard();
 }
 
@@ -69,11 +78,37 @@ function setMines() {
 }
 
 function renderBoard() {
-  // Iterates/loops over the board array and updates
-  // matching HTML tiles via DOM interaction
-  // Sets up the initial hidden state for each tile
-  // TODO: update tiles when they are revealed or flagged)
+  // Loop through each row in the board array
+  // (2D array: rows and columns)
+  board.forEach((rowArray, rowIdx) => {
+    // Loop through each column in the current row
+    rowArray.forEach((tileValue, colIdx) => {
+      // Generate the cell's unique ID based on its row and column
+      const tileId = `c${colIdx}r${rowIdx}`;
+      // Target the DOM element for the current tile using its ID
+      const tileElement = document.getElementById(tileId);
+      // Check if the tile is revealed
+      if (tileValue.isRevealed) {
+        // If isMine = true, show a bomb icon (💣)
+        if (tileValue.isMine) {
+          tileElement.innerHTML = '💣';
+        } else {
+          // Show adjacent mine count or leave blank
+          // if no adjacent mines)
+          tileElement.innerHTML = tileValue.adjMineCount || '';
+        }
+      } else {
+        // If tile is not revealed, clear the tile content
+        tileElement.innerHTML = '';
+      }
+      // If mine is suspected, show a flag (🚩)
+      if (tileValue.isFlagged) {
+        tileElement.innerHTML = '🚩';
+      }
+    });
+  });
 }
+
 
 function renderTile() {
   // reveals, shows, uncovers, unhides tile.
