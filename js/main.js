@@ -39,8 +39,8 @@ function startGame() {
         adjMineCount: null,     // Adjacent mine count (null initially)
         adjCells: [],            // List of adjacent cells (empty initially)
         neighbors: [],  // This will store neighboring cells
-        rowIdx:,
-        colIdx: 
+        rowIdx,
+        colIdx 
       };
       //console.log(board);
     }
