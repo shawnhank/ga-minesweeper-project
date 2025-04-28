@@ -38,8 +38,8 @@ function startGame() {
         isFlagged: false,       // Default is not flagged
         adjMineCount: null,     // Adjacent mine count (null initially)
         adjCells: []            // List of adjacent cells (empty initially)
-        console.log(board);
       };
+      console.log(board);
     }
   }
   // Set the game over flag to false initially
@@ -76,11 +76,6 @@ function setMines() {
     }
   }
 
-  // calculate adjacent mine counts
-  calculateAdjacentMines();
-}
-
-
 function renderBoard() {
   // Loop through each row in the board array
   // (2D array: rows and columns)
@@ -113,6 +108,10 @@ function renderBoard() {
   });
 }
 
+
+// calculate adjacent mine counts
+//  calculateAdjacentMines();
+// }
 
 function renderTile() {
   // reveals, shows, uncovers, unhides tile.
