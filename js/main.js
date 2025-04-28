@@ -39,7 +39,7 @@ function startGame() {
         adjMineCount: null,     // Adjacent mine count (null initially)
         adjCells: []            // List of adjacent cells (empty initially)
       };
-      console.log(board);
+      //console.log(board);
     }
   };
 
@@ -76,7 +76,7 @@ function setMines() {
       board[randomRow][randomCol].isMine = true;
       mineCounter++;  // Increment the mine counter
     }
-    console.log(mineCounter);
+    //console.log(mineCounter);
   }
 }
 
@@ -95,7 +95,7 @@ function renderBoard() {
       const tileId = `r${rowIdx}c${colIdx}`;
       // Target the DOM element for the current tile using its ID
       const tileElement = document.getElementById(tileId);
-      console.log(`Tile ID: ${tileId}`, tileElement);
+      // console.log(tileId, tileElement); 
       // Check if the tile is revealed
       if (tileValue.isRevealed) {
         // If isMine = true, show a bomb icon (💣)
