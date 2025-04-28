@@ -23,7 +23,8 @@ let bombCounter;
 
 function startGame() {
   board = [];
-  // Create each row in the board (2D array structure)
+  // Create each row in the board.
+  // Moved to 2D array from single to match connect four game
   for (let rowIdx = 0; rowIdx < BOARD_ROWS; rowIdx++) {
     // Initialize each row as an empty array
     board[rowIdx] = [];  
@@ -59,23 +60,25 @@ function render() {
 startGame();
 
 function setMines() {
-  // place mines into board array by setting mine = true.
-  // board tracks mine positions directly. no need for array
-  // in this function. 
   let mineCounter = 0;
-  // while mineCounter is less than 10
+  // Loop until all mines (10) are placed 
   while (mineCounter < TOTAL_MINES) {
-    // randomly select board[i] tile
-    let randomIndex = Math.floor(Math.random() * board.length);
-    // check/compare if isMine is false/empty
-    if (board[randomIndex].isMine === false) {
-      // set isMine to true
-      board[randomIndex].isMine = true;
-      // increment mineCounter by 1
-      mineCounter++;
+    // Randomly select a row and column.
+    // fixed code to be 2D array like connect four game.
+    const randomRow = Math.floor(Math.random() * BOARD_ROWS);
+    const randomCol = Math.floor(Math.random() * BOARD_COLS);
+    // Check if the selected tile is not already a mine
+    if (!board[randomRow][randomCol].isMine) {
+      // If it's not a mine, place the mine
+      board[randomRow][randomCol].isMine = true;
+      mineCounter++;  // Increment the mine counter
     }
   }
+
+  // calculate adjacent mine counts
+  calculateAdjacentMines();
 }
+
 
 function renderBoard() {
   // Loop through each row in the board array
