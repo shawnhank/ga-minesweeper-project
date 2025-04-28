@@ -149,12 +149,37 @@ function resetGame() {
 };
 
 
-function handleTileClick() {
-    // handles left and right mouse clicks on tiles
-    function revealTile() {
+function handleTileClick(evtObj) {
+    // will handle all the following
+    // 
+      // 1. Guard: If game is over, return immediately (aka ignore click).
+      if (isGameOver) return;
+      // 2. Guard: If click target is not a tile, return immediately (aka ignore click).
+      if (!evtObj.target.classList.contains('tile')) return;
+      // 3. Get row and column of clicked tile from evtObj.target.id
+      const tileId = evtObj.target.id; //gets id of tile that was clicked -aka r3c7
+      // parseInt converts string to number. tileID. slice captures value at position in string
+      // working inside out.... tileId.slice captures index position1 of each TileID (r3c7) aka '3"
+      // parseInt converts "3" to 3 (number)
+      // variable rowIdx / colIdx now makes sense! 
+      const rowIdx = parseInt(tileId.slice(1, 2)); //1st index of r3c7 or 3.
+      const colIdx = parseInt(tileId.slice(3, 4)); //3rd index of r3c7 or 7
+      // 4. If right-click (evtObj.button === 2):
+      //    a. preventDefault()
+      //    b. If tile already revealed, return.
+      //    c. Toggle tile's isFlagged state.
+      // 5. If left-click (evtObj.button === 0):
+      //    a. If tile is flagged, return.
+      //    b. If tile already revealed, return.
+      //    c. Reveal the tile (call revealTile()).
+      //    d. If tile is a mine, set game over.
+      // 6. After action:
+      //    a. Call render().
+      //    b. Call checkWin().
+      //     function revealTile() {
 
     }
-};
+
 
 
 function countMines() {
