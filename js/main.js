@@ -37,7 +37,10 @@ function startGame() {
         isRevealed: false,      // Default is hidden
         isFlagged: false,       // Default is not flagged
         adjMineCount: null,     // Adjacent mine count (null initially)
-        adjCells: []            // List of adjacent cells (empty initially)
+        adjCells: [],            // List of adjacent cells (empty initially)
+        neighbors: [],  // This will store neighboring cells
+        rowIdx:,
+        colIdx: 
       };
       //console.log(board);
     }
