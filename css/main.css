@@ -104,6 +104,27 @@ body {
   background-color: #666; /* Slightly lighter grey for hover */
 }
 
+#button {
+  margin-top: 3em;
+}
+
+.home-link {
+  display: inline-block;
+  visibility: hidden; /* hidden until uploaded to server */
+  margin-top: 1em;
+  padding: 8px 16px;
+  background-color: #555;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+/* .home-link:hover {     /* hidden until uploaded to server
+  background-color: #444; 
+}
+*/
+
 #ga-logo {
   position: fixed;
   bottom: 1rem;
