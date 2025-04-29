@@ -110,7 +110,7 @@ body {
 
 .home-link {
   display: inline-block;
-  visibility: hidden; /* hidden until uploaded to server */
+  /* visibility: hidden; */
   margin-top: 1em;
   padding: 8px 16px;
   background-color: #555;
@@ -120,10 +120,10 @@ body {
   box-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 
-/* .home-link:hover {     /* hidden until uploaded to server
+.home-link:hover {     
   background-color: #444; 
 }
-*/
+
 
 #ga-logo {
   position: fixed;
