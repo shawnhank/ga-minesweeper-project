@@ -3,17 +3,37 @@
 
 A classic Minesweeper game built with HTML, CSS, and JavaScript. The game is designed to work with a grid of tiles, where users can click to reveal tiles, flag mines, and try to win by uncovering all non-mine tiles.
 
+
 ## Table of Contents
 - [Minesweeper Game](#minesweeper-game)
   - [Table of Contents](#table-of-contents)
+  - [Screenshots](#screenshots)
+  - [Tech Stack ](#tech-stack-)
   - [Project Overview](#project-overview)
   - [Features](#features)
     - [MVP Features:](#mvp-features)
     - [Stretch/Icebox Features:](#stretchicebox-features)
-  - [Tech Stack](#tech-stack)
   - [Installation](#installation)
   - [Usage](#usage)
   - [License](#license)
+
+
+## Screenshots
+
+
+
+
+## Tech Stack <!-- TODO: add badges -->
+
+- HTML: Structuring the basic layout of the game board and tiles.
+
+- CSS: Styling the grid and individual tiles, including hover and flag interactions.
+  - CSS Grid
+  - Flexbox
+ 
+- JavaScript: Managing game logic such as tile interactions, mine placement, and win/loss conditions.
+- 
+
 
 ## Project Overview
 
@@ -45,11 +65,6 @@ This project is a Minesweeper clone built as part of a hands-on coding lab to pr
 - Save/Load Game: Allows users to save and load game states for later continuation.
 - Mobile Responsiveness: Optimizes the layout for smaller screen sizes.
 
-## Tech Stack
-
-- HTML: Structuring the basic layout of the game board and tiles.
-- CSS: Styling the grid and individual tiles, including hover and flag interactions.
-- JavaScript: Managing game logic such as tile interactions, mine placement, and win/loss conditions.
 
 ## Installation
 

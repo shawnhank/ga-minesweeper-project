@@ -18,6 +18,32 @@ let bombCounter;
 /*----------------------------- Event Listeners -----------------------------*/
 // 	addEventListener() is how we tell JavaScript to listen for an event happening.
 
+// Attach a left-click event listener to the board container.
+document.getElementById('game-board')
+  .addEventListener('click', handleTileClick);
+
+// Attach a right-click "contextmenu" event listener to the board container.
+document.getElementById('game-board')
+  .addEventListener('contextmenu', handleTileClick);
+
+// left-clicks the face, if the game is over, reset. Otherwise, ignore.
+
+
+//eventListener for back-button to landing page
+
+
+
+// document.getElementById('markers').addEventListener('click', handleDrop);
+// function handleDrop(evt) {
+//   // Get the clicked column marker
+//   const markers = [...document.querySelectorAll('#markers > div')];
+//   const colIdx = markers.indexOf(evt.target);
+//   // Update game state based on which marker was clicked
+//   // ...
+//   // Render updated state
+//   render();
+//}
+
 
 /*-------------------------------- Functions --------------------------------*/
 
@@ -64,6 +90,12 @@ function render() {
 }
 
 startGame();
+
+
+
+
+
+
 
 function setMines() {
   let mineCounter = 0;
