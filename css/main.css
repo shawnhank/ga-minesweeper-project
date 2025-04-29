@@ -1,3 +1,5 @@
+/* minesweeper css/main.css */
+
 :root {
   --tile-size: min(4.5vmin, 4.5vw);
   --tile-gap: 0.4vmin;
@@ -69,8 +71,6 @@ body {
   background-color: #666; /* Slightly lighter grey for hover */
 }
 
-
-
 #grid-wrapper {
   border-top: 5px solid #bcbcbc;
   border-left: 5px solid #bcbcbc;
@@ -108,9 +108,31 @@ body {
   margin-top: 3em;
 }
 
-.home-link {
+#back-to-home-container {
+  margin-top: 6vh; /* increase or tweak as needed */
+}
+
+.button {
   display: inline-block;
-  /* visibility: hidden; */
+  margin-top: 1em;
+  padding: 8px 16px;
+  background-color: #555;
+  color: #fff;
+  text-decoration: none; /* safe for <a> tags */
+  border: none;           /* override default button border */
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  cursor: pointer;
+  font: inherit;
+}
+
+.button:hover {
+  background-color: #444;
+}
+
+
+/* .home-link {
+  display: inline-block;
   margin-top: 1em;
   padding: 8px 16px;
   background-color: #555;
@@ -119,16 +141,21 @@ body {
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
-
-.home-link:hover {     
-  background-color: #444; 
-}
+*/ 
 
 
-#ga-logo {
+#ga-logo-container {
   position: fixed;
   bottom: 1rem;
   right: 1rem;
+  z-index: 9999;
+}
+
+#ga-logo-container a {
+  pointer-events: auto;
+}
+
+#ga-logo {
   width: 40px;
   opacity: 0.3;
   transition: opacity 0.3s ease;
