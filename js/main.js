@@ -26,13 +26,29 @@ document.getElementById('game-board')
 document.getElementById('game-board')
   .addEventListener('contextmenu', handleTileClick);
 
-// left-clicks the face, if the game is over, reset. Otherwise, ignore.
+// left-click face-button: if the game is over, reset game/board. Otherwise, ignore.
+document.getElementById('face-button')
+  .addEventListener('click', function(evtObj) {
+    if (isGameOver) {
+      resetGame();
+    }
+  });
 
+  // right-click face-button: pause the game
+  // and prevent the browser menu from opening.
+  document.getElementById('face-button')
+  .addEventListener('contextmenu', function(evtObj) {
+    evtObj.preventDefault();
+    pauseGame();
+  });
 
-//eventListener for back-button to landing page
+//left-click back-button to landing page
+document.getElementById('back-button')
+  .addEventListener('click', function() {
+    window.location.href = '../landing/index.html';
+  });
 
-
-
+// FROM CONNECT FOUR - will delete
 // document.getElementById('markers').addEventListener('click', handleDrop);
 // function handleDrop(evt) {
 //   // Get the clicked column marker
