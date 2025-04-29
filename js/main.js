@@ -101,8 +101,7 @@ function startGame() {
 
 function render() {
   renderBoard();
-  renderTile();
-  renderFlag();
+  revealTile()
 }
 
 startGame();
@@ -164,32 +163,6 @@ function renderBoard() {
   });
 };
 
-function renderTile() {
-  // reveals, shows, uncovers, unhides tile.
-  // called by render().
-};
-
-function checkGameOver() {
-  // checks to see if game is over 
-  // did user click a tile with a mine - game over - lose
-  // did user clear all tiles without clicking mine? game over - win
-};
-
-function renderFlag() {
-  // flag/unflag (right click) tile to mark as mine
-  // use contextMenu DOM property.
-};
-
-function checkWin() {
-
-};
-
-
-function resetGame() {
-  startGame();
-};
-
-
 function handleTileClick(evtObj) {
     // will handle all the following
       // 1. Guard: If game is over, return immediately (aka ignore click).
@@ -241,7 +214,27 @@ function handleTileClick(evtObj) {
       }
     }
 
-
+    function revealTile() {
+      // reveals, shows, uncovers, unhides tile.
+      // called by render().
+    };
+    
+    function checkGameOver() {
+      // checks to see if game is over 
+      // did user click a tile with a mine - game over - lose
+      // did user clear all tiles without clicking mine? game over - win
+    };
+      
+    function checkWin() {
+    
+    };
+    
+    
+    function resetGame() {
+      startGame();
+    };
+    
+    
 function countMines() {
   // count mines in adjacent cells
 };
@@ -252,11 +245,11 @@ function countMines() {
 [X] init ... startGame
 [X] render  ... renderBoard
 [X] place mines randomly ... setMines
-[] click tiles ... handleTileClick
-[] show/reveal tile ... renderTile
+[x] click tiles ... handleTileClick
+[] show/reveal tile ... revealTile
 [] game over check ...checkGameOver
 [] caclulate/locate mines countMines
-[] right click flag to indicate bomb location  ... renderFlag
+[z] right click flag to indicate bomb location  ... renderFlag
 [] win/lose  ... checkWin (checks win/lose status) isGameOver state v
 [X] reset game  ... resetGame to init  aka start over aka StartGame
 
@@ -264,4 +257,9 @@ function countMines() {
 Icebox features/function
 [] countFlag (for diplay flag ui element)
 
+
+future improvements:
+break handleTileClick into smaller components
+  - renderTile
+  - renderFlag
 */
