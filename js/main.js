@@ -43,7 +43,7 @@ document.getElementById('face-button')
   });
 
 //left-click back-button to landing page
-document.getElementById('back-button')
+document.getElementById('back-to-home')
   .addEventListener('click', function() {
     window.location.href = '../landing/index.html';
   });
