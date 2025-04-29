@@ -204,7 +204,7 @@ function handleTileClick(evtObj) {
       // working inside out.... tileId.slice captures index position1 of each TileID (r3c7) aka '3"
       // parseInt converts "3" to 3 (number)
       // variable rowIdx / colIdx now makes sense! 
-      const rowIdx = parseInt(tileId.slice(1, 2)); //1st index of r3c7 or 3.
+      const rowIdx = parseInt(tileId.slice(1, 2)); //1st index of r3c7 or 3
       const colIdx = parseInt(tileId.slice(3, 4)); //3rd index of r3c7 or 7
       console.log(rowIdx, colIdx)
       // grab location of clicked tile for either left or right click
@@ -217,32 +217,29 @@ function handleTileClick(evtObj) {
       if (evtObj.button === 2) {  // if right mouse button is clicked.
         evtObj.preventDefault();  //don't open operating system context menu.
          if (clickedTile.isRevealed === true) return; // if the clicked tile is already revealed, ignore
-         else clickedTile.isFlagged = !clickedTile.isFlagged; // if clicked tile is flagged, ignore
-        render();
+         clickedTile.isFlagged = !clickedTile.isFlagged; // if clicked tile is flagged, ignore
+        render();   //update board to show flags
+        return;
       }  
-      // 5. If left-click (evtObj.button === 0):
-      //    a. If tile is flagged, return.
-      //    b. If tile already revealed, return.
-      //    c. Reveal the tile (call revealTile()).
-      //    d. If tile is a mine, set game over.
       if (evtObj.button === 0) {  // if left mouse button is clicked on
         if (clickedTile.isFlagged) {  // if tile marked with flag
           console.log(clickedTile.isFlagged);
-          return;         // do nothing. tile is marked
-        if (clickedTile.isRevealed) {     // if tile is already revealed
+          return;     // do nothing. tile is flagged, don't reveal
+        }         
+        if (clickedTile.isRevealed) {    // if tile is already revealed do nothing.
           console.log(clickedTile.isRevealed);
-          return;         // do nothing. tile is already revealed
+          return;
         }
         revealTile(); // <- TODO:  build this function separately later
+        
         if (clickedTile.isMine) {   // if clicked tile is a mine
           isGameOver = true;
         }
-        render();       // update board based on mouse click
+        render();       // update board
         checkWin();     // check for win
+        console.log(checkWin);
       }
-      console.log(checkWin);
     }
-  }
 
 
 function countMines() {
