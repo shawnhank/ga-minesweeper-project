@@ -21,6 +21,17 @@ body {
     /* background generated via https://heropatterns.com/ */
   }
 
+  #app {
+    width: min(90vmin, 90%);
+    margin: 0 auto;
+    padding: 2vh 2vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2vh;
+    box-sizing: border-box;
+  }
+
 #game-container {
   display: flex;
   flex-direction: column;
@@ -28,14 +39,22 @@ body {
   gap: 1.5vmin;
 }
 
-#game-title {
-  font-size: clamp(2rem, 4vw, 3rem);
-  margin: 0.5em 0;
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding-bottom: 0.2em;
-  color: #d6d6d6;
+#game-title-container {
+  text-align: center;
+  margin-top: 2.5vh;
+  margin-bottom: 4vh;
+  padding-bottom: 0.5em;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 2px 0 rgba(255, 255, 255, 0.08); /* ← this creates the 2nd “visual line” */
 }
+
+#game-title-container h1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: #d6d6d6;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+  margin: 0;
+}
+
 
 #face-row {
   display: grid;
