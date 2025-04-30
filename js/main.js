@@ -77,7 +77,7 @@ function startGame() {
         rowIdx,
         colIdx 
       };
-      console.log(board[rowIdx][colIdx].adjTiles);
+      console.log(board[rowIdx][colIdx]);
     }
   };
 
@@ -164,7 +164,7 @@ function handleTileClick(evtObj) {
     // console.log("Parsed Row:", rowIdx, "Parsed Col:", colIdx);
     // grab location of clicked tile for either left or right click
     const clickedTile = board[rowIdx][colIdx];
-    // console.log(clickedTile);
+    // console.log('Tile 4,4 →', clickedTile);
     // 4. If right-click (evtObj.button === 2):
     //    a. preventDefault()  //had to read about this.... 
     //    b. If tile already revealed, return.
@@ -184,7 +184,7 @@ function handleTileClick(evtObj) {
       // first left click of game should never reveal a mine. 
       if (!firstClick) {       // has first click occured true or false
         setMines(rowIdx, colIdx);         // call/run setMines function 
-        assignAdjTilesAndCounts();         // TODO
+        assignAdjTilesAndCounts();        // call/run assignAdjTilesAndCounts()
         firstClick = true;                // set firstClick to true.
       }
       if (clickedTile.isFlagged) {  // if tile marked with flag
@@ -257,12 +257,28 @@ function getAdjTiles(rowIdx, colIdx) {
 
 
   // Sets tile.adjMineCount by counting how many .adjTiles are mines
-function countAdjMines(rowIdx, colIdx) {
+  function countAdjMines(rowIdx, colIdx) {
+    const tile = board[rowIdx][colIdx];                   // Get the current tile from the board
+    let count = 0;                                        // counter for mines in adjacent tiles
+    for (let neighbor of tile.adjTiles) {                 // Loop through each tile in adjTiles (array of ajdacent tiles)
+      if (neighbor.isMine) count++;                       // If this neighbor is a mine, +1 to count
+      console.log(`Mine count subtotal ${count}`);
+    }
+    tile.adjMineCount = count;                            // total mines in neighboring tiles
+    console.log(`mine count total: ${tile.adjMineCount}`);
+  };
 
-};
 
+
+  // a wrapper function that combines getAdjacentTiles and countAdjMines into one call
 function assignAdjTilesAndCounts() {
-
+  for (let rowIdx = 0; rowIdx < BOARD_ROWS; rowIdx++) {       // Loop through each row index
+    for (let colIdx = 0; colIdx < BOARD_COLS; colIdx++) {     // Loop through each column index
+      const tile = board[rowIdx][colIdx];             // current tile on the board
+      tile.adjTiles = getAdjTiles(rowIdx, colIdx);    // get and store surrounding tiles
+      countAdjMines(rowIdx, colIdx);                  // calculate how many are mines
+    }
+  }
 };
 
 
@@ -280,6 +296,10 @@ function checkGameOver() {
   // did user clear all tiles without clicking mine? game over - win
 };
   
+function pauseGame() {
+  // TODO: Add game timer and pause logic
+  console.log('⏸️ Game paused (stub) — implement timer logic and clock timer later');
+}
 
 function resetGame() {
   startGame();
@@ -303,12 +323,11 @@ startGame();
 // [X] setMines(rowIdx, colIdx) - randomly places mines after first left-click (never on first tile)  - TODO: move out of handleTileClick.
 // [X] handleTileClick - processes left/right clicks on tiles; triggers game actions
 // [X] revealTile -  uncovers tile and starts revealing nearby empty tiles : TODO adjacent reveal logic
-// [] getAdjTiles(rowIdx, colIdx) — returns array of 8 valid tiles surrounding the given tile
-// [] .adjTiles — property in each tile; holds 8 surrounding tiles; filled after first click using getAdjTiles(rowIdx, colIdx)
-// [] countAdjMines(rowIdx, colIdx) — sets adjMineCount based on .adjTiles
+// [X] getAdjTiles(rowIdx, colIdx) — returns array of 8 valid tiles surrounding the given tile
+// [X] .adjTiles — property in each tile; holds 8 surrounding tiles; filled after first click using getAdjTiles(rowIdx, colIdx)
+// [X] countAdjMines(rowIdx, colIdx) — sets adjMineCount based on .adjTiles
 // [] checkGameOver() — lose on mine click; win when all safe tiles are revealed
-// [] assignAdjTilesAndCounts() — helper called by handleTileClick after first click; fills adjTiles & sets adjMineCount
-// [] countMines — (clarify or merge with countAdjMines or TOTAL_MINES logic)
+// [X] assignAdjTilesAndCounts() — helper called by handleTileClick after first click; fills adjTiles & sets adjMineCount
 // [X] right-click flag to indicate bomb location ... renderFlag
 // [] renderTile(rowIdx, colIdx) — updates a single tile after a user makes a move, used with cascade reveals
 // [] renderFlags() — updates flag icon on tile based on state (adds or removes flag)
