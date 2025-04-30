@@ -28,7 +28,7 @@ A classic Minesweeper game built with HTML, CSS, and JavaScript. The game is des
 
  
 
-  <img src="https://github.com/shawnhank/ga-minesweeper-project/blob/main/images/HTML.png" alt="HTML Logo" width="200" alignment="Left">
+  <img src="https://github.com/shawnhank/ga-minesweeper-project/blob/main/images/HTML.png" alt="HTML Logo" width="100" alignment="Left">
 
 
 
