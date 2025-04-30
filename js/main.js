@@ -149,29 +149,32 @@ function handleTileClick(evtObj) {
   // will handle all the following
     // 1. Guard: If game is over, return immediately (aka ignore click).
     if (isGameOver) return;
-    console.log("Game Status: ", isGameOver);
+    // console.log("Game Status: ", isGameOver);
     // 2. Guard: If click target is not a tile, return immediately (aka ignore click).
     if (!evtObj.target.classList.contains('tile')) return;
     // 3. Get row and column of clicked tile from evtObj.target.id
     const tileId = evtObj.target.id; //gets id of tile that was clicked -aka r3c7
-    console.log("tileID: ",evtObj.target.id);
+    // console.log("tileID: ",evtObj.target.id);
     // parseInt converts string to number. tileID. slice captures value at position in string
     // working inside out.... tileId.slice captures index position1 of each TileID (r3c7) aka '3"
     // parseInt converts "3" to 3 (number)
     // variable rowIdx / colIdx now makes sense! 
     const rowIdx = parseInt(tileId.slice(1, 2)); //1st index of r3c7 or 3
     const colIdx = parseInt(tileId.slice(3, 4)); //3rd index of r3c7 or 7
-    console.log("Parsed Row:", rowIdx, "Parsed Col:", colIdx);
+    // console.log("Parsed Row:", rowIdx, "Parsed Col:", colIdx);
     // grab location of clicked tile for either left or right click
     const clickedTile = board[rowIdx][colIdx];
-    console.log(clickedTile);
+    // console.log(clickedTile);
     // 4. If right-click (evtObj.button === 2):
     //    a. preventDefault()  //had to read about this.... 
     //    b. If tile already revealed, return.
     //    c. Toggle tile's isFlagged state.
     if (evtObj.button === 2) {  // if right mouse button is clicked.
       evtObj.preventDefault();  //don't open operating system context menu.
-      if (!firstClick) return;  // right-click as first click of game ignored. right click never starts game.
+      if (!firstClick) {
+        console.log("Right-click as first click of game detected. left-click starts game.");
+        return;  // right-click as first click of game ignored. right click never starts game.
+      }
       if (clickedTile.isRevealed === true) return; // if the clicked tile is already revealed, ignore
        clickedTile.isFlagged = !clickedTile.isFlagged; // if clicked tile is flagged, ignore
       render();   //update board to show flags
@@ -184,7 +187,6 @@ function handleTileClick(evtObj) {
         calculateAdjacentMines();         // TODO
         firstClick = true;                // set firstClick to true.
       }
-
       if (clickedTile.isFlagged) {  // if tile marked with flag
         console.log(clickedTile.isFlagged);
         return;     // do nothing. tile is flagged, don't reveal
@@ -200,9 +202,11 @@ function handleTileClick(evtObj) {
       }
       render();       // update board
       checkWin();     // check for win
-      console.log(checkWin);
+      // console.log(checkWin);
     }
   }
+
+
 
 /*=====================*/
 /*  GAME LOGIC         */
@@ -240,7 +244,7 @@ function countMines() {
 function revealTile(rowIdx, colIdx) {   // show tile.
   const tile = board[rowIdx][colIdx];   // grab the tile from the location on board
   tile.isRevealed = true;               // reveal tile
-  console.log(tile.isRevealed, board[rowIdx][colIdx]);
+  // console.log(tile.isRevealed, board[rowIdx][colIdx]);
 };
 
     
@@ -269,65 +273,68 @@ startGame();
 // Place the mines randomly on the board
 setMines();
 
+/*
+// 
 
-/* TODO list of functions
+// TODO list of functions
 
-[X] init ... startGame
-[X] render  ... renderBoard
-[X] place mines randomly ... setMines
-[X] click tiles ... handleTileClick
-[X] show/reveal tile ... revealTile
-[] game over check ...checkGameOver
-[] caclulate/locate mines countMines
-[X] right click flag to indicate bomb location  ... renderFlag
-[] win/lose  ... checkWin (checks win/lose status) isGameOver state v
-[X] reset game  ... resetGame to init  aka start over aka StartGame
+// [X] init ... startGame
+// [X] render  ... renderBoard
+// [X] place mines randomly ... setMines
+// [X] click tiles ... handleTileClick
+// [X] show/reveal tile ... revealTile
+// [] game over check ...checkGameOver
+// [] caclulate/locate mines countMines
+// [X] right click flag to indicate bomb location  ... renderFlag
+// [] win/lose  ... checkWin (checks win/lose status) isGameOver state v
+// [X] reset game  ... resetGame to init  aka start over aka StartGame
 
-Core Gameplay Features
-	•	[] setMines(rowIdx, colIdx) — skips first clicked tile
-	•	[]calculateAdjacentMines() — compute adjMineCount for each tile
-	•	[] countAdjacentMines(row, col) — renamed helper for adjacency counts
-	•	[] checkGameOver() — lose on mine click
-	•	[] checkWin() — win when all safe tiles are revealed
-	•	[] revealTile() — triggers adjacent reveal logic
+// Core Gameplay Features
+// 	•	[] setMines(rowIdx, colIdx) — skips first clicked tile
+// 	•	[]calculateAdjacentMines() — compute adjMineCount for each tile
+// 	•	[] countAdjacentMines(row, col) — renamed helper for adjacency counts
+// 	•	[] checkGameOver() — lose on mine click
+// 	•	[] checkWin() — win when all safe tiles are revealed
+// 	•	[] revealTile() — triggers adjacent reveal logic
 
-⸻
+// ⸻
 
-UI & Visual Enhancements
-	•	[] Bomb icon centered in tile
-	•	[] Bomb tile background turns red on explosion
-	•	[] Show number of adjacent bombs (adjMineCount) on revealed tiles
-	•	[] Remove bevel from revealed tiles (flat style via .revealed class)
-	•	[] Face-button changes to crying face on game over
-	•	[] Add message area for win/loss status
+// UI & Visual Enhancements
+// 	•	[] Bomb icon centered in tile
+// 	•	[] Bomb tile background turns red on explosion
+// 	•	[] Show number of adjacent bombs (adjMineCount) on revealed tiles
+// 	•	[] Remove bevel from revealed tiles (flat style via .revealed class)
+// 	•	[] Face-button changes to crying face on game over
+// 	•	[] Add message area for win/loss status
 
-⸻
+// ⸻
 
-Audio / Feedback
-	•	[] Add explosion sound when mine is triggered
-	•	[] (Stretch) Add click / flag sound effects
+// Audio / Feedback
+// 	•	[] Add explosion sound when mine is triggered
+// 	•	[] (Stretch) Add click / flag sound effects
 
-⸻
+// ⸻
 
-First Click Rules
-	•	[] Delay mine placement until first left-click
-	•	[] Ensure first-clicked tile is never a mine
-	•	[] Block right-click before first click (no flagging before game starts)
+// First Click Rules
+// 	•	[] Delay mine placement until first left-click
+// 	•	[] Ensure first-clicked tile is never a mine
+// 	•	[] Block right-click before first click (no flagging before game starts)
 
-⸻
+// ⸻
 
-UI Counters & Dynamic Gameplay Values
-	•	[] Replace TOTAL_MINES with dynamic mine count = 20% of board
-	•	[] Show total mines in UI (from 20% rule)
-	•	[] Show count of placed flags
-	•	[] Add game timer in seconds
+// UI Counters & Dynamic Gameplay Values
+// 	•	[] Replace TOTAL_MINES with dynamic mine count = 20% of board
+// 	•	[] Show total mines in UI (from 20% rule)
+// 	•	[] Show count of placed flags
+// 	•	[] Add game timer in seconds
 
 
-future improvements:
-break handleTileClick into smaller components
-  - renderTile
-  - renderFlag
+// future improvements:
+// break handleTileClick into smaller components
+//   - renderTile
+//   - renderFlag
 
-difficulty levels
-auto grid creation deployment in memory and in dom. no static assignments in html
+// difficulty levels
+// auto grid creation deployment in memory and in dom. no static assignments in html
+
 */
