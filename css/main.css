@@ -130,6 +130,16 @@ body {
   cursor: default;
 }
 
+.mine-hit {
+  background-color: red;
+}
+
+.icon {
+  width: 90%;
+  height: 90%;
+  object-fit: contain;
+}
+
 #button {
   margin-top: 3em;
 }
