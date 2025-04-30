@@ -14,6 +14,9 @@ let firstClick = false;
 
 /*------------------------ Cached Element References ------------------------*/
 
+const boardEl = document.getElementById('game-board');
+const faceBtnEl = document.getElementById('face-button');
+const backBtnEl = document.getElementById('back-to-home');
 
 
 /*----------------------------- Event Listeners -----------------------------*/
@@ -66,12 +69,11 @@ function startGame() {
       // Set each cell as an object with default values
       // Each cell will store properties like mine status, revealed status, etc.
       board[rowIdx][colIdx] = {
-        isMine: false,          // Default is not a mine
+        isMine: false,          // Default is false
         isRevealed: false,      // Default is hidden
-        isFlagged: false,       // Default is not flagged
-        adjMineCount: null,     // Adjacent mine count (null initially)
-        adjCells: [],            // List of adjacent cells (empty initially)
-        neighbors: [],  // This will store neighboring cells
+        isFlagged: false,       // Default is false
+        adjMineCount: 0,        // Count of mines in adjacent tiles (starts at 0 )
+        adjTiles: [],           // array of a tile's adjacent tiles (starts empty)
         rowIdx,
         colIdx 
       };
@@ -86,7 +88,6 @@ function startGame() {
   // Update the board's display on the screen
   renderBoard();
 };
-
 
 /*=====================*/
 /*  RENDERING FUNCTIONS  */
@@ -140,7 +141,6 @@ function renderFlag() {
 
 };
 
-
 /*=====================*/
 /*  EVENT HANDLERS     */
 /*=====================*/
@@ -172,7 +172,7 @@ function handleTileClick(evtObj) {
     if (evtObj.button === 2) {  // if right mouse button is clicked.
       evtObj.preventDefault();  //don't open operating system context menu.
       if (!firstClick) {
-        console.log("Right-click as first click of game detected. left-click starts game.");
+        console.log("Right-click can't start game. Use left-click starts game.");
         return;  // right-click as first click of game ignored. right click never starts game.
       }
       if (clickedTile.isRevealed === true) return; // if the clicked tile is already revealed, ignore
@@ -184,7 +184,7 @@ function handleTileClick(evtObj) {
       // first left click of game should never reveal a mine. 
       if (!firstClick) {       // has first click occured true or false
         setMines(rowIdx, colIdx);         // call/run setMines function 
-        calculateAdjacentMines();         // TODO
+        assignAdjTilesAndCounts();         // TODO
         firstClick = true;                // set firstClick to true.
       }
       if (clickedTile.isFlagged) {  // if tile marked with flag
@@ -201,12 +201,10 @@ function handleTileClick(evtObj) {
         isGameOver = true;
       }
       render();       // update board
-      checkWin();     // check for win
+      checkGameOver();     // check for win/loss
       // console.log(checkWin);
     }
-  }
-
-
+  };
 
 /*=====================*/
 /*  GAME LOGIC         */
@@ -231,19 +229,21 @@ function setMines() {
 };
 
 
-// calculate adjacent mine counts after setting mines
-function calculateAdjacentMines() {
+// Sets tile.adjMineCount by counting how many .adjTiles are mines
+function countAdjMines(rowIdx, colIdx) {
 
-}
-
-function countMines() {
-  // count mines in adjacent cells
 };
 
 
-function revealTile(rowIdx, colIdx) {   // show tile.
-  const tile = board[rowIdx][colIdx];   // grab the tile from the location on board
-  tile.isRevealed = true;               // reveal tile
+// Returns an array of the 8 surrounding tile objects
+function getAdjTiles() {
+
+};
+
+// sets isRevealed = true for the given tile
+function revealTile(rowIdx, colIdx) {   
+  const tile = board[rowIdx][colIdx];   // tile location on board
+  tile.isRevealed = true;               
   // console.log(tile.isRevealed, board[rowIdx][colIdx]);
 };
 
@@ -254,10 +254,6 @@ function checkGameOver() {
   // did user clear all tiles without clicking mine? game over - win
 };
   
-function checkWin() {
-
-};
-
 
 function resetGame() {
   startGame();
@@ -273,29 +269,25 @@ startGame();
 // Place the mines randomly on the board
 //setMines();
 
-/*
-// 
 
-// TODO list of functions
+// Core Gameplay Features
 
 // [X] init ... startGame
 // [X] render  ... renderBoard
-// [X] place mines randomly ... setMines
-// [X] click tiles ... handleTileClick
-// [X] show/reveal tile ... revealTile
-// [] game over check ...checkGameOver
+// [X] setMines(rowIdx, colIdx) - randomly places mines after first left-click (never on first tile)  - TODO: move out of handleTileClick.
+// [X] handleTileClick - processes left/right clicks on tiles; triggers game actions
+// [X] revealTile -  uncovers tile and starts revealing nearby empty tiles : TODO adjacent reveal logic
+// [] getAdjTiles(rowIdx, colIdx) (formerly getNeighbors) returns array of 8 valid tiles surrounding the given tile
+// [] .adjTiles - .adjTiles → property in each tile; holds 8 surrounding tiles; filled after first click using getAdjTiles(rowIdx, colIdx)
+// [] countAdjMines() —  called by assignAdjTilesAndCounts(); triggered from handleTileClick after first left-click
+// [] checkGameOver() — lose on mine click; win when all safe tiles are revealed
+// [] assignAdjTilesAndCounts() — separate helper called by handleTileClick after first click; fills adjTiles & sets adjMineCount
 // [] caclulate/locate mines countMines
 // [X] right click flag to indicate bomb location  ... renderFlag
-// [] win/lose  ... checkWin (checks win/lose status) isGameOver state v
+// [] checkGameOver (checks win/lose status) isGameOver state v
 // [X] reset game  ... resetGame to init  aka start over aka StartGame
-
-// Core Gameplay Features
-// 	•	[] setMines(rowIdx, colIdx) — skips first clicked tile
-// 	•	[]calculateAdjacentMines() — compute adjMineCount for each tile
-// 	•	[] countAdjacentMines(row, col) — renamed helper for adjacency counts
-// 	•	[] checkGameOver() — lose on mine click
-// 	•	[] checkWin() — win when all safe tiles are revealed
-// 	•	[] revealTile() — triggers adjacent reveal logic
+// [] renderTile(rowIdx, colIdx) — updates a single tile after a user makes a move, used with cascade reveals
+// [] renderFlags() — updates flag icon on tile based on state (adds or removes flag)
 
 // ⸻
 
@@ -306,6 +298,9 @@ startGame();
 // 	•	[] Remove bevel from revealed tiles (flat style via .revealed class)
 // 	•	[] Face-button changes to crying face on game over
 // 	•	[] Add message area for win/loss status
+// 	•	[] display of flagged tiles (counter)
+// 	•	[] timer clock 3 digits counts up (shows elapsed time)
+
 
 // ⸻
 
@@ -337,4 +332,3 @@ startGame();
 // difficulty levels
 // auto grid creation deployment in memory and in dom. no static assignments in html
 // move setMines out of handleTileClick
-*/
