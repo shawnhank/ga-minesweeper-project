@@ -14,9 +14,9 @@ let firstClick = false;
 
 /*------------------------ Cached Element References ------------------------*/
 
-TODO: const boardEl = document.getElementById('game-board');
-TODO: const faceBtnEl = document.getElementById('face-button');
-TODO: const backBtnEl = document.getElementById('back-to-home');
+// TODO: const boardEl = document.getElementById('game-board');
+// TODO: const faceBtnEl = document.getElementById('face-button');
+// TODO: const backBtnEl = document.getElementById('back-to-home');
 
 
 /*----------------------------- Event Listeners -----------------------------*/
@@ -77,7 +77,7 @@ function startGame() {
         rowIdx,
         colIdx 
       };
-      //console.log(board);
+      console.log(board[rowIdx][colIdx].adjTiles);
     }
   };
 
@@ -228,15 +228,29 @@ function setMines() {
   }
 };
 
-
-// Returns an array of the 8 surrounding tiles of the selected tile
-function getAdjTiles() {
+// Returns an array of the 8 surrounding tiles of the selected tile to
+// count how many have mines, cascase reveal empty tiles. using this once and
+// storing information in global variable board[]. using another 2d array just like in the
+// startGame function.
+function getAdjTiles(rowIdx, colIdx) {
+  
   const adjTiles = [];        // array to hold all 8 neighboring tile locations
   const directions = [        // locations of the 8 neighboring tiles of selected tile. Each entry represents: [row offset, col offset] from the current tile.  
-    [-1, -1], [-1, 0], [-1, 1], [ 0, -1], [ 0, 1], [ 1, -1], [ 1, 0], [ 1, 1] ];   // starting in top left and working clockwise around selected tile
+    [-1, -1], [-1, 0], [-1, 1], [ 0, -1], [ 0, 1], [ 1, -1], [ 1, 0], [ 1, 1] ];   // starting at upper left corner, left to right, row by row, top to bottom.
+
+for (let i = 0; i < directions.length; i++) {
+  const dRow = directions[i][0];        // vertical direction: -1, 0, or 1
+  const dCol = directions[i][1];        // horizontal direction: -1, 0, or 1
+  console.log(`direction: dRow=${dRow}, dCol=${dCol}`);
+  const r = rowIdx + dRow;              // new row index to check
+  const c = colIdx + dCol;              // new column index to check
+  console.log(`Evaluating board tile at r=${r}, c=${c}`);
+  }
+  return adjTiles; // just return empty for now
 };
 
-// Sets tile.adjMineCount by counting how many .adjTiles are mines
+
+  // Sets tile.adjMineCount by counting how many .adjTiles are mines
 function countAdjMines(rowIdx, colIdx) {
 
 };
