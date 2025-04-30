@@ -15,6 +15,7 @@ A classic Minesweeper game built with HTML, CSS, and JavaScript. The game is des
     - [Stretch/Icebox Features:](#stretchicebox-features)
   - [Installation](#installation)
   - [Usage](#usage)
+  - [Gameplay](#gameplay)
   - [License](#license)
 
 
@@ -25,6 +26,9 @@ A classic Minesweeper game built with HTML, CSS, and JavaScript. The game is des
 
 ## Tech Stack <!-- TODO: add badges -->
 
+ 
+
+
 - HTML: Structuring the basic layout of the game board and tiles.
 
 - CSS: Styling the grid and individual tiles, including hover and flag interactions.
@@ -33,6 +37,7 @@ A classic Minesweeper game built with HTML, CSS, and JavaScript. The game is des
  
 - JavaScript: Managing game logic such as tile interactions, mine placement, and win/loss conditions.
 - Mine Icon courtesy of [The Noun Project](https://thenounproject.com/icon/mine-965385/).
+- Favicon courtesy of [Jaumes Segarra on GitHub](https://jaumesegarra.github.io/minesweeper/favicon.ico)
 - 
 
 

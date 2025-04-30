@@ -277,58 +277,80 @@ startGame();
 // [X] setMines(rowIdx, colIdx) - randomly places mines after first left-click (never on first tile)  - TODO: move out of handleTileClick.
 // [X] handleTileClick - processes left/right clicks on tiles; triggers game actions
 // [X] revealTile -  uncovers tile and starts revealing nearby empty tiles : TODO adjacent reveal logic
-// [] getAdjTiles(rowIdx, colIdx) (formerly getNeighbors) returns array of 8 valid tiles surrounding the given tile
-// [] .adjTiles - .adjTiles → property in each tile; holds 8 surrounding tiles; filled after first click using getAdjTiles(rowIdx, colIdx)
-// [] countAdjMines() —  called by assignAdjTilesAndCounts(); triggered from handleTileClick after first left-click
+// [] getAdjTiles(rowIdx, colIdx) — returns array of 8 valid tiles surrounding the given tile
+// [] .adjTiles — property in each tile; holds 8 surrounding tiles; filled after first click using getAdjTiles(rowIdx, colIdx)
+// [] countAdjMines(rowIdx, colIdx) — sets adjMineCount based on .adjTiles
 // [] checkGameOver() — lose on mine click; win when all safe tiles are revealed
-// [] assignAdjTilesAndCounts() — separate helper called by handleTileClick after first click; fills adjTiles & sets adjMineCount
-// [] caclulate/locate mines countMines
-// [X] right click flag to indicate bomb location  ... renderFlag
-// [] checkGameOver (checks win/lose status) isGameOver state v
-// [X] reset game  ... resetGame to init  aka start over aka StartGame
+// [] assignAdjTilesAndCounts() — helper called by handleTileClick after first click; fills adjTiles & sets adjMineCount
+// [] countMines — (clarify or merge with countAdjMines or TOTAL_MINES logic)
+// [X] right-click flag to indicate bomb location ... renderFlag
 // [] renderTile(rowIdx, colIdx) — updates a single tile after a user makes a move, used with cascade reveals
 // [] renderFlags() — updates flag icon on tile based on state (adds or removes flag)
+// [X] reset game — resetGame to init aka start over aka startGame
+// [] Add question mark state (right-click cycles: blank → flag → question → blank)
 
 // ⸻
+// Visual Fixes
+
+// [X] Bomb icon centered in tile
+// [] Bomb tile background turns red on explosion
+// [] Remove bevel from revealed tiles (flat style via .revealed class)
+// [] Face-button changes to crying face on game over
+// [X] Add hover effects for unrevealed tiles
+// [X] Disable board interaction after game ends
+
+// ⸻
+// Image Integration (UI Icon Replacements)
+
+// [] Use tile.svg as background for all unrevealed tiles
+// [] Use 1.svg through 8.svg to display adjMineCount visually
+// [] Replace 💣 with mine.svg or mine.png
+// [] Replace 🚩 with red_flag.svg
+// [] Display qmark.svg as third right-click state
+
+// ⸻
+// First Click Rules
+
+// [] Delay mine placement until first left-click
+// [] Ensure first-clicked tile is never a mine
+// [] Block right-click before first click (no flagging before game starts)
+
+// [] break handleTileClick into smaller components
+//     - renderTile
+//     - renderFlag
+
+// ⸻
+// Icebox / Stretch Features
 
 // UI & Visual Enhancements
-// 	•	[] Bomb icon centered in tile
-// 	•	[] Bomb tile background turns red on explosion
-// 	•	[] Show number of adjacent bombs (adjMineCount) on revealed tiles
-// 	•	[] Remove bevel from revealed tiles (flat style via .revealed class)
-// 	•	[] Face-button changes to crying face on game over
-// 	•	[] Add message area for win/loss status
-// 	•	[] display of flagged tiles (counter)
-// 	•	[] timer clock 3 digits counts up (shows elapsed time)
-
-
-// ⸻
+// [] Show number of adjacent bombs (adjMineCount) on revealed tiles
+// [] Add message area for win/loss status
+// [] Display of flagged tiles (counter)
+// [] Timer clock: 3 digits, counts up (elapsed time)
+// [] Dynamically generate board HTML from JS (no static markup)
+// [] Show “You Win!” or “Game Over” text overlay
 
 // Audio / Feedback
-// 	•	[] Add explosion sound when mine is triggered
-// 	•	[] (Stretch) Add click / flag sound effects
-
-// ⸻
-
-// First Click Rules
-// 	•	[] Delay mine placement until first left-click
-// 	•	[] Ensure first-clicked tile is never a mine
-// 	•	[] Block right-click before first click (no flagging before game starts)
-
-// ⸻
+// [] Add explosion sound when mine is triggered
+// [] (Stretch) Add click / flag sound effects
+// [] Add victory sound or win jingle
 
 // UI Counters & Dynamic Gameplay Values
-// 	•	[] Replace TOTAL_MINES with dynamic mine count = 20% of board
-// 	•	[] Show total mines in UI (from 20% rule)
-// 	•	[] Show count of placed flags
-// 	•	[] Add game timer in seconds
+// [] Replace TOTAL_MINES with dynamic mine count = 20% of board
+// [] Show total mines in UI (from 20% rule)
+// [] Show count of placed flags
+// [] Add game timer in seconds
+
+// Advanced Gameplay / Mechanics
+// [] Cascade reveal for empty tiles
+// [] Recursive reveal using adjTiles
+// [] Chording (click on revealed number with correct flags around it)
+// [] Undo last move
+// [] Hint button (safe tile reveal)
+// [] Replay button
+
+// Difficulty Modes
+// [] Easy / Medium / Hard modes
+// [] Adjust board size and mine count per difficulty
 
 
-// future improvements:
-// break handleTileClick into smaller components
-//   - renderTile
-//   - renderFlag
-
-// difficulty levels
-// auto grid creation deployment in memory and in dom. no static assignments in html
-// move setMines out of handleTileClick
