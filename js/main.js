@@ -220,6 +220,7 @@ function handleTileClick(evtObj) {
       checkGameOver();     // check for win/loss
       // console.log(checkGameOver);
     }
+    console.log('Cascade complete!');
   };
 
 /*=====================*/
@@ -299,9 +300,28 @@ function assignAdjTilesAndCounts() {
 
 // sets isRevealed = true for the given tile
 function revealTile(rowIdx, colIdx) {   
-  const tile = board[rowIdx][colIdx];   // tile location on board
-  tile.isRevealed = true;               
+  console.log(`Entering revealTile() for tile [${rowIdx}, ${colIdx}]`);         // entering the function for this tile
+  const tile = board[rowIdx][colIdx];   // tile location on board at coordinates
+  // Skip this tile if it's already revealed or flagged
+  if (tile.isRevealed || tile.isFlagged) {
+    console.log(`Skipping tile [${rowIdx}, ${colIdx}] — already revealed or flagged`);
+    return;
+  }
+  // Mark this tile as revealed
+  tile.isRevealed = true;
+  console.log(`Revealed tile [${rowIdx}, ${colIdx}] — adjMineCount: ${tile.adjMineCount}`);
+
   // console.log(tile.isRevealed, board[rowIdx][colIdx]);
+  // Cascade reveal: if this tile has zero adjacent mines
+  if (tile.adjMineCount === 0) {
+    // Loop through each neighboring tile (precomputed in adjTiles)
+    for (let neighbor of tile.adjTiles) {
+      // Recursively reveal each neighbor
+      console.log(`Cascading to neighbor at [${neighbor.rowIdx}, ${neighbor.colIdx}]`);
+      revealTile(neighbor.rowIdx, neighbor.colIdx);
+    }
+    console.log('Cascade complete!');
+  }
 };
 
   // checks to see if game is over 
