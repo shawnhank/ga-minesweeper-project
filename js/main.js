@@ -336,5 +336,5 @@ startGame();
 
 // difficulty levels
 // auto grid creation deployment in memory and in dom. no static assignments in html
-
+// move setMines out of handleTileClick
 */
