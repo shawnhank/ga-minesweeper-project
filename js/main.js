@@ -101,11 +101,9 @@ function startGame() {
 
 function render() {
   renderBoard();
-  revealTile()
 }
 
 startGame();
-
 
 function setMines() {
   let mineCounter = 0;
@@ -167,19 +165,19 @@ function handleTileClick(evtObj) {
     // will handle all the following
       // 1. Guard: If game is over, return immediately (aka ignore click).
       if (isGameOver) return;
-      console.log(isGameOver);
+      console.log("Game Status: ", isGameOver);
       // 2. Guard: If click target is not a tile, return immediately (aka ignore click).
       if (!evtObj.target.classList.contains('tile')) return;
       // 3. Get row and column of clicked tile from evtObj.target.id
       const tileId = evtObj.target.id; //gets id of tile that was clicked -aka r3c7
-      console.log(evtObj.target.id)
+      console.log("tileID: ",evtObj.target.id);
       // parseInt converts string to number. tileID. slice captures value at position in string
       // working inside out.... tileId.slice captures index position1 of each TileID (r3c7) aka '3"
       // parseInt converts "3" to 3 (number)
       // variable rowIdx / colIdx now makes sense! 
       const rowIdx = parseInt(tileId.slice(1, 2)); //1st index of r3c7 or 3
       const colIdx = parseInt(tileId.slice(3, 4)); //3rd index of r3c7 or 7
-      console.log(rowIdx, colIdx)
+      console.log("Parsed Row:", rowIdx, "Parsed Col:", colIdx);
       // grab location of clicked tile for either left or right click
       const clickedTile = board[rowIdx][colIdx];
       console.log(clickedTile);
@@ -203,7 +201,7 @@ function handleTileClick(evtObj) {
           console.log(clickedTile.isRevealed);
           return;
         }
-        revealTile(); // <- TODO:  build this function separately later
+        revealTile(rowIdx, colIdx); // <- TODO:  build this function separately later
         
         if (clickedTile.isMine) {   // if clicked tile is a mine
           isGameOver = true;
@@ -214,10 +212,12 @@ function handleTileClick(evtObj) {
       }
     }
 
-    function revealTile() {
-      // reveals, shows, uncovers, unhides tile.
-      // called by render().
+    function revealTile(rowIdx, colIdx) {   // show tile.
+      const tile = board[rowIdx][colIdx];   // grab the tile from the location on board
+      tile.isRevealed = true;               // reveal tile
+      console.log(tile.isRevealed, board[rowIdx][colIdx]);
     };
+    
     
     function checkGameOver() {
       // checks to see if game is over 
