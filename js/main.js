@@ -122,79 +122,93 @@ function render() {
 function renderBoard() {
   // Loop through each row in the board array
   // (2D array: rows and columns)
+  // board.forEach((rowArray, rowIdx) => {
+  //   // Loop through each column in the current row
+  //   rowArray.forEach((tileValue, colIdx) => {
+  //     // Generate the cell's unique ID based on its row and column
+  //     const tileId = `r${rowIdx}c${colIdx}`;
+  //     // Target the DOM element for the current tile using its ID
+  //     const tileElement = document.getElementById(tileId);
+  //     // console.log(tileId, tileElement); 
+  //     // Check if the tile is revealed
+  //     if (tileValue.isRevealed) {
+  //       if (!firstClick) return;  // Don’t render mines or numbers before first LEFT-click
+  //       tileElement.classList.add('revealed');      // removes tile
+  //       // If isMine = true, show a bomb icon
+  //       if (tileValue.isMine) {
+  //         tileElement.innerHTML = '<img src="images/mine.svg" alt="Mine" class="icon">';
+  //         tileElement.classList.add('mine-hit'); // highlight tile red
+  //       } else if (tileValue.adjMineCount > 0) {
+  //         // tile is a number (1–8) — show number image that matches adjMineCount
+  //         tileElement.innerHTML = `<img src="images/${tileValue.adjMineCount}.svg" class="icon" alt="${tileValue.adjMineCount}">`;
+  //       } else {
+  //         // Show adjacent mine count or leave blank
+  //         // if no adjacent mines)
+  //         // tile has no nearby mines — show nothing (blank)
+  //         tileElement.innerHTML = '';
+  //       }
+  //     } else {
+  //       // If tile is not revealed, clear the tile content
+  //       tileElement.innerHTML = '';
+  //       tileElement.classList.remove('revealed'); 
+  //     }
+  //     // If mine is suspected, show a flag
+  //     if (tileValue.isFlagged) {
+  //       tileElement.innerHTML = `<img src="images/red_flag.svg" class="icon" alt="Flag">`; // display red flag image
+  //     }
+  //   });
+  // });
+
   board.forEach((rowArray, rowIdx) => {
-    // Loop through each column in the current row
     rowArray.forEach((tileValue, colIdx) => {
-      // Generate the cell's unique ID based on its row and column
-      const tileId = `r${rowIdx}c${colIdx}`;
-      // Target the DOM element for the current tile using its ID
-      const tileElement = document.getElementById(tileId);
-      // console.log(tileId, tileElement); 
-      // Check if the tile is revealed
-      if (tileValue.isRevealed) {
-        if (!firstClick) return;  // Don’t render mines or numbers before first LEFT-click
-        tileElement.classList.add('revealed');      // removes tile
-        // If isMine = true, show a bomb icon
-        if (tileValue.isMine) {
-          tileElement.innerHTML = '<img src="images/mine.svg" alt="Mine" class="icon">';
-          tileElement.classList.add('mine-hit'); // highlight tile red
-        } else if (tileValue.adjMineCount > 0) {
-          // tile is a number (1–8) — show number image that matches adjMineCount
-          tileElement.innerHTML = `<img src="images/${tileValue.adjMineCount}.svg" class="icon" alt="${tileValue.adjMineCount}">`;
-        } else {
-          // Show adjacent mine count or leave blank
-          // if no adjacent mines)
-          // tile has no nearby mines — show nothing (blank)
-          tileElement.innerHTML = '';
-        }
-      } else {
-        // If tile is not revealed, clear the tile content
-        tileElement.innerHTML = '';
-        tileElement.classList.remove('revealed'); 
-      }
-      // If mine is suspected, show a flag (🚩)
-      if (tileValue.isFlagged) {
-        tileElement.innerHTML = `<img src="images/red_flag.svg" class="icon" alt="Flag">`; // display red flag image
-      }
+      renderTile(rowIdx, colIdx);
+      renderFlag(rowIdx, colIdx);
     });
   });
 };
 
-// renderTile(rowIdx, colIdx) — updates a single tile visually after click or cascade reveal
 function renderTile(rowIdx, colIdx) {
-  const tile = board[rowIdx][colIdx];                            // grab tile data from board
-  const tileEl = document.getElementById(`r${rowIdx}c${colIdx}`); // grab tile element from DOM
+  const tile = board[rowIdx][colIdx];                            // Get tile object from board
+  const tileEl = document.getElementById(`r${rowIdx}c${colIdx}`); // Get matching DOM element
 
-  if (tile.isRevealed) {                                         // if tile has been revealed
-    tileEl.classList.add('revealed');                            // add revealed styling
+  console.log(`renderTile [${rowIdx}, ${colIdx}] | Revealed: ${tile.isRevealed}, Flagged: ${tile.isFlagged}`);
+
+  if (tile.isRevealed) {
+    tileEl.classList.add('revealed');                            // Apply flat style
     if (tile.isMine) {
-      tileEl.innerHTML = '💣';                                   // show bomb if tile is a mine
+      tileEl.innerHTML = '<img src="images/mine.svg" alt="Mine" class="icon">';  // Show mine
+      tileEl.classList.add('mine-hit');                          // Add red background
+    } else if (tile.adjMineCount > 0) {
+      tileEl.innerHTML = `<img src="images/${tile.adjMineCount}.svg" class="icon" alt="${tile.adjMineCount}">`;  // Show number icon
     } else {
-      tileEl.innerHTML = tile.adjMineCount || '';                // show number if > 0, blank if 0
+      tileEl.innerHTML = '';                                     // Empty tile (0 adj mines)
     }
   } else {
-    tileEl.innerHTML = '';                                       // otherwise, clear tile display
-    tileEl.classList.remove('revealed');                         // remove revealed style
-    if (tile.isFlagged) {
-      tileEl.innerHTML = '🚩';                                   // show flag if tile is flagged
-    }
+    tileEl.innerHTML = '';                                       // Clear unrevealed tile
+    tileEl.classList.remove('revealed');                         // Remove revealed styling
+    // if (tile.isFlagged) {
+    //   tileEl.innerHTML = '<img src="images/red_flag.svg" class="icon" alt="Flag">';  // Show flag
+    // }
   }
 }
 
 
-// renderFlags() — updates all tile elements that are flagged (used after right-click)
-function renderFlags() {
-  for (let rowIdx = 0; rowIdx < board.length; rowIdx++) {             // loop through each row
-    for (let colIdx = 0; colIdx < board[rowIdx].length; colIdx++) {   // loop through each column
-      const tile = board[rowIdx][colIdx];                             // grab tile from board
-      const tileEl = document.getElementById(`r${rowIdx}c${colIdx}`); // grab tile element from DOM
+function renderFlag() {
+  console.log('renderFlag: updating all flagged tile elements...');
+  for (let rowIdx = 0; rowIdx < board.length; rowIdx++) {
+    for (let colIdx = 0; colIdx < board[rowIdx].length; colIdx++) {
+      const tile = board[rowIdx][colIdx];
+      const tileEl = document.getElementById(`r${rowIdx}c${colIdx}`);
 
-      if (!tile.isRevealed && tile.isFlagged) {                       // if hidden but flagged
-        tileEl.innerHTML = '🚩';                                      // show flag icon
+      if (!tile.isRevealed && tile.isFlagged) {
+        tileEl.innerHTML = '<img src="images/red_flag.svg" class="icon" alt="Flag">';
+        console.log(`Flag rendered at [${rowIdx}, ${colIdx}]`);
       }
+      console.log(`renderFlag complete.`);  
     }
   }
 }
+
 
 
 // Updates flag counter and timer display on the board
