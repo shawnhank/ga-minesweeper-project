@@ -17,6 +17,7 @@ A classic Minesweeper game built with HTML, CSS, and JavaScript. The game is des
   - [Usage](#usage)
   - [Gameplay](#gameplay)
   - [License](#license)
+  - [Icon Attribution](#icon-attribution)
 
 
 ## Screenshots
@@ -36,10 +37,6 @@ A classic Minesweeper game built with HTML, CSS, and JavaScript. The game is des
  
 - JavaScript: Managing game logic such as tile interactions, mine placement, and win/loss conditions.
 
-<sub><i>
-- Mine Icon courtesy of [The Noun Project](https://thenounproject.com/icon/mine-965385/)
-- Favicon courtesy of [Jaumes Segarra on GitHub](https://jaumesegarra.github.io/minesweeper/favicon.ico)
-- Badges courtest\y of [Vecteezy](https://www.vecteezy.com/vector-art/14030181-programming-language-icons-set-css-html-javascript-isolated-editorial-illustration-on-white)</i></sub>
 
 
 ## Project Overview
@@ -105,3 +102,9 @@ To help the player avoid hitting a mine, the location of a suspected mine can be
 ## License
 
 This project is licensed under the MIT License – see the [LICENSE](LICENSE) file for details.
+
+## Icon Attribution
+<sub><i>
+- Mine Icon courtesy of [The Noun Project](https://thenounproject.com/icon/mine-965385/)
+- Favicon courtesy of [Jaumes Segarra on GitHub](https://jaumesegarra.github.io/minesweeper/favicon.ico)
+- Badges courtest\y of [Vecteezy](https://www.vecteezy.com/vector-art/14030181-programming-language-icons-set-css-html-javascript-isolated-editorial-illustration-on-white)</i></sub>
