@@ -5,10 +5,10 @@ const TOTAL_TILES = 81;
 const TOTAL_MINES = 10;
 
 // Audio feedback
-const explosionSound = new Audio('../audio/explosion.mp3');
+const explosionSound = new Audio('audio/explosion.mp3');
 explosionSound.volume = 0.8;
 
-const applauseSound = new Audio('../audio/crowd-applause.mp3');
+const applauseSound = new Audio('audio/crowd-applause.mp3');
 applauseSound.volume = 0.8;
 
 
@@ -85,13 +85,13 @@ function startGame() {
         rowIdx,
         colIdx 
       };
-      console.log(board[rowIdx][colIdx]);
+      // console.log(board[rowIdx][colIdx]);
     }
   };
 
   // Set the game over flag to false initially
   isGameOver = false;
-  console.log(isGameOver);
+  // console.log(isGameOver);
   
   // Update the board's display on the screen
   renderBoard();
@@ -121,12 +121,16 @@ function renderBoard() {
         tileElement.classList.add('revealed');      // removes tile
         // If isMine = true, show a bomb icon (💣)
         if (tileValue.isMine) {
-          tileElement.innerHTML = '<img src="../images/mine.svg" alt="Mine" class="icon">';
+          tileElement.innerHTML = '<img src="images/mine.svg" alt="Mine" class="icon">';
           tileElement.classList.add('mine-hit'); // highlight tile red
+        } else if (tileValue.adjMineCount > 0) {
+          // tile is a number (1–8) — show number image that matches adjMineCount
+          tileElement.innerHTML = `<img src="images/${tileValue.adjMineCount}.svg" class="icon" alt="${tileValue.adjMineCount}">`;
         } else {
           // Show adjacent mine count or leave blank
           // if no adjacent mines)
-          tileElement.innerHTML = tileValue.adjMineCount || '';
+          // tile has no nearby mines — show nothing (blank)
+          tileElement.innerHTML = '';
         }
       } else {
         // If tile is not revealed, clear the tile content
@@ -135,12 +139,11 @@ function renderBoard() {
       }
       // If mine is suspected, show a flag (🚩)
       if (tileValue.isFlagged) {
-        tileElement.innerHTML = '<img src="../images/red_flag.svg" alt="Red Flag" class="icon">';
+        tileElement.innerHTML = `<img src="images/red_flag.svg" class="icon" alt="Flag">`; // display red flag image
       }
     });
   });
 };
-
 
 function renderTile() {
 
@@ -181,7 +184,7 @@ function handleTileClick(evtObj) {
     if (evtObj.button === 2) {  // if right mouse button is clicked.
       evtObj.preventDefault();  //don't open operating system context menu.
       if (!firstClick) {
-        console.log("Right-click can't start game. Use left-click starts game.");
+        // console.log("Right-click can't start game. Use left-click starts game.");
         return;  // right-click as first click of game ignored. right click never starts game.
       }
       if (clickedTile.isRevealed === true) return; // if the clicked tile is already revealed, ignore
@@ -306,12 +309,12 @@ function revealTile(rowIdx, colIdx) {
 function checkGameOver() {
   let revealedCount = 0;                // counter for all revealed tiles
   for (let rowIdx = 0; rowIdx < board.length; rowIdx++) {              // loop through each row in the board
-    console.log(`Checking row ${rowIdx}...`);
+    // console.log(`Checking row ${rowIdx}...`);
     for (let colIdx = 0; colIdx < board[rowIdx].length; colIdx++) {    // loop through each column in the row
       const tile = board[rowIdx][colIdx];                              // pulling data from global board[] variable.
-      console.log(`Checking tile at row=${rowIdx}, col=${colIdx}`);
-      console.log(`Total Revealed Tiles: ${tile.isRevealed}`);
-      console.log(`Total Mine Tiles: ${tile.isMine}`);  
+      //console.log(`Checking tile at row=${rowIdx}, col=${colIdx}`);
+      //console.log(`Total Revealed Tiles: ${tile.isRevealed}`);
+      //console.log(`Total Mine Tiles: ${tile.isMine}`);  
       if (tile.isRevealed && !tile.isMine) revealedCount++;           // if the tile is revealed and not a mine increment by 1
   }
 };

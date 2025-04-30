@@ -130,13 +130,13 @@ body {
   cursor: default;
 }
 
-.mine-hit {
+.tile.revealed.mine-hit {
   background-color: red;
 }
 
 .icon {
-  width: 90%;
-  height: 90%;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
 }
 
