@@ -26,12 +26,11 @@ A classic Minesweeper game built with HTML, CSS, and JavaScript. The game is des
 
 ## Tech Stack <!-- TODO: add badges -->
 
+| <img src="https://github.com/shawnhank/ga-minesweeper-project/blob/main/images/HTML.png" alt="HTML Logo" width="80"/> | <img src="https://github.com/shawnhank/ga-minesweeper-project/blob/main/images/CSS.svg" alt="CSS Logo" width="80"/> | <img src="https://github.com/shawnhank/ga-minesweeper-project/blob/main/images/JS.png" alt="JavaScript Logo" width="80"/> |
+|---|---|---|
+| HTML | CSS | JavaScript |
 
-<img src="https://github.com/shawnhank/ga-minesweeper-project/blob/main/images/HTML.png" alt="HTML Logo" width="100" alignment="Left">
-
-<img src="https://github.com/shawnhank/ga-minesweeper-project/blob/main/images/CSS.svg" alt="CSS Logo" width="100" alignment="Left">
-
-<img src="https://github.com/shawnhank/ga-minesweeper-project/blob/main/images/JS.png" alt="JavaScript Logo" width="100" alignment="Left">
+<img src="https://github.com/shawnhank/ga-minesweeper-project/blob/main/images/HTML.png" alt="HTML Logo" width="100" alignment="Left"> <img src="https://github.com/shawnhank/ga-minesweeper-project/blob/main/images/CSS.svg" alt="CSS Logo" width="100" alignment="Left"><img src="https://github.com/shawnhank/ga-minesweeper-project/blob/main/images/JS.png" alt="JavaScript Logo" width="100" alignment="Left">
 
 - HTML: Structuring the basic layout of the game board and tiles.
 
