@@ -1,8 +1,8 @@
 /*-------------------------------- Constants --------------------------------*/
 const BOARD_ROWS = 9;
 const BOARD_COLS = 9;
-const TOTAL_TILES = 81;
-const TOTAL_MINES = 10;
+const TOTAL_TILES = BOARD_ROWS * BOARD_COLS;  // total number of tiles
+const TOTAL_MINES = Math.floor(TOTAL_TILES * 0.2);  // 20% of tiles are mines
 
 // Audio feedback
 const explosionSound = new Audio('audio/explosion.mp3');
@@ -14,21 +14,34 @@ applauseSound.volume = 0.5;
 
 /*---------------------------- Variables (state) ----------------------------*/
 
-let board;
-let isGameOver;
-let tilesRevealedCount;
-let bombCounter;
-let firstClick = false;
+let board;                // set empty board
+let isGameOver;           // Set game over status
+let tilesRevealedCount;   // Set reveal tile
+let bombCounter;          // Set bomb counter count
+let firstClick = false;   // Set first click to false
+let flagCount = 0;      // how many tiles are flagged
+let timer = 0;          // current time in seconds
+let timerInterval = null; // store timer loop ID so we can stop it
 
 /*------------------------ Cached Element References ------------------------*/
 
 const boardEl = document.getElementById('game-board');  // Attach one event listener for all tiles (aka event delegation)
 const faceBtnEl = document.getElementById('face-button');  //event listeners for click and contextmenu
-const backBtnEl = document.getElementById('back-to-home');
+const backBtnEl = document.getElementById('back-to-home');  //event listners for back to home button.
+const flagCounterEl = document.getElementById('flag-counter');  // Red counter display for flags; increment on right click flag placement
+const timerDisplayEl = document.getElementById('timer-display');  // Red counter display for time; start on first left click of gam
+
 
 
 /*----------------------------- Event Listeners -----------------------------*/
 // 	addEventListener() is how we tell JavaScript to listen for an event happening.
+
+// Suppress right-click context menu on game tiles only
+document.addEventListener('contextmenu', function (evt) {
+  if (evt.target.classList.contains('tile')) {
+    evt.preventDefault();
+  }
+});
 
 // Attach a left-click event listener to the board container.
 boardEl
@@ -93,7 +106,7 @@ function startGame() {
   // Set the game over flag to false initially
   isGameOver = false;
   // console.log(isGameOver);
-  
+  // console.log(`Board: ${BOARD_ROWS}x${BOARD_COLS}, Total Tiles: ${TOTAL_TILES}, Mines: ${TOTAL_MINES}`);
   // Update the board's display on the screen
   renderBoard();
 };
@@ -147,82 +160,119 @@ function renderBoard() {
   });
 };
 
-function renderTile() {
+// renderTile(rowIdx, colIdx) — updates a single tile visually after click or cascade reveal
+function renderTile(rowIdx, colIdx) {
+  const tile = board[rowIdx][colIdx];                            // grab tile data from board
+  const tileEl = document.getElementById(`r${rowIdx}c${colIdx}`); // grab tile element from DOM
 
-};
+  if (tile.isRevealed) {                                         // if tile has been revealed
+    tileEl.classList.add('revealed');                            // add revealed styling
+    if (tile.isMine) {
+      tileEl.innerHTML = '💣';                                   // show bomb if tile is a mine
+    } else {
+      tileEl.innerHTML = tile.adjMineCount || '';                // show number if > 0, blank if 0
+    }
+  } else {
+    tileEl.innerHTML = '';                                       // otherwise, clear tile display
+    tileEl.classList.remove('revealed');                         // remove revealed style
+    if (tile.isFlagged) {
+      tileEl.innerHTML = '🚩';                                   // show flag if tile is flagged
+    }
+  }
+}
 
-function renderFlag() {
 
-};
+// renderFlags() — updates all tile elements that are flagged (used after right-click)
+function renderFlags() {
+  for (let rowIdx = 0; rowIdx < board.length; rowIdx++) {             // loop through each row
+    for (let colIdx = 0; colIdx < board[rowIdx].length; colIdx++) {   // loop through each column
+      const tile = board[rowIdx][colIdx];                             // grab tile from board
+      const tileEl = document.getElementById(`r${rowIdx}c${colIdx}`); // grab tile element from DOM
+
+      if (!tile.isRevealed && tile.isFlagged) {                       // if hidden but flagged
+        tileEl.innerHTML = '🚩';                                      // show flag icon
+      }
+    }
+  }
+}
+
+
+// Updates flag counter and timer display on the board
+function updateDisplays() {
+  // Convert flag count to a 3-digit string (e.g. 5 → "005")
+  flagCounterEl.textContent = String(flagCount).padStart(3, '0');
+
+  // Convert timer value to 3-digit string (e.g. 42 → "042")
+  timerDisplayEl.textContent = String(timer).padStart(3, '0');
+}
+
+// Starts game timer and updates every second
+function startTimer() {
+  timerInterval = setInterval(() => {
+    timer++;              // increment timer each second
+    updateDisplays();     // update UI to reflect new time
+  }, 1000);               // 1000 ms = 1 second
+}
+
+
+
 
 /*=====================*/
 /*  EVENT HANDLERS     */
 /*=====================*/
 
 function handleTileClick(evtObj) {
-  // will handle all the following
-    // 1. Guard: If game is over, return immediately (aka ignore click).
-    if (isGameOver) return;
-    // console.log("Game Status: ", isGameOver);
-    // 2. Guard: If click target is not a tile, return immediately (aka ignore click).
-    if (!evtObj.target.classList.contains('tile')) return;
-    // 3. Get row and column of clicked tile from evtObj.target.id
-    const tileId = evtObj.target.id; //gets id of tile that was clicked -aka r3c7
-    // console.log("tileID: ",evtObj.target.id);
-    // parseInt converts string to number. tileID. slice captures value at position in string
-    // working inside out.... tileId.slice captures index position1 of each TileID (r3c7) aka '3"
-    // parseInt converts "3" to 3 (number)
-    // variable rowIdx / colIdx now makes sense! 
-    const rowIdx = parseInt(tileId.slice(1, 2)); //1st index of r3c7 or 3
-    const colIdx = parseInt(tileId.slice(3, 4)); //3rd index of r3c7 or 7
-    // console.log("Parsed Row:", rowIdx, "Parsed Col:", colIdx);
-    // grab location of clicked tile for either left or right click
-    const clickedTile = board[rowIdx][colIdx];
-    // console.log('Tile 4,4 →', clickedTile);
-    // 4. If right-click (evtObj.button === 2):
-    //    a. preventDefault()  //had to read about this.... 
-    //    b. If tile already revealed, return.
-    //    c. Toggle tile's isFlagged state.
-    if (evtObj.button === 2) {  // if right mouse button is clicked.
-      evtObj.preventDefault();  //don't open operating system context menu.
-      if (!firstClick) {
-        // console.log("Right-click can't start game. Use left-click starts game.");
-        return;  // right-click as first click of game ignored. right click never starts game.
-      }
-      if (clickedTile.isRevealed === true) return; // if the clicked tile is already revealed, ignore
-       clickedTile.isFlagged = !clickedTile.isFlagged; // if clicked tile is flagged, ignore
-      render();   //update board to show flags
-      return;
-    }  
-    if (evtObj.button === 0) {  // if left mouse button is clicked on
-      // first left click of game should never reveal a mine. 
-      if (!firstClick) {       // has first click occured true or false
-        setMines(rowIdx, colIdx);         // call/run setMines function 
-        assignAdjTilesAndCounts();        // call/run assignAdjTilesAndCounts()
-        firstClick = true;                // set firstClick to true.
-      }
-      if (clickedTile.isFlagged) {  // if tile marked with flag
-        console.log(clickedTile.isFlagged);
-        return;     // do nothing. tile is flagged, don't reveal
-      }         
-      if (clickedTile.isRevealed) {    // if tile is already revealed do nothing.
-        console.log(clickedTile.isRevealed);
-        return;
-      }
-      revealTile(rowIdx, colIdx); // <- TODO:  build this function separately later
-      
-      if (clickedTile.isMine) {   // if clicked tile is a mine
-        explosionSound.currentTime = 0;  // reset playback to start
-        explosionSound.play();          // play explosion sound
-        isGameOver = true;
-        // TODO: make mine tile red in css/html
-      }
-      render();       // update board
-      checkGameOver();     // check for win/loss
-      // console.log(checkGameOver);
+  if (isGameOver) return;
+  const tileEl = evtObj.target.closest('.tile');
+  if (!tileEl) return;
+  const tileId = tileEl.id;
+  const coords = tileId.slice(1).split('c');  // removes "r" and splits at "c"
+  const rowIdx = parseInt(coords[0]);         // e.g. from "r10c5" → [10, 5]
+  const colIdx = parseInt(coords[1]);
+  const clickedTile = board[rowIdx][colIdx];
+
+  // Right-click (flag)
+  if (evtObj.button === 2) {
+    evtObj.preventDefault(); //disables browser context menu
+    if (!firstClick) return;
+    if (clickedTile.isRevealed) return;
+    // Toggle flag state: flag / unflag
+    if (clickedTile.isFlagged) {
+      flagCount--;
+    } else {
+      flagCount++;
     }
-    console.log('Cascade complete!');
-  };
+    clickedTile.isFlagged = !clickedTile.isFlagged;
+    updateDisplays();
+    render();
+    return;
+  }
+
+  // Left-click
+  if (evtObj.button === 0) {
+    if (!firstClick) {
+      setMines(rowIdx, colIdx);
+      assignAdjTilesAndCounts();
+      firstClick = true;
+      startTimer();
+    }
+
+    if (clickedTile.isFlagged || clickedTile.isRevealed) return;
+
+    revealTile(rowIdx, colIdx);
+
+    if (clickedTile.isMine) {
+      explosionSound.currentTime = 0;
+      explosionSound.play();
+      isGameOver = true;
+    }
+
+    render();
+    checkGameOver();
+  }
+  //console.log('Cascade complete!');
+}
+
 
 /*=====================*/
 /*  GAME LOGIC         */
@@ -280,10 +330,10 @@ function getAdjTiles(rowIdx, colIdx) {
     let count = 0;                                        // counter for mines in adjacent tiles
     for (let neighbor of tile.adjTiles) {                 // Loop through each tile in adjTiles (array of ajdacent tiles)
       if (neighbor.isMine) count++;                       // If this neighbor is a mine, +1 to count
-      console.log(`Mine count subtotal ${count}`);
+      //console.log(`Mine count subtotal ${count}`);
     }
     tile.adjMineCount = count;                            // total mines in neighboring tiles
-    console.log(`mine count total: ${tile.adjMineCount}`);
+    //console.log(`mine count total: ${tile.adjMineCount}`);
   };
 
 
@@ -321,7 +371,7 @@ function revealTile(rowIdx, colIdx) {
     //  console.log(`Cascading to neighbor at [${neighbor.rowIdx}, ${neighbor.colIdx}]`);
       revealTile(neighbor.rowIdx, neighbor.colIdx);
     }
-    console.log('Cascade complete!');
+    //console.log('Cascade complete!');
   }
 };
 
@@ -340,7 +390,7 @@ function checkGameOver() {
       if (tile.isRevealed && !tile.isMine) revealedCount++;           // if the tile is revealed and not a mine increment by 1
   }
 };
-  console.log(`Total Safe Tiles Revealed: ${revealedCount} / ${TOTAL_TILES - TOTAL_MINES}`);
+  //console.log(`Total Safe Tiles Revealed: ${revealedCount} / ${TOTAL_TILES - TOTAL_MINES}`);
 
   if (revealedCount === TOTAL_TILES - TOTAL_MINES) {                  // // total revealed tiles - mine tiles = total safe tiles
     isGameOver = true;                       // mark game as won
@@ -356,8 +406,15 @@ function pauseGame() {
   console.log('Game paused (stub) — implement timer logic and clock timer later');
 }
 
+
+
+
 function resetGame() {
-  startGame();
+  clearInterval(timerInterval);  // stop the previous timer
+  timer = 0;                     // reset timer value
+  flagCount = 0;                 // reset flag count
+  updateDisplays();              // refresh the UI
+  startGame();                   // start new game board
 };
     
 /*=====================*/
