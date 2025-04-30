@@ -4,6 +4,14 @@ const BOARD_COLS = 9;
 const TOTAL_TILES = 81;
 const TOTAL_MINES = 10;
 
+// Audio feedback
+const explosionSound = new Audio('../audio/explosion.mp3');
+explosionSound.volume = 0.8;
+
+const applauseSound = new Audio('../audio/crowd-applause.mp3');
+applauseSound.volume = 0.8;
+
+
 /*---------------------------- Variables (state) ----------------------------*/
 
 let board;
@@ -14,24 +22,24 @@ let firstClick = false;
 
 /*------------------------ Cached Element References ------------------------*/
 
-// TODO: const boardEl = document.getElementById('game-board');
-// TODO: const faceBtnEl = document.getElementById('face-button');
-// TODO: const backBtnEl = document.getElementById('back-to-home');
+const boardEl = document.getElementById('game-board');  // Attach one event listener for all tiles (aka event delegation)
+const faceBtnEl = document.getElementById('face-button');  //event listeners for click and contextmenu
+const backBtnEl = document.getElementById('back-to-home');
 
 
 /*----------------------------- Event Listeners -----------------------------*/
 // 	addEventListener() is how we tell JavaScript to listen for an event happening.
 
 // Attach a left-click event listener to the board container.
-document.getElementById('game-board')
+boardEl
   .addEventListener('click', handleTileClick);
 
 // Attach a right-click "contextmenu" event listener to the board container.
-document.getElementById('game-board')
+boardEl
   .addEventListener('contextmenu', handleTileClick);
 
 // left-click face-button: if the game is over, reset game/board. Otherwise, ignore.
-document.getElementById('face-button')
+faceBtnEl
   .addEventListener('click', function(evtObj) {
     if (isGameOver) {
       resetGame();
@@ -40,14 +48,14 @@ document.getElementById('face-button')
 
   // right-click face-button: pause the game
   // and prevent the browser menu from opening.
-  document.getElementById('face-button')
+faceBtnEl
   .addEventListener('contextmenu', function(evtObj) {
     evtObj.preventDefault();
     pauseGame();
   });
 
 //left-click back-button to landing page
-document.getElementById('back-to-home')
+backBtnEl
   .addEventListener('click', function() {
     window.location.href = '../landing/index.html';
   });
@@ -113,7 +121,8 @@ function renderBoard() {
         tileElement.classList.add('revealed');      // removes tile
         // If isMine = true, show a bomb icon (💣)
         if (tileValue.isMine) {
-          tileElement.innerHTML = '💣';
+          tileElement.innerHTML = '<img src="../images/mine.svg" alt="Mine" class="icon">';
+          tileElement.classList.add('mine-hit'); // highlight tile red
         } else {
           // Show adjacent mine count or leave blank
           // if no adjacent mines)
@@ -126,7 +135,7 @@ function renderBoard() {
       }
       // If mine is suspected, show a flag (🚩)
       if (tileValue.isFlagged) {
-        tileElement.innerHTML = '🚩';
+        tileElement.innerHTML = '<img src="../images/red_flag.svg" alt="Red Flag" class="icon">';
       }
     });
   });
@@ -198,11 +207,14 @@ function handleTileClick(evtObj) {
       revealTile(rowIdx, colIdx); // <- TODO:  build this function separately later
       
       if (clickedTile.isMine) {   // if clicked tile is a mine
+        explosionSound.currentTime = 0;  // reset playback to start
+        explosionSound.play();          // play explosion sound
         isGameOver = true;
+        // TODO: make mine tile red in css/html
       }
       render();       // update board
       checkGameOver();     // check for win/loss
-      // console.log(checkWin);
+      // console.log(checkGameOver);
     }
   };
 
@@ -281,7 +293,6 @@ function assignAdjTilesAndCounts() {
   }
 };
 
-
 // sets isRevealed = true for the given tile
 function revealTile(rowIdx, colIdx) {   
   const tile = board[rowIdx][colIdx];   // tile location on board
@@ -289,16 +300,35 @@ function revealTile(rowIdx, colIdx) {
   // console.log(tile.isRevealed, board[rowIdx][colIdx]);
 };
 
-    
-function checkGameOver() {
   // checks to see if game is over 
   // did user click a tile with a mine - game over - lose
   // did user clear all tiles without clicking mine? game over - win
+function checkGameOver() {
+  let revealedCount = 0;                // counter for all revealed tiles
+  for (let rowIdx = 0; rowIdx < board.length; rowIdx++) {              // loop through each row in the board
+    console.log(`Checking row ${rowIdx}...`);
+    for (let colIdx = 0; colIdx < board[rowIdx].length; colIdx++) {    // loop through each column in the row
+      const tile = board[rowIdx][colIdx];                              // pulling data from global board[] variable.
+      console.log(`Checking tile at row=${rowIdx}, col=${colIdx}`);
+      console.log(`Total Revealed Tiles: ${tile.isRevealed}`);
+      console.log(`Total Mine Tiles: ${tile.isMine}`);  
+      if (tile.isRevealed && !tile.isMine) revealedCount++;           // if the tile is revealed and not a mine increment by 1
+  }
+};
+  console.log(`Total Safe Tiles Revealed: ${revealedCount} / ${TOTAL_TILES - TOTAL_MINES}`);
+
+  if (revealedCount === TOTAL_TILES - TOTAL_MINES) {                  // // total revealed tiles - mine tiles = total safe tiles
+    isGameOver = true;                       // mark game as won
+    applauseSound.currentTime = 0;  // reset playback to start
+    applauseSound.play();          // play crowd cheer
+    console.log('You Win! 🎉 ');              // placeholder for win message
+    // TODO: update face icon or message area
+  }
 };
   
 function pauseGame() {
   // TODO: Add game timer and pause logic
-  console.log('⏸️ Game paused (stub) — implement timer logic and clock timer later');
+  console.log('Game paused (stub) — implement timer logic and clock timer later');
 }
 
 function resetGame() {
@@ -326,7 +356,7 @@ startGame();
 // [X] getAdjTiles(rowIdx, colIdx) — returns array of 8 valid tiles surrounding the given tile
 // [X] .adjTiles — property in each tile; holds 8 surrounding tiles; filled after first click using getAdjTiles(rowIdx, colIdx)
 // [X] countAdjMines(rowIdx, colIdx) — sets adjMineCount based on .adjTiles
-// [] checkGameOver() — lose on mine click; win when all safe tiles are revealed
+// [X] checkGameOver() — lose on mine click; win when all safe tiles are revealed
 // [X] assignAdjTilesAndCounts() — helper called by handleTileClick after first click; fills adjTiles & sets adjMineCount
 // [X] right-click flag to indicate bomb location ... renderFlag
 // [] renderTile(rowIdx, colIdx) — updates a single tile after a user makes a move, used with cascade reveals
@@ -337,8 +367,8 @@ startGame();
 // ⸻
 // Visual Fixes
 
-// [X] Bomb icon centered in tile
-// [] Bomb tile background turns red on explosion
+// [] Bomb icon centered in tile
+// [X] Bomb tile background turns red on explosion
 // [] Remove bevel from revealed tiles (flat style via .revealed class)
 // [] Face-button changes to crying face on game over
 // [X] Add hover effects for unrevealed tiles
@@ -349,20 +379,24 @@ startGame();
 
 // [] Use tile.svg as background for all unrevealed tiles
 // [] Use 1.svg through 8.svg to display adjMineCount visually
-// [] Replace 💣 with mine.svg or mine.png
-// [] Replace 🚩 with red_flag.svg
+// [X] Replace 💣 with mine.svg or mine.png
+// [X] Replace 🚩 with red_flag.svg
 // [] Display qmark.svg as third right-click state
 
 // ⸻
 // First Click Rules
 
-// [] Delay mine placement until first left-click
-// [] Ensure first-clicked tile is never a mine
-// [] Block right-click before first click (no flagging before game starts)
+// [X] Delay mine placement until first left-click
+// [X] Ensure first-clicked tile is never a mine
+// [X] Block right-click before first click (no flagging before game starts)
 
 // [] break handleTileClick into smaller components
-//     - renderTile
-//     - renderFlag
+//      [] getClickedCoords(evtObj)
+//      [] getClickedTile(rowIdx, colIdx)
+//      [] handleRightClick(tile)
+//      [] handleLeftClick(tile, rowIdx, colIdx)
+//      [] 
+
 
 // ⸻
 // Icebox / Stretch Features
@@ -376,9 +410,9 @@ startGame();
 // [] Show “You Win!” or “Game Over” text overlay
 
 // Audio / Feedback
-// [] Add explosion sound when mine is triggered
+// [X] Add explosion sound when mine is triggered
 // [] (Stretch) Add click / flag sound effects
-// [] Add victory sound or win jingle
+// [X] Add victory sound or win jingle
 
 // UI Counters & Dynamic Gameplay Values
 // [] Replace TOTAL_MINES with dynamic mine count = 20% of board
@@ -397,5 +431,3 @@ startGame();
 // Difficulty Modes
 // [] Easy / Medium / Hard modes
 // [] Adjust board size and mine count per difficulty
-
-
