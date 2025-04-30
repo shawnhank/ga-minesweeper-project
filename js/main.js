@@ -29,7 +29,7 @@ const boardEl = document.getElementById('game-board');  // Attach one event list
 const faceBtnEl = document.getElementById('face-button');  //event listeners for click and contextmenu
 const backBtnEl = document.getElementById('back-to-home');  //event listners for back to home button.
 const flagCounterEl = document.getElementById('flag-counter');  // Red counter display for flags; increment on right click flag placement
-const timerDisplayEl = document.getElementById('timer-display');  // Red counter display for time; start on first left click of gam
+const timerEl = document.getElementById('game-timer');  // Red counter display for time; start on first left click of gam
 
 
 
@@ -203,7 +203,7 @@ function updateDisplays() {
   flagCounterEl.textContent = String(flagCount).padStart(3, '0');
 
   // Convert timer value to 3-digit string (e.g. 42 → "042")
-  timerDisplayEl.textContent = String(timer).padStart(3, '0');
+  timerEl.textContent = String(timer).padStart(3, '0');
 }
 
 // Starts game timer and updates every second
