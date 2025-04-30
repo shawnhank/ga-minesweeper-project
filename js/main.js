@@ -271,7 +271,7 @@ function resetGame() {
 startGame();    
 
 // Place the mines randomly on the board
-setMines();
+//setMines();
 
 /*
 // 
