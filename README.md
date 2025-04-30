@@ -26,6 +26,7 @@ A classic Minesweeper game built with HTML, CSS, and JavaScript. The game is des
 
 ## Tech Stack <!-- TODO: add badges -->
 
+ ![HTML Logo](https://github.com/shawnhank/ga-minesweeper-project/blob/main/images/HTML.png)
  
 
 
