@@ -141,6 +141,7 @@ function renderBoard() {
       // console.log(tileId, tileElement); 
       // Check if the tile is revealed
       if (tileValue.isRevealed) {
+        tileElement.classList.add('revealed');      // removes tile
         // If isMine = true, show a bomb icon (💣)
         if (tileValue.isMine) {
           tileElement.innerHTML = '💣';
@@ -152,6 +153,7 @@ function renderBoard() {
       } else {
         // If tile is not revealed, clear the tile content
         tileElement.innerHTML = '';
+        tileElement.classList.remove('revealed'); 
       }
       // If mine is suspected, show a flag (🚩)
       if (tileValue.isFlagged) {

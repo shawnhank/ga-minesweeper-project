@@ -123,6 +123,13 @@ body {
   background-color: #666; /* Slightly lighter grey for hover */
 }
 
+.tile.revealed {
+  background-color: #ccc;
+  border: 1px solid #999;
+  box-shadow: inset 1px 1px 2px #444;
+  cursor: default;
+}
+
 #button {
   margin-top: 3em;
 }
