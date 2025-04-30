@@ -10,6 +10,7 @@ let board;
 let isGameOver;
 let tilesRevealedCount;
 let bombCounter;
+let firstClick = false;
 
 /*------------------------ Cached Element References ------------------------*/
 
@@ -91,9 +92,6 @@ function startGame() {
   // Set the game over flag to false initially
   isGameOver = false;
   console.log(isGameOver);
-
-  // Place the mines randomly on the board
-  setMines();
   
   // Update the board's display on the screen
   renderBoard();
@@ -103,7 +101,6 @@ function render() {
   renderBoard();
 }
 
-startGame();
 
 function setMines() {
   let mineCounter = 0;
@@ -121,11 +118,6 @@ function setMines() {
     }
     //console.log(mineCounter);
   }
-}
-
-// calculate adjacent mine counts after setting mines
-function calculateAdjacentMines() {
-
 }
 
 function renderBoard() {
@@ -163,6 +155,20 @@ function renderBoard() {
   });
 };
 
+
+
+// Place the mines randomly on the board
+setMines();
+
+function countMines() {
+  // count mines in adjacent cells
+};
+
+// calculate adjacent mine counts after setting mines
+function calculateAdjacentMines() {
+
+}
+
 function handleTileClick(evtObj) {
     // will handle all the following
       // 1. Guard: If game is over, return immediately (aka ignore click).
@@ -189,12 +195,20 @@ function handleTileClick(evtObj) {
       //    c. Toggle tile's isFlagged state.
       if (evtObj.button === 2) {  // if right mouse button is clicked.
         evtObj.preventDefault();  //don't open operating system context menu.
-         if (clickedTile.isRevealed === true) return; // if the clicked tile is already revealed, ignore
+        if (!firstClick) return;  // right-click as first click of game ignored. right click never starts game.
+        if (clickedTile.isRevealed === true) return; // if the clicked tile is already revealed, ignore
          clickedTile.isFlagged = !clickedTile.isFlagged; // if clicked tile is flagged, ignore
         render();   //update board to show flags
         return;
       }  
       if (evtObj.button === 0) {  // if left mouse button is clicked on
+        // first left click of game should never reveal a mine. 
+        if (!firstClick) {       // has first click occured true or false
+          setMines(rowIdx, colIdx);         // call/run setMines function 
+          calculateAdjacentMines();         // TODO
+          firstClick = true;                // set firstClick to true.
+        }
+
         if (clickedTile.isFlagged) {  // if tile marked with flag
           console.log(clickedTile.isFlagged);
           return;     // do nothing. tile is flagged, don't reveal
@@ -236,10 +250,7 @@ function handleTileClick(evtObj) {
       startGame();
     };
     
-    
-function countMines() {
-  // count mines in adjacent cells
-};
+    startGame();    
 
 
 /* TODO list of functions
