@@ -265,6 +265,8 @@ function handleTileClick(evtObj) {
       explosionSound.currentTime = 0;
       explosionSound.play();
       isGameOver = true;
+      const faceBtn = document.getElementById('face-button');
+      faceBtn.textContent = '😭';
     }
 
     render();
@@ -396,8 +398,9 @@ function checkGameOver() {
     isGameOver = true;                       // mark game as won
     applauseSound.currentTime = 0;  // reset playback to start
     applauseSound.play();          // play crowd cheer
-    console.log('You Win! 🎉 ');              // placeholder for win message
-    // TODO: update face icon or message area
+    const faceBtn = document.getElementById('face-button');
+    faceBtn.textContent = '😎';  // WIN: sunglasses emoji
+    // console.log('You Win! 🎉 ');              // placeholder for win message
   }
 };
   
@@ -407,14 +410,14 @@ function pauseGame() {
 }
 
 
-
-
 function resetGame() {
   clearInterval(timerInterval);  // stop the previous timer
   timer = 0;                     // reset timer value
   flagCount = 0;                 // reset flag count
   updateDisplays();              // refresh the UI
   startGame();                   // start new game board
+  const faceBtn = document.getElementById('face-button');
+  faceBtn.textContent = '😀';
 };
     
 /*=====================*/

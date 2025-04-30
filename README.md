@@ -105,8 +105,10 @@ This project is licensed under the MIT License – see the [LICENSE](LICENSE) fi
 
 ## Attributions
 <sub><i>
-- Mine icon courtesy of [The Noun Project](https://thenounproject.com/icon/mine-965385/)
-- Favicon courtesy of [Jaumes Segarra on GitHub](https://jaumesegarra.github.io/minesweeper/favicon.ico)
-- Badges courtesty of [Vecteezy](https://www.vecteezy.com/vector-art/14030181-programming-language-icons-set-css-html-javascript-isolated-editorial-illustration-on-white)
-- Applause Effect courtesy of Sound Effect by [u_1s41v2luip](https://pixabay.com/users/u_1s41v2luip-28204898/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=113728) from [Pixabay](https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=113728)
-- Explosion Effect courtesy of [freesound_community](https://pixabay.com/users/freesound_community-46691455/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=6288) from [Pixabay](https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=6288)</i></sub>
+   - Background image generated using [Hero Patterns](https://heropatterns.com/)
+   - Mine icon courtesy of [The Noun Project](https://thenounproject.com/icon/mine-965385/)
+   - Favicon courtesy of [Jaumes Segarra on GitHub](https://jaumesegarra.github.io/minesweeper/favicon.ico)
+   - Badges courtesty of [Vecteezy](https://www.vecteezy.com/vector-art/14030181-programming-language-icons-set-css-html-javascript-isolated-editorial-illustration-on-white)
+   - Applause Effect courtesy of Sound Effect by [u_1s41v2luip](https://pixabay.com/users/u_1s41v2luip-28204898/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=113728) from [Pixabay](https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=113728)
+   - Explosion Effect courtesy of [freesound_community](https://pixabay.com/users/freesound_community-46691455/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=6288) from [Pixabay](https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=6288)
+</i></sub>
