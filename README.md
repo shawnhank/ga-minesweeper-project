@@ -32,14 +32,14 @@ A classic Minesweeper game built with HTML, CSS, and JavaScript. The game is des
 
 - HTML: Structuring the basic layout of the game board and tiles.
 
-- CSS: Styling the grid and individual tiles, including hover and flag interactions.
-  - CSS Grid
-  - Flexbox
+- CSS: Build the board grid with CSS Grid and used Flexbox for positioning.
  
 - JavaScript: Managing game logic such as tile interactions, mine placement, and win/loss conditions.
-- Mine Icon courtesy of [The Noun Project](https://thenounproject.com/icon/mine-965385/).
+
+<sub>*
+- Mine Icon courtesy of [The Noun Project](https://thenounproject.com/icon/mine-965385/)
 - Favicon courtesy of [Jaumes Segarra on GitHub](https://jaumesegarra.github.io/minesweeper/favicon.ico)
-- 
+- Badges courtest\y of [Vecteezy](https://www.vecteezy.com/vector-art/14030181-programming-language-icons-set-css-html-javascript-isolated-editorial-illustration-on-white)</sub>
 
 
 ## Project Overview
