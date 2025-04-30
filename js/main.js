@@ -233,9 +233,9 @@ function setMines() {
 // storing information in global variable board[]. using another 2d array just like in the
 // startGame function.
 function getAdjTiles(rowIdx, colIdx) {
-  if (rowIdx < 0 || rowIdx >= BOARD_ROWS || colIdx < 0 || colIdx >= BOARD_COLS) {
-    return [];
-  }
+  // if (rowIdx < 0 || rowIdx >= BOARD_ROWS || colIdx < 0 || colIdx >= BOARD_COLS) {   // guard if testing manaully in the console.
+  //   return [];                                                                      // getAdjTiles(4, 4) is inbounds. getAdjTiles(8, 9) is OOB
+  // }
   const adjTiles = [];        // array to hold all 8 neighboring tile locations
   const directions = [        // locations of the 8 neighboring tiles of selected tile. Each entry represents: [row offset, col offset] from the current tile.  
     [-1, -1], [-1, 0], [-1, 1], [ 0, -1], [ 0, 1], [ 1, -1], [ 1, 0], [ 1, 1] ];   // starting at upper left corner, left to right, row by row, top to bottom.
@@ -243,14 +243,16 @@ function getAdjTiles(rowIdx, colIdx) {
   for (let i = 0; i < directions.length; i++) {
     const dRow = directions[i][0];        // vertical direction: -1, 0, or 1
     const dCol = directions[i][1];        // horizontal direction: -1, 0, or 1
-    console.log(`direction: dRow=${dRow}, dCol=${dCol}`);
+    // console.log(`checking adjacent tiles: dRow=${dRow}, dCol=${dCol}`);
     const r = rowIdx + dRow;              // new row index to check
     const c = colIdx + dCol;              // new column index to check
-    console.log(`Evaluating board tile at r=${r}, c=${c}`);
+    //console.log(`validating ajdacent tile at r=${r}, c=${c}`);
+   
+    if (r >= 0 && r < BOARD_ROWS && c >= 0 && c < BOARD_COLS) {         // make sure row & column is not out of bounds
+    adjTiles.push(board[r][c]);           // valid tile — add to adjTiles array
+    }
   }
-  
-    return adjTiles; // just return empty for now
-  }
+    return adjTiles;                      // just return empty for now
 };
 
 
