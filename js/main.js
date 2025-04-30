@@ -49,19 +49,6 @@ document.getElementById('back-to-home')
     window.location.href = '../landing/index.html';
   });
 
-// FROM CONNECT FOUR - will delete
-// document.getElementById('markers').addEventListener('click', handleDrop);
-// function handleDrop(evt) {
-//   // Get the clicked column marker
-//   const markers = [...document.querySelectorAll('#markers > div')];
-//   const colIdx = markers.indexOf(evt.target);
-//   // Update game state based on which marker was clicked
-//   // ...
-//   // Render updated state
-//   render();
-//}
-
-
 /*-------------------------------- Functions --------------------------------*/
 
 function startGame() {
