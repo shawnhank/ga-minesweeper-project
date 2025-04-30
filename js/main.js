@@ -14,9 +14,9 @@ let firstClick = false;
 
 /*------------------------ Cached Element References ------------------------*/
 
-const boardEl = document.getElementById('game-board');
-const faceBtnEl = document.getElementById('face-button');
-const backBtnEl = document.getElementById('back-to-home');
+TODO: const boardEl = document.getElementById('game-board');
+TODO: const faceBtnEl = document.getElementById('face-button');
+TODO: const backBtnEl = document.getElementById('back-to-home');
 
 
 /*----------------------------- Event Listeners -----------------------------*/
@@ -229,16 +229,22 @@ function setMines() {
 };
 
 
+// Returns an array of the 8 surrounding tiles of the selected tile
+function getAdjTiles() {
+  const adjTiles = [];        // array to hold all 8 neighboring tile locations
+  const directions = [        // locations of the 8 neighboring tiles of selected tile. Each entry represents: [row offset, col offset] from the current tile.  
+    [-1, -1], [-1, 0], [-1, 1], [ 0, -1], [ 0, 1], [ 1, -1], [ 1, 0], [ 1, 1] ];   // starting in top left and working clockwise around selected tile
+};
+
 // Sets tile.adjMineCount by counting how many .adjTiles are mines
 function countAdjMines(rowIdx, colIdx) {
 
 };
 
-
-// Returns an array of the 8 surrounding tile objects
-function getAdjTiles() {
+function assignAdjTilesAndCounts() {
 
 };
+
 
 // sets isRevealed = true for the given tile
 function revealTile(rowIdx, colIdx) {   
