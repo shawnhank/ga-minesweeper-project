@@ -6,7 +6,7 @@ const TOTAL_MINES = Math.floor(TOTAL_TILES * 0.2);  // 20% of tiles are mines
 
 // Audio feedback
 const explosionSound = new Audio('audio/explosion.mp3');
-explosionSound.volume = 0.3;
+explosionSound.volume = 0.1;
 
 const applauseSound = new Audio('audio/crowd-applause.mp3');
 applauseSound.volume = 0.6;
@@ -32,7 +32,7 @@ let isPaused = false;
 
 const boardEl = document.getElementById('game-board');  // Attach one event listener for all tiles (aka event delegation)
 const faceBtnEl = document.getElementById('face-button');  //event listeners for click and contextmenu
-const backBtnEl = document.getElementById('back-to-home');  //event listners for back to home button.
+const resetBtnEl = document.getElementById('reset-button'); //event listners for reset button.
 const flagCounterEl = document.getElementById('flag-counter');  // Red counter display for flags; increment on right click flag placement
 const timerEl = document.getElementById('game-timer');  // Red counter display for time; start on first left click of gam
 
@@ -72,11 +72,13 @@ faceBtnEl.addEventListener('contextmenu', function(evtObj) {
   }
 });
 
-//left-click back-button to landing page
-backBtnEl
-  .addEventListener('click', function() {
-    window.location.href = '../landing/index.html';
-  });
+//left-click reset-button to landing page
+resetBtnEl.addEventListener('click', function () {
+  if (firstClick) {
+    isPaused = false;
+    resetGame();
+  }
+});
 
 /*-------------------------------- Functions --------------------------------*/
 
@@ -298,6 +300,7 @@ function handleTileClick(evtObj) {
   const coords = tileId.slice(1).split('c');  // removes "r" and splits at "c"
   const rowIdx = parseInt(coords[0]);         // e.g. from "r10c5" → [10, 5]
   const colIdx = parseInt(coords[1]);
+  if (!board[rowIdx] || !board[rowIdx][colIdx]) return;
   const clickedTile = board[rowIdx][colIdx];
 
   // Right-click (flag)

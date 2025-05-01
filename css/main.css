@@ -175,30 +175,30 @@ body {
   object-fit: contain;
 }
 
-#button {
-  margin-top: 3em;
-}
+/* #reset-button {
+  margin-top: 0;
+} */
 
-#back-to-home-container {
-  margin-top: 6vh; /* increase or tweak as needed */
+#reset-button-container {
+  margin-top: 2vh; /* increase or tweak as needed */
 }
 
 .button {
   display: inline-block;
-  margin-top: 1em;
+  /* margin-top: 1em; */
   padding: 8px 16px;
-  background-color: #555;
+  background-color: #777;
   color: #fff;
   text-decoration: none; /* safe for <a> tags */
   border: none;           /* override default button border */
   border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.5);
   cursor: pointer;
   font: inherit;
 }
 
 .button:hover {
-  background-color: #444;
+  background-color: #555;
 }
 
 #ga-logo-container {
