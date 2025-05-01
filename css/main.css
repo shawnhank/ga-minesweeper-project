@@ -217,3 +217,32 @@ body {
 #ga-logo:hover {
   opacity: 0.6;
 }
+
+#pause-overlay {
+  position: fixed;         /* important: fixed, not absolute */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+.sleep-emoji {
+  position: absolute;
+  font-size: var(--size, 6vmin);  /* fallback for safety */
+  animation: floatPopcorn 10s linear forwards;
+  opacity: 0.80;
+}
+
+@keyframes floatPopcorn {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--x-move), var(--y-move)) scale(var(--scale));
+    opacity: 0;
+  }
+}
