@@ -284,6 +284,10 @@ function handleTileClick(evtObj) {
       flagCount++;
     }
     clickedTile.isFlagged = !clickedTile.isFlagged;
+
+    flagSound.currentTime = 0;
+    flagSound.play();
+    
     updateDisplays();
     render();
     return;
@@ -299,6 +303,9 @@ function handleTileClick(evtObj) {
     }
 
     if (clickedTile.isFlagged || clickedTile.isRevealed) return;
+    
+    clickSound.currentTime = 0;
+    clickSound.play();
 
     revealTile(rowIdx, colIdx);
 
