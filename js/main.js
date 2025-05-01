@@ -35,6 +35,9 @@ const faceBtnEl = document.getElementById('face-button');
 const resetBtnEl = document.getElementById('reset-button'); 
 const flagCounterEl = document.getElementById('flag-counter'); 
 const timerEl = document.getElementById('game-timer');  
+const msgPanel = document.getElementById('message-panel');
+const closePanelBtn = document.getElementById('close-panel');
+const expandPanelBtn = document.getElementById('expand-panel-btn');
 
 
 /*----------------------------- Event Listeners -----------------------------*/
@@ -65,13 +68,22 @@ faceBtnEl.addEventListener('contextmenu', function(evtObj) {
   }
 });
 
+expandPanelBtn.addEventListener('click', () => {
+  msgPanel.classList.add('open');
+  expandPanelBtn.textContent = '<'; // change to "collapse" indicator
+});
+
+closePanelBtn.addEventListener('click', () => {
+  msgPanel.classList.remove('open');
+  expandPanelBtn.textContent = '>'; // reset to "expand" indicator
+});
+
 resetBtnEl.addEventListener('click', function () {
   if (firstClick) {
     isPaused = false;
     resetGame();
   }
 });
-
 
 
 /*-------------------------------- Functions --------------------------------*/
@@ -102,10 +114,25 @@ function startGame() {
   };
   firstClick = false;     
   tilesRevealedCount = 0; 
-  
   isGameOver = false;
   
   renderBoard();
+  updateDisplays(); 
+
+  showPanelMessage("Welcome to Minesweeper!", `
+    <ul>
+      <li>Click a tile to reveal it</li>
+      <li>Be careful to avoid mines</li>
+      <li>Right-click marks a tile as a mine with a flag</li>
+      <li>Number tiles show many mines are in adjacent tiles</li>
+      <li>First click is always safe</li>
+      <li>To win ,clear all tiles without
+          clicking on a mine.</li>
+      <li>Left Click Face Button to start a game</li>
+      <li>Right Click face button to toggle pause/resume the game</li>
+      <li>Reset Button also resets the game</li>
+    <ul>
+  `);
 };
 
 /*=====================*/
@@ -258,10 +285,18 @@ function launchWinEmojis() {
   }, 5000);
 }
 
-function showPanelMessage(title, message) {
+function showPanelMessage(title, message, autoClose = false) {
   document.getElementById('panel-title').textContent = title;
   document.getElementById('panel-message').innerHTML = message;
   msgPanel.classList.add('open');
+  expandPanelBtn.textContent = '<';
+
+  if (autoClose) {
+    setTimeout(() => {
+      msgPanel.classList.remove('open');
+      expandPanelBtn.textContent = '>';
+    }, 7000); 
+  }
 }
 
 function revealAllTiles() {
@@ -326,7 +361,7 @@ function handleTileClick(evtObj) {
       clearInterval(timerInterval);
       revealAllTiles();
       launchLoseEmojis();
-      showPanelMessage("Game Over", "You clicked a mine. Try again. 😭");
+      showPanelMessage("Game Over", "You clicked a mine! 😞 😭 Want to try again?");
       const faceBtn = document.getElementById('face-button');
       faceBtn.textContent = '😭';
     }
@@ -421,7 +456,7 @@ function checkGameOver() {
     const faceBtn = document.getElementById('face-button');
     faceBtn.textContent = '😎';
     launchWinEmojis();
-    showPanelMessage("You Win!", "You cleared all the safe tiles. 😎");
+    showPanelMessage("You Win!", "All safe tiles cleared! 🙌🏻 👏🏻 🤘🏼 😎");
   }
 };
   

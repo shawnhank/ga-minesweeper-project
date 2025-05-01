@@ -18,18 +18,24 @@
       </div>  
 
       <div id="face-row">
-        <!-- Mine Flag Counter digital display (future) -->
-        <div  class="digital-wrapper" id="flag-counter-wrapper" >
-          <div class="digital-display"><span id="flag-counter">000</span></div>
-          <!-- JS will insert number of flags here -->
+        <div  class="digital-wrapper" id="flag-counter-wrapper">
+          <div class="digital-display">
+            <span id="flag-counter">
+              000
+            </span>
+          </div>
         </div>
-        <!-- Face Button (Reset Button) -->
-        <div id="face-button">😀</div>
+        
+        <div id="face-button">
+          😀
+        </div>
 
-        <div class="digital-wrapper" id="timer-display-wrapper" >
-          <!-- Digital Timer Display that counts up 1 second at a time(future) --> 
-          <div class="digital-display"><span id="game-timer">000</span></div>
-            <!-- JS will insert elapsed time here -->
+        <div class="digital-wrapper" id="timer-display-wrapper" >    
+          <div class="digital-display">
+            <span id="game-timer">
+              000
+            </span>
+          </div>
         </div>
       </div>
 
@@ -47,22 +53,39 @@
           <div class="tile" id="r8c0"></div><div class="tile" id="r8c1"></div><div class="tile" id="r8c2"></div><div class="tile" id="r8c3"></div><div class="tile" id="r8c4"></div><div class="tile" id="r8c5"></div><div class="tile" id="r8c6"></div><div class="tile" id="r8c7"></div><div class="tile" id="r8c8"></div>
         </div>
       </div>
+      
+      <div id="message-panel" class="message-panel">
+        <div class="panel-content">
+          <h2 id="panel-title">Welcome!</h2>
+          <p id="panel-message">Click a tile to start playing Minesweeper.</p>
+          <button id="close-panel">X</button>
+        </div>
+      </div>
+
+      <div id="reset-button-container">
+        <button id="reset-button" class="button">
+          Reset Game
+        </button>
+      </div>
+
+      <div id="expand-panel-wrapper">
+        <button id="expand-panel-btn" class="expand-panel-btn">
+          >
+        </button>
+      </div>
+    
     </div>
   
-  <div id="reset-button-container">
-    <button id="reset-button" class="button">
-      Reset Game
-    </button>
-  </div>
-
   <div id="ga-logo-container">
     <a href="https://generalassemb.ly/students/courses/software-engineering-bootcamp" target="_blank">
     <img id="ga-logo" src="images/ga-logo.png" alt="General Assembly Logo">
     </a>
   </div>
-  <div id="pause-overlay">
-  </div>
   
+  <div id="pause-overlay"></div>
   
 </body>
 </html>  
+
+
+

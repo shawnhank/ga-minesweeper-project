@@ -13,8 +13,9 @@ A classic Minesweeper game built with HTML, CSS, and JavaScript. The game is des
   - [Features](#features)
     - [MVP Features:](#mvp-features)
     - [Stretch/Icebox Features:](#stretchicebox-features)
+  - [Future Improvements](#future-improvements)
   - [Installation](#installation)
-  - [Usage](#usage)
+  - [Usage / Gameplay](#usage--gameplay)
   - [Gameplay](#gameplay)
   - [License](#license)
   - [Attributions](#attributions)
@@ -38,15 +39,18 @@ A classic Minesweeper game built with HTML, CSS, and JavaScript. The game is des
 - JavaScript: Managing game logic such as tile interactions, mine placement, and win/loss conditions.
 
 
-
 ## Project Overview
 
-This project is a Minesweeper clone built as part of a hands-on coding lab to practice and reinforce understanding of JavaScript, DOM manipulation, and event handling. The game includes key features like:
+This project is a Minesweeper clone built as part of a hands-on coding lab to practice and reinforce understanding of HTML, CSS and JavaScript (DOM manipulation, event handling, etc.) 
 
+The game includes key features like:
+
+- A simple grid-based UI built with HTML, CSS Grid, Flexbox and JavaScript
 - Tile interactions (revealing tiles, flagging mines)
-- Mine placement and adjacent mine counting
+- Random mine placement and adjacent mine counting
+- Individual tile and flag rendering
 - Win/loss detection
-- A simple grid-based UI built with HTML, CSS Grid, and JavaScript
+
 
 ## Features
 
@@ -69,6 +73,7 @@ This project is a Minesweeper clone built as part of a hands-on coding lab to pr
 - Save/Load Game: Allows users to save and load game states for later continuation.
 - Mobile Responsiveness: Optimizes the layout for smaller screen sizes.
 
+## Future Improvements
 
 ## Installation
 
@@ -85,7 +90,7 @@ To run the game locally, you need to follow these steps:
 3. Open the `index.html` file in your browser:
    - Double-click the `index.html` file, or open it using your preferred browser to play the game.
 
-## Usage
+## Usage / Gameplay
 
 1. Click to reveal tiles: Left-click on tiles to uncover them. If a tile contains a mine, the game ends (game over).
 2. Flag potential mines: Right-click on a tile to flag it as a suspected mine.
@@ -95,7 +100,7 @@ To run the game locally, you need to follow these steps:
 ## [Gameplay](https://en.wikipedia.org/wiki/Microsoft_Minesweeper)
 The goal of Minesweeper is to uncover all the squares on a grid that do not contain mines without being "blown up" by clicking on a square with a mine underneath. The location of most mines is discovered through a logical process, but some require guessing, usually with a 50-50 chance of being correct. Clicking on the game board will reveal what is hidden underneath the chosen square or squares (a large number of blank squares [bordering 0 mines] may be revealed in one go if they are adjacent to each other). Some squares are blank while others contain numbers (from 1 to 8), with each number being the number of mines adjacent to the uncovered square.
 
-To help the player avoid hitting a mine, the location of a suspected mine can be marked by flagging it with the right mouse button; however, if a player is unsure if a square is safe or not, they can tag it with a question mark (?). The game is won once all blank or numbered squares have been uncovered by the player without hitting a mine; any remaining mines not identified by flags are automatically flagged by the computer. However, in the event that a game is lost and the player had mistakenly flagged a safe square, that square will either appear with a red X, or else a red X covering the mine (both denoting the square as safe). The game board comes in three set sizes with a predetermined number of mines: "beginner", "intermediate", and "expert", although a "custom" option is available as well.
+To help the player avoid hitting a mine, the location of a suspected mine can be marked by flagging it with the right mouse button. The game is won once all blank or numbered squares have been uncovered without hitting a mine.
 
 
 ## License
