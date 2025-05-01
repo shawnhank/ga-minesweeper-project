@@ -6,10 +6,10 @@ const TOTAL_MINES = Math.floor(TOTAL_TILES * 0.2);  // 20% of tiles are mines
 
 // Audio feedback
 const explosionSound = new Audio('audio/explosion.mp3');
-explosionSound.volume = 0.5;
+explosionSound.volume = 0.3;
 
 const applauseSound = new Audio('audio/crowd-applause.mp3');
-applauseSound.volume = 0.5;
+applauseSound.volume = 0.6;
 
 const clickSound = new Audio('audio/mouse-click.mp3');
 clickSound.volume = 0.25;
@@ -138,7 +138,7 @@ function renderTile(rowIdx, colIdx) {
   const tileEl = document.getElementById(`r${rowIdx}c${colIdx}`); // Get matching DOM element
   tileEl.classList.remove('revealed', 'mine-hit');
   tileEl.innerHTML = '';  // Always reset tile content
-  console.log(`renderTile [${rowIdx}, ${colIdx}] | Revealed: ${tile.isRevealed}, Flagged: ${tile.isFlagged}`);
+  //console.log(`renderTile [${rowIdx}, ${colIdx}] | Revealed: ${tile.isRevealed}, Flagged: ${tile.isFlagged}`);
 
   if (tile.isRevealed) {
     tileEl.classList.add('revealed');
@@ -154,14 +154,14 @@ function renderTile(rowIdx, colIdx) {
 };
 
 function renderFlag(rowIdx, colIdx) {
-  console.log('renderFlag: updating all flagged tile elements...');
+  //console.log('renderFlag: updating all flagged tile elements...');
     const tile = board[rowIdx][colIdx];
     const tileEl = document.getElementById(`r${rowIdx}c${colIdx}`);
     if (!tile.isRevealed && tile.isFlagged) {
       tileEl.innerHTML = '<img src="images/red_flag.svg" class="icon" alt="Flag">';
-    console.log(`Flag rendered at [${rowIdx}, ${colIdx}]`);     
+    //console.log(`Flag rendered at [${rowIdx}, ${colIdx}]`);     
   }
-  console.log(`renderFlag complete.`); 
+  //console.log(`renderFlag complete.`); 
 };
 
 
@@ -247,7 +247,35 @@ function launchLoseEmojis() {
   }, 5000);
 };
 
+function launchWinEmojis() {
+  const overlay = document.getElementById('pause-overlay');
+  overlay.innerHTML = ''; // clear old emojis
 
+  const numEmojis = 40;
+
+  for (let i = 0; i < numEmojis; i++) {
+    const emoji = document.createElement('div');
+    emoji.classList.add('floating-emoji');
+    emoji.textContent = '😎';
+
+    emoji.style.left = Math.random() * 100 + 'vw';
+    emoji.style.top = Math.random() * 100 + 'vh';
+
+    emoji.style.setProperty('--x-move', `${(Math.random() - 0.5) * 200}vw`);
+    emoji.style.setProperty('--y-move', `${(Math.random() - 0.5) * 200}vh`);
+
+    const size = (Math.random() * 4 + 3).toFixed(2);
+    emoji.style.setProperty('--size', `${size}vmin`);
+    emoji.style.setProperty('--scale', size);
+    emoji.style.animationDelay = Math.random() * 0.5 + 's';
+
+    overlay.appendChild(emoji);
+  }
+
+  setTimeout(() => {
+    overlay.innerHTML = '';
+  }, 5000);
+}
 
 function revealAllTiles() {
   for (let row = 0; row < BOARD_ROWS; row++) {
@@ -452,8 +480,8 @@ function checkGameOver() {
     applauseSound.currentTime = 0;  // reset playback to start
     applauseSound.play();          // play crowd cheer
     const faceBtn = document.getElementById('face-button');
-    faceBtn.textContent = '😎';  // WIN: sunglasses emoji
-    // console.log('You Win! 🎉 ');              // placeholder for win message
+    faceBtn.textContent = '😎';
+    launchWinEmojis();
   }
 };
   
@@ -467,7 +495,7 @@ function pauseGame() {
     launchPauseEmojis();
   }
   
-  console.log(isPaused ? 'Game paused.' : 'Game resumed.');
+  //console.log(isPaused ? 'Game paused.' : 'Game resumed.');
 }
 
 
