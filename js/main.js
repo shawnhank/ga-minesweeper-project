@@ -11,7 +11,11 @@ explosionSound.volume = 0.5;
 const applauseSound = new Audio('audio/crowd-applause.mp3');
 applauseSound.volume = 0.5;
 
+const clickSound = new Audio('audio/mouse-click.mp3');
+clickSound.volume = 0.25;
 
+const flagSound = new Audio('audio/subtle-click.mp3');
+flagSound.volume = 0.25;
 /*---------------------------- Variables (state) ----------------------------*/
 
 let board;                // set empty board
