@@ -1,10 +1,10 @@
 /*-------------------------------- Constants --------------------------------*/
 const BOARD_ROWS = 9;
 const BOARD_COLS = 9;
-const TOTAL_TILES = BOARD_ROWS * BOARD_COLS;  // total number of tiles
-const TOTAL_MINES = Math.floor(TOTAL_TILES * 0.2);  // 20% of tiles are mines
+const TOTAL_TILES = BOARD_ROWS * BOARD_COLS;  
+const TOTAL_MINES = Math.floor(TOTAL_TILES * 0.2);  
 
-// Audio feedback
+/*-------------------------------- Audio Resources --------------------------*/
 const explosionSound = new Audio('audio/explosion.mp3');
 explosionSound.volume = 0.1;
 
@@ -18,61 +18,54 @@ const flagSound = new Audio('audio/subtle-click.mp3');
 flagSound.volume = 0.25;
 /*---------------------------- Variables (state) ----------------------------*/
 
-let board;                // set empty board
-let isGameOver;           // Set game over status
-let tilesRevealedCount;   // Set reveal tile
-let bombCounter;          // Set bomb counter count
-let firstClick = false;   // Set first click to false
-let flagCount = 0;      // how many tiles are flagged
-let timer = 0;          // current time in seconds
-let timerInterval = null; // store timer loop ID so we can stop it
+let board;                
+let isGameOver;           
+let tilesRevealedCount;   
+let bombCounter;          
+let firstClick = false;   
+let flagCount = 0;      
+let timer = 0;          
+let timerInterval = null; 
 let isPaused = false;
 
 /*------------------------ Cached Element References ------------------------*/
 
-const boardEl = document.getElementById('game-board');  // Attach one event listener for all tiles (aka event delegation)
-const faceBtnEl = document.getElementById('face-button');  //event listeners for click and contextmenu
-const resetBtnEl = document.getElementById('reset-button'); //event listners for reset button.
-const flagCounterEl = document.getElementById('flag-counter');  // Red counter display for flags; increment on right click flag placement
-const timerEl = document.getElementById('game-timer');  // Red counter display for time; start on first left click of gam
+const boardEl = document.getElementById('game-board');  
+const faceBtnEl = document.getElementById('face-button');  
+const resetBtnEl = document.getElementById('reset-button'); 
+const flagCounterEl = document.getElementById('flag-counter'); 
+const timerEl = document.getElementById('game-timer');  
 
 
 
 /*----------------------------- Event Listeners -----------------------------*/
-// 	addEventListener() is how we tell JavaScript to listen for an event happening.
 
-// Suppress right-click context menu on game tiles only
 document.addEventListener('contextmenu', function (evt) {
   if (evt.target.classList.contains('tile')) {
     evt.preventDefault();
   }
 });
 
-// Attach a left-click event listener to the board container.
 boardEl
   .addEventListener('click', handleTileClick);
 
-// Attach a right-click "contextmenu" event listener to the board container.
 boardEl
   .addEventListener('contextmenu', handleTileClick);
 
-// LEFT-CLICK face button: pause/resume if game is running
 faceBtnEl.addEventListener('click', function(evtObj) {
-  if (isGameOver || !firstClick) return;  // only allow pause after first click, not after game over
+  if (isGameOver || !firstClick) return;  
   pauseGame();  // toggle pause/resume
 });
 
-// RIGHT-CLICK face button: reset the game if it's started (prevent browser menu)
 faceBtnEl.addEventListener('contextmenu', function(evtObj) {
-  evtObj.preventDefault();  // stop browser menu
+  evtObj.preventDefault();
 
   if (firstClick) {
     isPaused = false;
-    resetGame();  // reset regardless of paused state
+    resetGame();
   }
 });
 
-//left-click reset-button to landing page
 resetBtnEl.addEventListener('click', function () {
   if (firstClick) {
     isPaused = false;
@@ -87,29 +80,27 @@ resetBtnEl.addEventListener('click', function () {
 /*=====================*/
 function startGame() {
   board = [];
-  // Create each row in the board.
-  // Moved to 2D array from single to match connect four game
+  
   for (let rowIdx = 0; rowIdx < BOARD_ROWS; rowIdx++) {
-    // Initialize each row as an empty array
+    
     board[rowIdx] = [];  
-    // Create a column in the current row
+    
     for (let colIdx = 0; colIdx < BOARD_COLS; colIdx++) {
-      // Set each cell as an object with default values
-      // Each cell will store properties like mine status, revealed status, etc.
+      
       board[rowIdx][colIdx] = {
-        isMine: false,          // Default is false
-        isRevealed: false,      // Default is hidden
-        isFlagged: false,       // Default is false
-        adjMineCount: 0,        // Count of mines in adjacent tiles (starts at 0 )
-        adjTiles: [],           // array of a tile's adjacent tiles (starts empty)
+        isMine: false,          
+        isRevealed: false,      
+        isFlagged: false,       
+        adjMineCount: 0,        
+        adjTiles: [],           
         rowIdx,
         colIdx 
       };
      
     }
   };
-  firstClick = false;     // Ensure firstClick is reset
-  tilesRevealedCount = 0; // Reset revealed counter 
+  firstClick = false;     
+  tilesRevealedCount = 0; 
   
   isGameOver = false;
   
@@ -136,11 +127,10 @@ function renderBoard() {
 };
 
 function renderTile(rowIdx, colIdx) {
-  const tile = board[rowIdx][colIdx];                            // Get tile object from board
-  const tileEl = document.getElementById(`r${rowIdx}c${colIdx}`); // Get matching DOM element
+  const tile = board[rowIdx][colIdx];                            
+  const tileEl = document.getElementById(`r${rowIdx}c${colIdx}`); 
   tileEl.classList.remove('revealed', 'mine-hit');
-  tileEl.innerHTML = '';  // Always reset tile content
-  //console.log(`renderTile [${rowIdx}, ${colIdx}] | Revealed: ${tile.isRevealed}, Flagged: ${tile.isFlagged}`);
+  tileEl.innerHTML = '';
 
   if (tile.isRevealed) {
     tileEl.classList.add('revealed');
@@ -149,49 +139,38 @@ function renderTile(rowIdx, colIdx) {
       tileEl.innerHTML = '<img src="images/mine.svg" alt="Mine" class="icon">';
       tileEl.classList.add('mine-hit');
     } else if (!isGameOver && tile.adjMineCount > 0) {
-      // 👈 Only show numbers if game is NOT over
       tileEl.innerHTML = `<img src="images/${tile.adjMineCount}.svg" class="icon" alt="${tile.adjMineCount}">`;
     }
   }
 };
 
-function renderFlag(rowIdx, colIdx) {
-  //console.log('renderFlag: updating all flagged tile elements...');
-    const tile = board[rowIdx][colIdx];
-    const tileEl = document.getElementById(`r${rowIdx}c${colIdx}`);
-    if (!tile.isRevealed && tile.isFlagged) {
-      tileEl.innerHTML = '<img src="images/red_flag.svg" class="icon" alt="Flag">';
-    //console.log(`Flag rendered at [${rowIdx}, ${colIdx}]`);     
+function renderFlag(rowIdx, colIdx) {  
+  const tile = board[rowIdx][colIdx];
+  const tileEl = document.getElementById(`r${rowIdx}c${colIdx}`);
+  if (!tile.isRevealed && tile.isFlagged) {
+    tileEl.innerHTML = '<img src="images/red_flag.svg" class="icon" alt="Flag">';
   }
-  //console.log(`renderFlag complete.`); 
 };
 
-
-
-// Updates flag counter and timer display on the board
 function updateDisplays() {
-  // Convert flag count to a 3-digit string (e.g. 5 → "005")
   flagCounterEl.textContent = String(flagCount).padStart(3, '0');
-
-  // Convert timer value to 3-digit string (e.g. 42 → "042")
   timerEl.textContent = String(timer).padStart(3, '0');
 };
 
-// Starts game timer and updates every second
 function startTimer() {
   timerInterval = setInterval(() => {
-    if (!isPaused) {        // if isPaused is not false
-      timer++;              // increment timer each second
-      updateDisplays();     // update UI to reflect new time
+    if (!isPaused) {       
+      timer++;              
+      updateDisplays();  
     }
   }, 1000);
 };
 
 function launchPauseEmojis() {
   const overlay = document.getElementById('pause-overlay');
-  overlay.innerHTML = ''; // clear any old emojis
+  overlay.innerHTML = '';
 
-  const numEmojis = 40; // ← this must be inside here
+  const numEmojis = 40;
 
   for (let i = 0; i < numEmojis; i++) {
     const emoji = document.createElement('div');
@@ -204,9 +183,9 @@ function launchPauseEmojis() {
     emoji.style.setProperty('--x-move', `${(Math.random() - 0.5) * 200}vw`);
     emoji.style.setProperty('--y-move', `${(Math.random() - 0.5) * 200}vh`);
 
-    const size = (Math.random() * 4 + 3).toFixed(2); // NEW: 4vmin to 10vmin
+    const size = (Math.random() * 4 + 3).toFixed(2);
     emoji.style.setProperty('--size', `${size}vmin`);
-    emoji.style.setProperty('--scale', size); // ← THIS is what was missing
+    emoji.style.setProperty('--scale', size);
 
     emoji.style.animationDelay = Math.random() * 0.5 + 's';
 
@@ -220,9 +199,9 @@ function launchPauseEmojis() {
 
 function launchLoseEmojis() {
   const overlay = document.getElementById('pause-overlay');
-  overlay.innerHTML = ''; // clear any old emojis
+  overlay.innerHTML = ''; 
 
-  const numEmojis = 40; // ← this must be inside here
+  const numEmojis = 40;
 
   for (let i = 0; i < numEmojis; i++) {
     const emoji = document.createElement('div');
@@ -235,9 +214,9 @@ function launchLoseEmojis() {
     emoji.style.setProperty('--x-move', `${(Math.random() - 0.5) * 200}vw`);
     emoji.style.setProperty('--y-move', `${(Math.random() - 0.5) * 200}vh`);
 
-    const size = (Math.random() * 4 + 3).toFixed(2); // NEW: 4vmin to 10vmin
+    const size = (Math.random() * 4 + 3).toFixed(2);
     emoji.style.setProperty('--size', `${size}vmin`);
-    emoji.style.setProperty('--scale', size); // ← THIS is what was missing
+    emoji.style.setProperty('--scale', size);
 
     emoji.style.animationDelay = Math.random() * 0.5 + 's';
 
@@ -251,7 +230,7 @@ function launchLoseEmojis() {
 
 function launchWinEmojis() {
   const overlay = document.getElementById('pause-overlay');
-  overlay.innerHTML = ''; // clear old emojis
+  overlay.innerHTML = '';
 
   const numEmojis = 40;
 
@@ -297,18 +276,16 @@ function handleTileClick(evtObj) {
   const tileEl = evtObj.target.closest('.tile');
   if (!tileEl) return;
   const tileId = tileEl.id;
-  const coords = tileId.slice(1).split('c');  // removes "r" and splits at "c"
-  const rowIdx = parseInt(coords[0]);         // e.g. from "r10c5" → [10, 5]
+  const coords = tileId.slice(1).split('c');
+  const rowIdx = parseInt(coords[0]);       
   const colIdx = parseInt(coords[1]);
   if (!board[rowIdx] || !board[rowIdx][colIdx]) return;
   const clickedTile = board[rowIdx][colIdx];
 
-  // Right-click (flag)
   if (evtObj.button === 2) {
-    evtObj.preventDefault(); //disables browser context menu
+    evtObj.preventDefault();
     if (!firstClick) return;
     if (clickedTile.isRevealed) return;
-    // Toggle flag state: flag / unflag
     if (clickedTile.isFlagged) {
       flagCount--;
     } else {
@@ -324,7 +301,6 @@ function handleTileClick(evtObj) {
     return;
   }
 
-  // Left-click
   if (evtObj.button === 0) {
     if (!firstClick) {
       setMines(rowIdx, colIdx);
@@ -332,12 +308,9 @@ function handleTileClick(evtObj) {
       firstClick = true;
       startTimer();
     }
-
     if (clickedTile.isFlagged || clickedTile.isRevealed) return;
-    
     clickSound.currentTime = 0;
     clickSound.play();
-
     revealTile(rowIdx, colIdx);
 
     if (clickedTile.isMine) {
@@ -350,13 +323,10 @@ function handleTileClick(evtObj) {
       const faceBtn = document.getElementById('face-button');
       faceBtn.textContent = '😭';
     }
-
     render();
     checkGameOver();
   }
-  //console.log('Cascade complete!');
-}
-
+};
 
 /*=====================*/
 /*  GAME LOGIC         */
@@ -364,124 +334,85 @@ function handleTileClick(evtObj) {
 
 function setMines(rowIdx, colIdx) {
   let mineCounter = 0;
-  // Loop until all mines (10) are placed 
   while (mineCounter < TOTAL_MINES) {
-    // Randomly select a row and column.
-    // fixed code to be 2D array like connect four game.
     const randomRow = Math.floor(Math.random() * BOARD_ROWS);
     const randomCol = Math.floor(Math.random() * BOARD_COLS);
-    if (!board[randomRow][randomCol].isMine &&               // if tile does not already contain a mine AND
-      !(randomRow === rowIdx && randomCol === colIdx)) {     // tile is not the one the user clicked on first
-      // If it's not a mine, place the mine
+    if (!board[randomRow][randomCol].isMine &&
+      !(randomRow === rowIdx && randomCol === colIdx)) {
       board[randomRow][randomCol].isMine = true;
-      mineCounter++;  // Increment the mine counter
+      mineCounter++;
     }
-    //console.log(mineCounter);
   }
 };
 
-// Returns an array of the 8 surrounding tiles of the selected tile to
-// count how many have mines, cascase reveal empty tiles. using this once and
-// storing information in global variable board[]. using another 2d array just like in the
-// startGame function.
 function getAdjTiles(rowIdx, colIdx) {
-  // if (rowIdx < 0 || rowIdx >= BOARD_ROWS || colIdx < 0 || colIdx >= BOARD_COLS) {   // guard if testing manaully in the console.
-  //   return [];                                                                      // getAdjTiles(4, 4) is inbounds. getAdjTiles(8, 9) is OOB
-  // }
-  const adjTiles = [];        // array to hold all 8 neighboring tile locations
-  const directions = [        // locations of the 8 neighboring tiles of selected tile. Each entry represents: [row offset, col offset] from the current tile.  
-    [-1, -1], [-1, 0], [-1, 1], [ 0, -1], [ 0, 1], [ 1, -1], [ 1, 0], [ 1, 1] ];   // starting at upper left corner, left to right, row by row, top to bottom.
-
+  const adjTiles = [];       
+    [-1, -1], [-1, 0], [-1, 1], [ 0, -1], [ 0, 1], [ 1, -1], [ 1, 0], [ 1, 1];
   for (let i = 0; i < directions.length; i++) {
-    const dRow = directions[i][0];        // vertical direction: -1, 0, or 1
-    const dCol = directions[i][1];        // horizontal direction: -1, 0, or 1
-    // console.log(`checking adjacent tiles: dRow=${dRow}, dCol=${dCol}`);
-    const r = rowIdx + dRow;              // new row index to check
-    const c = colIdx + dCol;              // new column index to check
-    //console.log(`validating ajdacent tile at r=${r}, c=${c}`);
+    const dRow = directions[i][0];        
+    const dCol = directions[i][1];
+    const r = rowIdx + dRow;
+    const c = colIdx + dCol;
    
-    if (r >= 0 && r < BOARD_ROWS && c >= 0 && c < BOARD_COLS) {         // make sure row & column is not out of bounds
-    adjTiles.push(board[r][c]);           // valid tile — add to adjTiles array
+    if (r >= 0 && r < BOARD_ROWS && c >= 0 && c < BOARD_COLS) { 
+    adjTiles.push(board[r][c]); 
     }
   }
-    return adjTiles;                      // just return empty for now
+    return adjTiles;  
 };
 
+function countAdjMines(rowIdx, colIdx) {
+  const tile = board[rowIdx][colIdx];                   
+  let count = 0;                                        
+  for (let neighbor of tile.adjTiles) {                 
+    if (neighbor.isMine) count++;                      
+  }
+  tile.adjMineCount = count;                           
+};
 
-  // Sets tile.adjMineCount by counting how many .adjTiles are mines
-  function countAdjMines(rowIdx, colIdx) {
-    const tile = board[rowIdx][colIdx];                   // Get the current tile from the board
-    let count = 0;                                        // counter for mines in adjacent tiles
-    for (let neighbor of tile.adjTiles) {                 // Loop through each tile in adjTiles (array of ajdacent tiles)
-      if (neighbor.isMine) count++;                       // If this neighbor is a mine, +1 to count
-      //console.log(`Mine count subtotal ${count}`);
-    }
-    tile.adjMineCount = count;                            // total mines in neighboring tiles
-    //console.log(`mine count total: ${tile.adjMineCount}`);
-  };
-
-
-
-  // a wrapper function that combines getAdjacentTiles and countAdjMines into one call
 function assignAdjTilesAndCounts() {
-  for (let rowIdx = 0; rowIdx < BOARD_ROWS; rowIdx++) {       // Loop through each row index
-    for (let colIdx = 0; colIdx < BOARD_COLS; colIdx++) {     // Loop through each column index
-      const tile = board[rowIdx][colIdx];             // current tile on the board
-      tile.adjTiles = getAdjTiles(rowIdx, colIdx);    // get and store surrounding tiles
-      countAdjMines(rowIdx, colIdx);                  // calculate how many are mines
+  for (let rowIdx = 0; rowIdx < BOARD_ROWS; rowIdx++) {
+    for (let colIdx = 0; colIdx < BOARD_COLS; colIdx++) {
+      const tile = board[rowIdx][colIdx];             
+      tile.adjTiles = getAdjTiles(rowIdx, colIdx);    
+      countAdjMines(rowIdx, colIdx);                 
     }
   }
 };
 
-// sets isRevealed = true for the given tile
 function revealTile(rowIdx, colIdx) {   
-  //console.log(`Entering revealTile() for tile [${rowIdx}, ${colIdx}]`);         // entering the function for this tile
-  const tile = board[rowIdx][colIdx];   // tile location on board at coordinates
-  // Skip this tile if it's already revealed or flagged
+
+  const tile = board[rowIdx][colIdx];
   if (tile.isRevealed || tile.isFlagged) {
-    //console.log(`Skipping tile [${rowIdx}, ${colIdx}] — already revealed or flagged`);
     return;
   }
-  // Mark this tile as revealed
   tile.isRevealed = true;
-  //console.log(`Revealed tile [${rowIdx}, ${colIdx}] — adjMineCount: ${tile.adjMineCount}`);
-  // console.log(tile.isRevealed, board[rowIdx][colIdx]);
-  // Cascade reveal: if this tile has zero adjacent mines
+
   if (tile.adjMineCount === 0) {
-    // Loop through each neighboring tile (precomputed in adjTiles)
     for (let neighbor of tile.adjTiles) {
-      // Recursively reveal each neighbor
-    //  console.log(`Cascading to neighbor at [${neighbor.rowIdx}, ${neighbor.colIdx}]`);
       revealTile(neighbor.rowIdx, neighbor.colIdx);
     }
-    //console.log('Cascade complete!');
   }
   renderTile(rowIdx, colIdx);
-  renderFlag(rowIdx, colIdx);  // optional cleanup in case tile was flagged
+  renderFlag(rowIdx, colIdx);
 };
 
-  // checks to see if game is over 
-  // did user click a tile with a mine - game over - lose
-  // did user clear all tiles without clicking mine? game over - win
 function checkGameOver() {
-  if (isGameOver) return;  // Game is already lost — don't check for win
-  let revealedCount = 0;                // counter for all revealed tiles
-  for (let rowIdx = 0; rowIdx < board.length; rowIdx++) {              // loop through each row in the board
-    // console.log(`Checking row ${rowIdx}...`);
-    for (let colIdx = 0; colIdx < board[rowIdx].length; colIdx++) {    // loop through each column in the row
-      const tile = board[rowIdx][colIdx];                              // pulling data from global board[] variable.
-      //console.log(`Checking tile at row=${rowIdx}, col=${colIdx}`);
-      //console.log(`Total Revealed Tiles: ${tile.isRevealed}`);
-      //console.log(`Total Mine Tiles: ${tile.isMine}`);  
-      if (tile.isRevealed && !tile.isMine) revealedCount++;           // if the tile is revealed and not a mine increment by 1
+  if (isGameOver) return;  
+  let revealedCount = 0;             
+  for (let rowIdx = 0; rowIdx < board.length; rowIdx++) {   
+
+    for (let colIdx = 0; colIdx < board[rowIdx].length; colIdx++) {   
+      const tile = board[rowIdx][colIdx];                             
+
+      if (tile.isRevealed && !tile.isMine) revealedCount++;           
   }
 };
-  //console.log(`Total Safe Tiles Revealed: ${revealedCount} / ${TOTAL_TILES - TOTAL_MINES}`);
 
-  if (revealedCount === TOTAL_TILES - TOTAL_MINES) {                  // // total revealed tiles - mine tiles = total safe tiles
-    isGameOver = true;                       // mark game as won
-    applauseSound.currentTime = 0;  // reset playback to start
-    applauseSound.play();          // play crowd cheer
+  if (revealedCount === TOTAL_TILES - TOTAL_MINES) {                 
+    isGameOver = true;                      
+    applauseSound.currentTime = 0; 
+    applauseSound.play();         
     const faceBtn = document.getElementById('face-button');
     faceBtn.textContent = '😎';
     launchWinEmojis();
@@ -489,25 +420,23 @@ function checkGameOver() {
 };
   
 function pauseGame() {
-  isPaused = !isPaused; // toggle pause state
+  isPaused = !isPaused; 
 
   const faceBtn = document.getElementById('face-button');
-  faceBtn.textContent = isPaused ? '😴' : '😀';  // Optional: show pause indicator
+  faceBtn.textContent = isPaused ? '😴' : '😀'; 
 
   if (isPaused) {
     launchPauseEmojis();
   }
-  
-  //console.log(isPaused ? 'Game paused.' : 'Game resumed.');
 }
 
 
 function resetGame() {
-  clearInterval(timerInterval);  // stop the previous timer
-  timer = 0;                     // reset timer value
-  flagCount = 0;                 // reset flag count
-  updateDisplays();              // refresh the UI
-  startGame();                   // start new game board
+  clearInterval(timerInterval);  
+  timer = 0;                     
+  flagCount = 0;                
+  updateDisplays();              
+  startGame();                   
   const faceBtn = document.getElementById('face-button');
   faceBtn.textContent = '😀';
 };
@@ -516,10 +445,6 @@ function resetGame() {
 /*  GAME STARTUP       */
 /*=====================*/
 
-// start new game
 startGame();    
-
-// Place the mines randomly on the board
-//setMines();
 
 
