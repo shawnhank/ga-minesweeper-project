@@ -320,6 +320,7 @@ function handleTileClick(evtObj) {
       clearInterval(timerInterval);
       revealAllTiles();
       launchLoseEmojis();
+      showPanelMessage("Game Over", "You clicked a mine. Try again. 😭");
       const faceBtn = document.getElementById('face-button');
       faceBtn.textContent = '😭';
     }
@@ -347,7 +348,8 @@ function setMines(rowIdx, colIdx) {
 
 function getAdjTiles(rowIdx, colIdx) {
   const adjTiles = [];       
-    [-1, -1], [-1, 0], [-1, 1], [ 0, -1], [ 0, 1], [ 1, -1], [ 1, 0], [ 1, 1];
+  const directions = [ [-1, -1], [-1, 0], [-1, 1], [ 0, -1], [ 0, 1],[ 1, -1], [ 1, 0], [ 1, 1] ];
+
   for (let i = 0; i < directions.length; i++) {
     const dRow = directions[i][0];        
     const dCol = directions[i][1];
@@ -401,14 +403,11 @@ function checkGameOver() {
   if (isGameOver) return;  
   let revealedCount = 0;             
   for (let rowIdx = 0; rowIdx < board.length; rowIdx++) {   
-
     for (let colIdx = 0; colIdx < board[rowIdx].length; colIdx++) {   
       const tile = board[rowIdx][colIdx];                             
-
       if (tile.isRevealed && !tile.isMine) revealedCount++;           
   }
 };
-
   if (revealedCount === TOTAL_TILES - TOTAL_MINES) {                 
     isGameOver = true;                      
     applauseSound.currentTime = 0; 
@@ -416,6 +415,7 @@ function checkGameOver() {
     const faceBtn = document.getElementById('face-button');
     faceBtn.textContent = '😎';
     launchWinEmojis();
+    showPanelMessage("You Win!", "You cleared all the safe tiles. 😎");
   }
 };
   
@@ -429,7 +429,6 @@ function pauseGame() {
     launchPauseEmojis();
   }
 }
-
 
 function resetGame() {
   clearInterval(timerInterval);  
