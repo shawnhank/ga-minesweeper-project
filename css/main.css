@@ -229,7 +229,7 @@ body {
   overflow: hidden;
 }
 
-.sleep-emoji {
+.floating-emoji {
   position: absolute;
   font-size: var(--size, 6vmin);  /* fallback for safety */
   animation: floatPopcorn 10s linear forwards;

@@ -185,11 +185,11 @@ function launchPauseEmojis() {
   const overlay = document.getElementById('pause-overlay');
   overlay.innerHTML = ''; // clear any old emojis
 
-  const numEmojis = 60; // ← this must be inside here
+  const numEmojis = 40; // ← this must be inside here
 
   for (let i = 0; i < numEmojis; i++) {
     const emoji = document.createElement('div');
-    emoji.classList.add('sleep-emoji');
+    emoji.classList.add('floating-emoji');
     emoji.textContent = '😴';
 
     emoji.style.left = Math.random() * 100 + 'vw';
@@ -209,8 +209,41 @@ function launchPauseEmojis() {
 
   setTimeout(() => {
     overlay.innerHTML = '';
-  }, 10000);
+  }, 5000);
 };
+
+function launchLoseEmojis() {
+  const overlay = document.getElementById('pause-overlay');
+  overlay.innerHTML = ''; // clear any old emojis
+
+  const numEmojis = 40; // ← this must be inside here
+
+  for (let i = 0; i < numEmojis; i++) {
+    const emoji = document.createElement('div');
+    emoji.classList.add('floating-emoji');
+    emoji.textContent = '😭';
+
+    emoji.style.left = Math.random() * 100 + 'vw';
+    emoji.style.top = Math.random() * 100 + 'vh';
+
+    emoji.style.setProperty('--x-move', `${(Math.random() - 0.5) * 200}vw`);
+    emoji.style.setProperty('--y-move', `${(Math.random() - 0.5) * 200}vh`);
+
+    const size = (Math.random() * 4 + 3).toFixed(2); // NEW: 4vmin to 10vmin
+    emoji.style.setProperty('--size', `${size}vmin`);
+    emoji.style.setProperty('--scale', size); // ← THIS is what was missing
+
+    emoji.style.animationDelay = Math.random() * 0.5 + 's';
+
+    overlay.appendChild(emoji);
+  }
+
+  setTimeout(() => {
+    overlay.innerHTML = '';
+  }, 5000);
+};
+
+
 
 function revealAllTiles() {
   for (let row = 0; row < BOARD_ROWS; row++) {
@@ -271,6 +304,7 @@ function handleTileClick(evtObj) {
       isGameOver = true;
       clearInterval(timerInterval);
       revealAllTiles();
+      launchLoseEmojis();
       const faceBtn = document.getElementById('face-button');
       faceBtn.textContent = '😭';
     }
