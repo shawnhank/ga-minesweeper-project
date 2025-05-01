@@ -343,7 +343,10 @@ function handleTileClick(evtObj) {
       clearInterval(timerInterval);
       revealAllTiles();
       launchLoseEmojis();
-      showPanelMessage("Game Over", "You clicked a mine! 😞 😭 Want to try again?");
+      showPanelMessage("Game Over", `
+        <p>Oh No! Want to try again?</p>
+        <p class="emoji-line">😞 🤨 🥺</p>
+      `);
       const faceBtn = document.getElementById('face-button');
       faceBtn.textContent = '😭';
     }
@@ -356,7 +359,7 @@ function handleTileClick(evtObj) {
 /*  GAME LOGIC         */
 /*=====================*/
 
-function setMines(rowIdx, colIdx) {
+function setMines(rowIdx, colIdx) {  
   let mineCounter = 0;
   while (mineCounter < TOTAL_MINES) {
     const randomRow = Math.floor(Math.random() * BOARD_ROWS);
@@ -431,6 +434,7 @@ function checkGameOver() {
       if (tile.isRevealed && !tile.isMine) revealedCount++;           
   }
 };
+ 
   if (revealedCount === TOTAL_TILES - TOTAL_MINES) {                 
     isGameOver = true;                      
     applauseSound.currentTime = 0; 
@@ -438,7 +442,10 @@ function checkGameOver() {
     const faceBtn = document.getElementById('face-button');
     faceBtn.textContent = '😎';
     launchWinEmojis();
-    showPanelMessage("You Win!", "All safe tiles cleared! 🙌🏻 👏🏻 🤘🏼 😎");
+    showPanelMessage("You Won!", `
+      <p>Nice! You cleared all<br>the tiles!</p>
+      <p class="emoji-line">🙌🏻 👏🏻 🤘🏼 😎</p>
+    `);
   }
 };
   
@@ -463,8 +470,66 @@ function resetGame() {
   faceBtn.textContent = '😀';
 };
 
+
+function createWin() {
+  
+  for (let row = 0; row < board.length; row++) {
+    for (let col = 0; col < board[row].length; col++) {
+      const tile = board[row][col];
+      if (!tile.isMine) {
+        tile.isRevealed = true;
+      }
+    }
+  }
+
+  renderBoard();        
+  checkGameOver();      
+}
+
+window.createWin = createWin;
+
+function createLoss() {
+  let safeClickCount = 0;
+
+  for (let row = 0; row < board.length; row++) {
+    for (let col = 0; col < board[row].length; col++) {
+      const tile = board[row][col];
+      if (!tile.isMine && safeClickCount < 10) {
+        tile.isRevealed = true;
+        safeClickCount++;
+      }
+    }
+  }
+
+  renderBoard();
+
+  for (let row = 0; row < board.length; row++) {
+    for (let col = 0; col < board[row].length; col++) {
+      const tile = board[row][col];
+      if (tile.isMine) {
+        const tileId = `r${row}c${col}`;
+        const tileEl = document.getElementById(tileId);
+
+        if (tileEl) {
+          const fakeEvent = {
+            button: 0,
+            target: tileEl
+          };
+
+          handleTileClick(fakeEvent);
+        }
+        return;
+      }
+    }
+  }
+}
+
+window.createLoss = createLoss;
+
+
 /*=====================*/
 /*  GAME STARTUP       */
 /*=====================*/
 
 startGame();    
+

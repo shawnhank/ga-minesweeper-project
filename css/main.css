@@ -183,43 +183,60 @@ body {
   background-color: #222;
   border: 1px solid #111;
   padding: 2vmin;
-  color: #ddd;
+  color: #d6d6d6;
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
   transition: right 0.3s ease;
   z-index: -1;
 }
 
+.panel-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1vmin;
+}
+
+#panel-title {
+  font-size: clamp(1.6rem, 3vmin, 2.4rem);
+  color: #d6d6d6;
+  text-align: center;
+  margin-bottom: .2vmin;
+}
+
+#panel-message {
+  max-width: 40ch;
+  margin: 0 auto;
+  padding: .7vmin 1vmin;
+  font-size: clamp(1rem, 1.8vmin, 1.2rem);
+  line-height: 1.5;
+  color: #d6d6d6;
+}
+
+#panel-message p {
+  font-size: clamp(1.2rem, 2vmin, 1.6rem);
+  font-weight: 500;
+  margin-bottom: 0.8em;
+  text-align: center;
+  text-shadow: none;
+}
+
+#panel-message .emoji-line {
+  font-size: clamp(3.5vmin, 3vmin, 2rem);
+  margin-top: 0.5em;
+}
+
+#panel-message p.rules-message {
+  text-align: left;
+  font-size: clamp(1.2rem, 1.2vmin, 1.15rem);
+  font-weight: 500;
+  line-height: 1.2;
+  margin: .9vmin;
+  text-shadow: none;
+  padding-left: .8vmin;
+}
+
 .message-panel.open {
   right: 0;
-}
-
-.panel-content h1 {
-  font-size: clamp(2.0rem, 1.7vmin, 1.4rem);
-  text-align: center;
-  color: #f9f9f9;
-  overflow-wrap: break-word;
-  word-break: break-word;
-}
-
-.panel-content ol {
-  list-style-position: outside;
-  padding-left: 1.6em;
-  margin: 0;
-  list-style-type: decimal; 
-}
-
-.panel-content ol li ::marker {
-  content: counter(list-item) ".\00a0";
-  color: #ccc;
-  font-weight: normal;
-  font-size: 1rem;
-}
-
-.panel-content p,
-.panel-content li {
-  font-size: clamp(0.8rem, 1.5vmin, 1.1rem);
-  line-height: 1.4;
-  margin-bottom: 1vmin;
 }
 
 .expand-panel-btn {
