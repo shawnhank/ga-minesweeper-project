@@ -36,7 +36,6 @@ const resetBtnEl = document.getElementById('reset-button');
 const flagCounterEl = document.getElementById('flag-counter'); 
 const timerEl = document.getElementById('game-timer');  
 const msgPanel = document.getElementById('message-panel');
-const closePanelBtn = document.getElementById('close-panel');
 const expandPanelBtn = document.getElementById('expand-panel-btn');
 
 
@@ -69,13 +68,8 @@ faceBtnEl.addEventListener('contextmenu', function(evtObj) {
 });
 
 expandPanelBtn.addEventListener('click', () => {
-  msgPanel.classList.add('open');
-  expandPanelBtn.textContent = '<'; // change to "collapse" indicator
-});
-
-closePanelBtn.addEventListener('click', () => {
-  msgPanel.classList.remove('open');
-  expandPanelBtn.textContent = '>'; // reset to "expand" indicator
+  const isOpen = msgPanel.classList.toggle('open');
+  expandPanelBtn.textContent = isOpen ? '<' : '>';
 });
 
 resetBtnEl.addEventListener('click', function () {
@@ -91,6 +85,7 @@ resetBtnEl.addEventListener('click', function () {
 /*=====================*/
 /*    SETUP FUNCTIONS  */
 /*=====================*/
+
 function startGame() {
   board = [];
   
@@ -119,20 +114,6 @@ function startGame() {
   renderBoard();
   updateDisplays(); 
 
-  showPanelMessage("Welcome to Minesweeper!", `
-    <ul>
-      <li>Click a tile to reveal it</li>
-      <li>Be careful to avoid mines</li>
-      <li>Right-click marks a tile as a mine with a flag</li>
-      <li>Number tiles show many mines are in adjacent tiles</li>
-      <li>First click is always safe</li>
-      <li>To win ,clear all tiles without
-          clicking on a mine.</li>
-      <li>Left Click Face Button to start a game</li>
-      <li>Right Click face button to toggle pause/resume the game</li>
-      <li>Reset Button also resets the game</li>
-    <ul>
-  `);
 };
 
 /*=====================*/
@@ -288,11 +269,12 @@ function launchWinEmojis() {
 function showPanelMessage(title, message, autoClose = false) {
   document.getElementById('panel-title').textContent = title;
   document.getElementById('panel-message').innerHTML = message;
-  msgPanel.classList.add('open');
-  expandPanelBtn.textContent = '<';
+
+  // msgPanel.classList.add('open');  //show message panel immediately
+  // expandPanelBtn.textContent = '<';
 
   if (autoClose) {
-    setTimeout(() => {
+    setTimeout(() => {            // auto close panel after x seconds
       msgPanel.classList.remove('open');
       expandPanelBtn.textContent = '>';
     }, 7000); 
@@ -480,7 +462,7 @@ function resetGame() {
   const faceBtn = document.getElementById('face-button');
   faceBtn.textContent = '😀';
 };
-    
+
 /*=====================*/
 /*  GAME STARTUP       */
 /*=====================*/

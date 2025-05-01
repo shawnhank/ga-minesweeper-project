@@ -52,27 +52,37 @@
           <div class="tile" id="r7c0"></div><div class="tile" id="r7c1"></div><div class="tile" id="r7c2"></div><div class="tile" id="r7c3"></div><div class="tile" id="r7c4"></div><div class="tile" id="r7c5"></div><div class="tile" id="r7c6"></div><div class="tile" id="r7c7"></div><div class="tile" id="r7c8"></div>
           <div class="tile" id="r8c0"></div><div class="tile" id="r8c1"></div><div class="tile" id="r8c2"></div><div class="tile" id="r8c3"></div><div class="tile" id="r8c4"></div><div class="tile" id="r8c5"></div><div class="tile" id="r8c6"></div><div class="tile" id="r8c7"></div><div class="tile" id="r8c8"></div>
         </div>
+      
+        <div id="message-panel" class="message-panel open">
+          <div class="panel-content">
+            <h1 id="panel-title">Let's Go!!</h1>
+            <ol id="panel-message">
+              <li>To start the game, left click on any tile</li>
+              <li>Left clicks reveal what's under the tile</li>
+              <li>Right-clicks mark a tile with a flag</li>
+              <li>Use the flag to mark tiles that you think have a mine</li>
+              <li>Numbers tell you how many mines are 1 tile away from that tile's position</li>
+              <li>To win, clear all tiles without clicking on a mine.</li>
+            </ol>
+          </div>
+          <div id="expand-panel-wrapper">
+            <button id="expand-panel-btn" class="expand-panel-btn" aria-label="Toggle message panel">
+              >
+            </button>
+          </div>
+        </div>
+  
+       
+      
       </div>
       
-      <div id="message-panel" class="message-panel">
-        <div class="panel-content">
-          <h2 id="panel-title">Welcome!</h2>
-          <p id="panel-message">Click a tile to start playing Minesweeper.</p>
-          <button id="close-panel">X</button>
-        </div>
-      </div>
-
       <div id="reset-button-container">
         <button id="reset-button" class="button">
           Reset Game
         </button>
       </div>
 
-      <div id="expand-panel-wrapper">
-        <button id="expand-panel-btn" class="expand-panel-btn">
-          >
-        </button>
-      </div>
+      
     
     </div>
   
