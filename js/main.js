@@ -142,7 +142,8 @@ function renderTile(rowIdx, colIdx) {
     if (tile.isMine) {
       tileEl.innerHTML = '<img src="images/mine.svg" alt="Mine" class="icon">';
       tileEl.classList.add('mine-hit');
-    } else if (tile.adjMineCount > 0) {
+    } else if (!isGameOver && tile.adjMineCount > 0) {
+      // 👈 Only show numbers if game is NOT over
       tileEl.innerHTML = `<img src="images/${tile.adjMineCount}.svg" class="icon" alt="${tile.adjMineCount}">`;
     }
   }
@@ -168,7 +169,7 @@ function updateDisplays() {
 
   // Convert timer value to 3-digit string (e.g. 42 → "042")
   timerEl.textContent = String(timer).padStart(3, '0');
-}
+};
 
 // Starts game timer and updates every second
 function startTimer() {
@@ -178,7 +179,7 @@ function startTimer() {
       updateDisplays();     // update UI to reflect new time
     }
   }, 1000);
-}
+};
 
 function launchPauseEmojis() {
   const overlay = document.getElementById('pause-overlay');
@@ -211,13 +212,21 @@ function launchPauseEmojis() {
   }, 10000);
 };
 
+function revealAllTiles() {
+  for (let row = 0; row < BOARD_ROWS; row++) {
+    for (let col = 0; col < BOARD_COLS; col++) {
+      board[row][col].isRevealed = true;
+    }
+  }
+};
 
 /*=====================*/
 /*  EVENT HANDLERS     */
 /*=====================*/
 
 function handleTileClick(evtObj) {
-  if (isGameOver || isPaused) return;
+  if (isGameOver) return;
+  if (isPaused) return;
   const tileEl = evtObj.target.closest('.tile');
   if (!tileEl) return;
   const tileId = tileEl.id;
@@ -260,6 +269,8 @@ function handleTileClick(evtObj) {
       explosionSound.currentTime = 0;
       explosionSound.play();
       isGameOver = true;
+      clearInterval(timerInterval);
+      revealAllTiles();
       const faceBtn = document.getElementById('face-button');
       faceBtn.textContent = '😭';
     }
@@ -377,6 +388,7 @@ function revealTile(rowIdx, colIdx) {
   // did user click a tile with a mine - game over - lose
   // did user clear all tiles without clicking mine? game over - win
 function checkGameOver() {
+  if (isGameOver) return;  // Game is already lost — don't check for win
   let revealedCount = 0;                // counter for all revealed tiles
   for (let rowIdx = 0; rowIdx < board.length; rowIdx++) {              // loop through each row in the board
     // console.log(`Checking row ${rowIdx}...`);
