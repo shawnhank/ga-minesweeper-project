@@ -451,5 +451,3 @@ function resetGame() {
 /*=====================*/
 
 startGame();    
-
-
