@@ -170,44 +170,49 @@ function renderBoard() {
 function renderTile(rowIdx, colIdx) {
   const tile = board[rowIdx][colIdx];                            // Get tile object from board
   const tileEl = document.getElementById(`r${rowIdx}c${colIdx}`); // Get matching DOM element
-
+  tileEl.classList.remove('revealed', 'mine-hit');
+  tileEl.innerHTML = '';  // Always reset tile content
   console.log(`renderTile [${rowIdx}, ${colIdx}] | Revealed: ${tile.isRevealed}, Flagged: ${tile.isFlagged}`);
 
+  // if (tile.isRevealed) {
+  //   tileEl.classList.add('revealed');                            // Apply flat style
+  //   if (tile.isMine) {
+  //     tileEl.innerHTML = '<img src="images/mine.svg" alt="Mine" class="icon">';  // Show mine
+  //     tileEl.classList.add('mine-hit');                          // Add red background
+  //   } else if (tile.adjMineCount > 0) {
+  //     tileEl.innerHTML = `<img src="images/${tile.adjMineCount}.svg" class="icon" alt="${tile.adjMineCount}">`;  // Show number icon
+  //   } else {
+  //     tileEl.innerHTML = '';                                     // Empty tile (0 adj mines)
+  //   }
+  // } else {
+  //   tileEl.innerHTML = '';                                       // Clear unrevealed tile
+  //   tileEl.classList.remove('revealed');                         // Remove revealed styling
+  //   // if (tile.isFlagged) {
+  //   //   tileEl.innerHTML = '<img src="images/red_flag.svg" class="icon" alt="Flag">';  // Show flag
+  //   // }
+  // }
   if (tile.isRevealed) {
-    tileEl.classList.add('revealed');                            // Apply flat style
+    tileEl.classList.add('revealed');
+
     if (tile.isMine) {
-      tileEl.innerHTML = '<img src="images/mine.svg" alt="Mine" class="icon">';  // Show mine
-      tileEl.classList.add('mine-hit');                          // Add red background
+      tileEl.innerHTML = '<img src="images/mine.svg" alt="Mine" class="icon">';
+      tileEl.classList.add('mine-hit');
     } else if (tile.adjMineCount > 0) {
-      tileEl.innerHTML = `<img src="images/${tile.adjMineCount}.svg" class="icon" alt="${tile.adjMineCount}">`;  // Show number icon
-    } else {
-      tileEl.innerHTML = '';                                     // Empty tile (0 adj mines)
+      tileEl.innerHTML = `<img src="images/${tile.adjMineCount}.svg" class="icon" alt="${tile.adjMineCount}">`;
     }
-  } else {
-    tileEl.innerHTML = '';                                       // Clear unrevealed tile
-    tileEl.classList.remove('revealed');                         // Remove revealed styling
-    // if (tile.isFlagged) {
-    //   tileEl.innerHTML = '<img src="images/red_flag.svg" class="icon" alt="Flag">';  // Show flag
-    // }
   }
-}
+};
 
-
-function renderFlag() {
+function renderFlag(rowIdx, colIdx) {
   console.log('renderFlag: updating all flagged tile elements...');
-  for (let rowIdx = 0; rowIdx < board.length; rowIdx++) {
-    for (let colIdx = 0; colIdx < board[rowIdx].length; colIdx++) {
-      const tile = board[rowIdx][colIdx];
-      const tileEl = document.getElementById(`r${rowIdx}c${colIdx}`);
-
-      if (!tile.isRevealed && tile.isFlagged) {
-        tileEl.innerHTML = '<img src="images/red_flag.svg" class="icon" alt="Flag">';
-        console.log(`Flag rendered at [${rowIdx}, ${colIdx}]`);
-      }
-      console.log(`renderFlag complete.`);  
-    }
+    const tile = board[rowIdx][colIdx];
+    const tileEl = document.getElementById(`r${rowIdx}c${colIdx}`);
+    if (!tile.isRevealed && tile.isFlagged) {
+      tileEl.innerHTML = '<img src="images/red_flag.svg" class="icon" alt="Flag">';
+    console.log(`Flag rendered at [${rowIdx}, ${colIdx}]`);     
   }
-}
+  console.log(`renderFlag complete.`); 
+};
 
 
 
@@ -377,7 +382,6 @@ function revealTile(rowIdx, colIdx) {
   // Mark this tile as revealed
   tile.isRevealed = true;
   //console.log(`Revealed tile [${rowIdx}, ${colIdx}] — adjMineCount: ${tile.adjMineCount}`);
-
   // console.log(tile.isRevealed, board[rowIdx][colIdx]);
   // Cascade reveal: if this tile has zero adjacent mines
   if (tile.adjMineCount === 0) {
@@ -389,6 +393,8 @@ function revealTile(rowIdx, colIdx) {
     }
     //console.log('Cascade complete!');
   }
+  renderTile(rowIdx, colIdx);
+  renderFlag(rowIdx, colIdx);  // optional cleanup in case tile was flagged
 };
 
   // checks to see if game is over 
