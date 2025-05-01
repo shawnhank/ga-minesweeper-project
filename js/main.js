@@ -35,9 +35,6 @@ const faceBtnEl = document.getElementById('face-button');
 const resetBtnEl = document.getElementById('reset-button'); 
 const flagCounterEl = document.getElementById('flag-counter'); 
 const timerEl = document.getElementById('game-timer');  
-const msgPanel = document.getElementById('message-panel');
-const msgToggle = document.getElementById('message-toggle');
-const msgClose = document.getElementById('close-panel-btn');
 
 
 /*----------------------------- Event Listeners -----------------------------*/
@@ -75,15 +72,7 @@ resetBtnEl.addEventListener('click', function () {
   }
 });
 
-if (msgToggle && msgClose && msgPanel) {
-  msgToggle.addEventListener('click', () => {
-    msgPanel.classList.toggle('open');
-  });
 
-  msgClose.addEventListener('click', () => {
-    msgPanel.classList.remove('open');
-  });
-}
 
 /*-------------------------------- Functions --------------------------------*/
 
