@@ -26,13 +26,14 @@ A classic Minesweeper game built with HTML, CSS, and JavaScript — fully reimag
   - [Attributions](#attributions)
 
 ## Screenshots
-
-![New Game](https://github.com/shawnhank/ga-minesweeper-project/blob/main/app_shots/ms2.png)
-![A Game in Progress](https://github.com/shawnhank/ga-minesweeper-project/blob/main/app_shots/ms5.png)
-![A Winning Board](https://github.com/shawnhank/ga-minesweeper-project/blob/main/app_shots/ms7.png)
-![A Mine Field](https://github.com/shawnhank/ga-minesweeper-project/blob/main/app_shots/%20ms1.png)
-![Losing Animation](https://github.com/shawnhank/ga-minesweeper-project/blob/main/app_shots/ms3.png)
-![Pause Game](https://github.com/shawnhank/ga-minesweeper-project/blob/main/app_shots/ms6.png)
+<p align="center">
+  <img src="https://github.com/shawnhank/ga-minesweeper-project/blob/main/app_shots/%20ms1.png" alt="A Mine Field" alt="A Mine Field" width="400" />
+  <img src="https://github.com/shawnhank/ga-minesweeper-project/blob/main/app_shots/ms2.png" alt="Starting a New Game" width="400" />
+  <img src="https://github.com/shawnhank/ga-minesweeper-project/blob/main/app_shots/ms5.png" alt="Game In Progress" width="400" />
+  <img src="https://github.com/shawnhank/ga-minesweeper-project/blob/main/app_shots/ms6.png" alt="Pause Game" width="400" />
+  <img src="https://github.com/shawnhank/ga-minesweeper-project/blob/main/app_shots/ms7.png" alt="A Winning Board" width=400" />
+  <img src="https://github.com/shawnhank/ga-minesweeper-project/blob/main/app_shots/ms3.png" alt="Losing Animation" width="400" />
+</p>
 
 ## Tech Stack
 
