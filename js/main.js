@@ -1,8 +1,8 @@
 /*-------------------------------- Constants --------------------------------*/
 const BOARD_ROWS = 9;
 const BOARD_COLS = 9;
-const TOTAL_TILES = BOARD_ROWS * BOARD_COLS;  
-const TOTAL_MINES = Math.floor(TOTAL_TILES * 0.2);  
+const TOTAL_TILES = BOARD_ROWS * BOARD_COLS;
+const TOTAL_MINES = Math.floor(TOTAL_TILES * 0.2);
 
 /*-------------------------------- Audio Resources --------------------------*/
 const explosionSound = new Audio('audio/explosion.mp3');
@@ -18,23 +18,23 @@ const flagSound = new Audio('audio/subtle-click.mp3');
 flagSound.volume = 0.25;
 /*---------------------------- Variables (state) ----------------------------*/
 
-let board;                
-let isGameOver;           
-let tilesRevealedCount;   
-let bombCounter;          
-let firstClick = false;   
-let flagCount = 0;      
-let timer = 0;          
-let timerInterval = null; 
+let board;
+let isGameOver;
+let tilesRevealedCount;
+let bombCounter;
+let firstClick = false;
+let flagCount = 0;
+let timer = 0;
+let timerInterval = null;
 let isPaused = false;
 
 /*------------------------ Cached Element References ------------------------*/
 
-const boardEl = document.getElementById('game-board');  
-const faceBtnEl = document.getElementById('face-button');  
-const resetBtnEl = document.getElementById('reset-button'); 
-const flagCounterEl = document.getElementById('flag-counter'); 
-const timerEl = document.getElementById('game-timer');  
+const boardEl = document.getElementById('game-board');
+const faceBtnEl = document.getElementById('face-button');
+const resetBtnEl = document.getElementById('reset-button');
+const flagCounterEl = document.getElementById('flag-counter');
+const timerEl = document.getElementById('game-timer');
 const msgPanel = document.getElementById('message-panel');
 const expandPanelBtn = document.getElementById('expand-panel-btn');
 
@@ -54,7 +54,7 @@ boardEl
   .addEventListener('contextmenu', handleTileClick);
 
 faceBtnEl.addEventListener('click', function(evtObj) {
-  if (isGameOver || !firstClick) return;  
+  if (isGameOver || !firstClick) return;
   pauseGame();  // toggle pause/resume
 });
 
@@ -88,31 +88,31 @@ resetBtnEl.addEventListener('click', function () {
 
 function startGame() {
   board = [];
-  
+
   for (let rowIdx = 0; rowIdx < BOARD_ROWS; rowIdx++) {
-    
-    board[rowIdx] = [];  
-    
+
+    board[rowIdx] = [];
+
     for (let colIdx = 0; colIdx < BOARD_COLS; colIdx++) {
-      
+
       board[rowIdx][colIdx] = {
-        isMine: false,          
-        isRevealed: false,      
-        isFlagged: false,       
-        adjMineCount: 0,        
-        adjTiles: [],           
+        isMine: false,
+        isRevealed: false,
+        isFlagged: false,
+        adjMineCount: 0,
+        adjTiles: [],
         rowIdx,
-        colIdx 
+        colIdx
       };
-     
+
     }
   };
-  firstClick = false;     
-  tilesRevealedCount = 0; 
+  firstClick = false;
+  tilesRevealedCount = 0;
   isGameOver = false;
-  
+
   renderBoard();
-  updateDisplays(); 
+  updateDisplays();
 
 };
 
@@ -125,7 +125,7 @@ function render() {
 };
 
 function renderBoard() {
-  
+
   board.forEach((rowArray, rowIdx) => {
     rowArray.forEach((tileValue, colIdx) => {
       renderTile(rowIdx, colIdx);
@@ -135,8 +135,8 @@ function renderBoard() {
 };
 
 function renderTile(rowIdx, colIdx) {
-  const tile = board[rowIdx][colIdx];                            
-  const tileEl = document.getElementById(`r${rowIdx}c${colIdx}`); 
+  const tile = board[rowIdx][colIdx];
+  const tileEl = document.getElementById(`r${rowIdx}c${colIdx}`);
   tileEl.classList.remove('revealed', 'mine-hit');
   tileEl.innerHTML = '';
 
@@ -152,7 +152,7 @@ function renderTile(rowIdx, colIdx) {
   }
 };
 
-function renderFlag(rowIdx, colIdx) {  
+function renderFlag(rowIdx, colIdx) {
   const tile = board[rowIdx][colIdx];
   const tileEl = document.getElementById(`r${rowIdx}c${colIdx}`);
   if (!tile.isRevealed && tile.isFlagged) {
@@ -167,9 +167,9 @@ function updateDisplays() {
 
 function startTimer() {
   timerInterval = setInterval(() => {
-    if (!isPaused) {       
-      timer++;              
-      updateDisplays();  
+    if (!isPaused) {
+      timer++;
+      updateDisplays();
     }
   }, 1000);
 };
@@ -207,7 +207,7 @@ function launchPauseEmojis() {
 
 function launchLoseEmojis() {
   const overlay = document.getElementById('pause-overlay');
-  overlay.innerHTML = ''; 
+  overlay.innerHTML = '';
 
   const numEmojis = 40;
 
@@ -277,7 +277,7 @@ function showPanelMessage(title, message, autoClose = false) {
     setTimeout(() => {            // auto close panel after x seconds
       msgPanel.classList.remove('open');
       expandPanelBtn.textContent = '>';
-    }, 7000); 
+    }, 7000);
   }
 }
 
@@ -300,7 +300,7 @@ function handleTileClick(evtObj) {
   if (!tileEl) return;
   const tileId = tileEl.id;
   const coords = tileId.slice(1).split('c');
-  const rowIdx = parseInt(coords[0]);       
+  const rowIdx = parseInt(coords[0]);
   const colIdx = parseInt(coords[1]);
   if (!board[rowIdx] || !board[rowIdx][colIdx]) return;
   const clickedTile = board[rowIdx][colIdx];
@@ -318,7 +318,7 @@ function handleTileClick(evtObj) {
 
     flagSound.currentTime = 0;
     flagSound.play();
-    
+
     updateDisplays();
     render();
     return;
@@ -339,6 +339,7 @@ function handleTileClick(evtObj) {
     if (clickedTile.isMine) {
       explosionSound.currentTime = 0;
       explosionSound.play();
+      expandPanelBtn.click();
       isGameOver = true;
       clearInterval(timerInterval);
       revealAllTiles();
@@ -359,7 +360,7 @@ function handleTileClick(evtObj) {
 /*  GAME LOGIC         */
 /*=====================*/
 
-function setMines(rowIdx, colIdx) {  
+function setMines(rowIdx, colIdx) {
   let mineCounter = 0;
   while (mineCounter < TOTAL_MINES) {
     const randomRow = Math.floor(Math.random() * BOARD_ROWS);
@@ -373,42 +374,42 @@ function setMines(rowIdx, colIdx) {
 };
 
 function getAdjTiles(rowIdx, colIdx) {
-  const adjTiles = [];       
-  const directions = [ [-1, -1], [-1, 0], [-1, 1], [ 0, -1], [ 0, 1],[ 1, -1], [ 1, 0], [ 1, 1] ];
+  const adjTiles = [];
+  const directions = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]];
 
   for (let i = 0; i < directions.length; i++) {
-    const dRow = directions[i][0];        
+    const dRow = directions[i][0];
     const dCol = directions[i][1];
     const r = rowIdx + dRow;
     const c = colIdx + dCol;
-   
-    if (r >= 0 && r < BOARD_ROWS && c >= 0 && c < BOARD_COLS) { 
-    adjTiles.push(board[r][c]); 
+
+    if (r >= 0 && r < BOARD_ROWS && c >= 0 && c < BOARD_COLS) {
+      adjTiles.push(board[r][c]);
     }
   }
-    return adjTiles;  
+  return adjTiles;
 };
 
 function countAdjMines(rowIdx, colIdx) {
-  const tile = board[rowIdx][colIdx];                   
-  let count = 0;                                        
-  for (let neighbor of tile.adjTiles) {                 
-    if (neighbor.isMine) count++;                      
+  const tile = board[rowIdx][colIdx];
+  let count = 0;
+  for (let neighbor of tile.adjTiles) {
+    if (neighbor.isMine) count++;
   }
-  tile.adjMineCount = count;                           
+  tile.adjMineCount = count;
 };
 
 function assignAdjTilesAndCounts() {
   for (let rowIdx = 0; rowIdx < BOARD_ROWS; rowIdx++) {
     for (let colIdx = 0; colIdx < BOARD_COLS; colIdx++) {
-      const tile = board[rowIdx][colIdx];             
-      tile.adjTiles = getAdjTiles(rowIdx, colIdx);    
-      countAdjMines(rowIdx, colIdx);                 
+      const tile = board[rowIdx][colIdx];
+      tile.adjTiles = getAdjTiles(rowIdx, colIdx);
+      countAdjMines(rowIdx, colIdx);
     }
   }
 };
 
-function revealTile(rowIdx, colIdx) {   
+function revealTile(rowIdx, colIdx) {
 
   const tile = board[rowIdx][colIdx];
   if (tile.isRevealed || tile.isFlagged) {
@@ -426,19 +427,20 @@ function revealTile(rowIdx, colIdx) {
 };
 
 function checkGameOver() {
-  if (isGameOver) return;  
-  let revealedCount = 0;             
-  for (let rowIdx = 0; rowIdx < board.length; rowIdx++) {   
-    for (let colIdx = 0; colIdx < board[rowIdx].length; colIdx++) {   
-      const tile = board[rowIdx][colIdx];                             
-      if (tile.isRevealed && !tile.isMine) revealedCount++;           
-  }
-};
- 
-  if (revealedCount === TOTAL_TILES - TOTAL_MINES) {                 
-    isGameOver = true;                      
-    applauseSound.currentTime = 0; 
-    applauseSound.play();         
+  if (isGameOver) return;
+  let revealedCount = 0;
+  for (let rowIdx = 0; rowIdx < board.length; rowIdx++) {
+    for (let colIdx = 0; colIdx < board[rowIdx].length; colIdx++) {
+      const tile = board[rowIdx][colIdx];
+      if (tile.isRevealed && !tile.isMine) revealedCount++;
+    }
+  };
+
+  if (revealedCount === TOTAL_TILES - TOTAL_MINES) {
+    isGameOver = true;
+    applauseSound.currentTime = 0;
+    applauseSound.play();
+    expandPanelBtn.click();
     const faceBtn = document.getElementById('face-button');
     faceBtn.textContent = '😎';
     launchWinEmojis();
@@ -448,12 +450,12 @@ function checkGameOver() {
     `);
   }
 };
-  
+
 function pauseGame() {
-  isPaused = !isPaused; 
+  isPaused = !isPaused;
 
   const faceBtn = document.getElementById('face-button');
-  faceBtn.textContent = isPaused ? '😴' : '😀'; 
+  faceBtn.textContent = isPaused ? '😴' : '😀';
 
   if (isPaused) {
     launchPauseEmojis();
@@ -461,18 +463,18 @@ function pauseGame() {
 }
 
 function resetGame() {
-  clearInterval(timerInterval);  
-  timer = 0;                     
-  flagCount = 0;                
-  updateDisplays();              
-  startGame();                   
+  clearInterval(timerInterval);
+  timer = 0;
+  flagCount = 0;
+  updateDisplays();
+  startGame();
   const faceBtn = document.getElementById('face-button');
   faceBtn.textContent = '😀';
 };
 
 
 function createWin() {
-  
+
   for (let row = 0; row < board.length; row++) {
     for (let col = 0; col < board[row].length; col++) {
       const tile = board[row][col];
@@ -482,8 +484,8 @@ function createWin() {
     }
   }
 
-  renderBoard();        
-  checkGameOver();      
+  renderBoard();
+  checkGameOver();
 }
 
 window.createWin = createWin;
@@ -531,5 +533,5 @@ window.createLoss = createLoss;
 /*  GAME STARTUP       */
 /*=====================*/
 
-startGame();    
+startGame();
 
