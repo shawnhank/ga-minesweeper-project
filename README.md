@@ -8,7 +8,7 @@ A classic Minesweeper game built with HTML, CSS, and JavaScript. The game is des
 - [Minesweeper Game](#minesweeper-game)
   - [Table of Contents](#table-of-contents)
   - [Screenshots](#screenshots)
-  - [Tech Stack ](#tech-stack-)
+  - [Tech Stack](#tech-stack)
   - [Project Overview](#project-overview)
   - [Features](#features)
     - [MVP Features:](#mvp-features)
@@ -23,10 +23,16 @@ A classic Minesweeper game built with HTML, CSS, and JavaScript. The game is des
 
 ## Screenshots
 
+![New Game](https://github.com/shawnhank/ga-minesweeper-project/blob/main/app_shots/ms2.png)
+![A Game in Progress](https://github.com/shawnhank/ga-minesweeper-project/blob/main/app_shots/ms5.png)
+![A Winning Board](https://github.com/shawnhank/ga-minesweeper-project/blob/main/app_shots/ms7.png)
+![A Mine Field](https://github.com/shawnhank/ga-minesweeper-project/blob/main/app_shots/%20ms1.png)
+![Losing Animation](https://github.com/shawnhank/ga-minesweeper-project/blob/main/app_shots/ms3.png)
+![Pause Game](https://github.com/shawnhank/ga-minesweeper-project/blob/main/app_shots/ms6.png)
 
 
 
-## Tech Stack <!-- TODO: add badges -->
+## Tech Stack
 
 <img src="https://github.com/shawnhank/ga-minesweeper-project/blob/main/images/HTML.png" alt="HTML Logo" width="120" /> <img src="https://github.com/shawnhank/ga-minesweeper-project/blob/main/images/CSS.svg" alt="CSS Logo" width="120" /> <img src="https://github.com/shawnhank/ga-minesweeper-project/blob/main/images/JS.png" alt="JavaScript Logo" width="120" />
 
