@@ -1,68 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Minesweeper</title>
+  <title>Let's Play Minesweeper!</title>
   <link rel="icon" href="images/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="css/main.css">
   <script defer src="js/main.js"></script>
 </head>
+
 <body>
   <div id="app">
     <div id="game-container">
-      
+
       <div id="game-title-container">
-        <h1>Minesweeper</h1>
-      </div>  
+        <h1>Let's Play Minesweeper!</h1>
+      </div>
 
       <div id="face-row">
-        <!-- Mine Flag Counter digital display (future) -->
-        <div  class="digital-wrapper" id="flag-counter-wrapper" >
-          <div class="digital-display"><span id="flag-counter">000</span></div>
-          <!-- JS will insert number of flags here -->
+        <div class="digital-wrapper" id="flag-counter-wrapper">
+          <div class="digital-display">
+            <span id="flag-counter">
+              000
+            </span>
+          </div>
         </div>
-        <!-- Face Button (Reset Button) -->
-        <div id="face-button">😀</div>
 
-        <div class="digital-wrapper" id="timer-display-wrapper" >
-          <!-- Digital Timer Display that counts up 1 second at a time(future) --> 
-          <div class="digital-display"><span id="game-timer">000</span></div>
-            <!-- JS will insert elapsed time here -->
+        <div id="face-button">
+          😀
+        </div>
+
+        <div class="digital-wrapper" id="timer-display-wrapper">
+          <div class="digital-display">
+            <span id="game-timer">
+              000
+            </span>
+          </div>
         </div>
       </div>
 
       <div id="grid-wrapper">
         <div id="game-board">
-          <!-- 81 tiles -->
-          <div class="tile" id="r0c0"></div><div class="tile" id="r0c1"></div><div class="tile" id="r0c2"></div><div class="tile" id="r0c3"></div><div class="tile" id="r0c4"></div><div class="tile" id="r0c5"></div><div class="tile" id="r0c6"></div><div class="tile" id="r0c7"></div><div class="tile" id="r0c8"></div>
-          <div class="tile" id="r1c0"></div><div class="tile" id="r1c1"></div><div class="tile" id="r1c2"></div><div class="tile" id="r1c3"></div><div class="tile" id="r1c4"></div><div class="tile" id="r1c5"></div><div class="tile" id="r1c6"></div><div class="tile" id="r1c7"></div><div class="tile" id="r1c8"></div>
-          <div class="tile" id="r2c0"></div><div class="tile" id="r2c1"></div><div class="tile" id="r2c2"></div><div class="tile" id="r2c3"></div><div class="tile" id="r2c4"></div><div class="tile" id="r2c5"></div><div class="tile" id="r2c6"></div><div class="tile" id="r2c7"></div><div class="tile" id="r2c8"></div>
-          <div class="tile" id="r3c0"></div><div class="tile" id="r3c1"></div><div class="tile" id="r3c2"></div><div class="tile" id="r3c3"></div><div class="tile" id="r3c4"></div><div class="tile" id="r3c5"></div><div class="tile" id="r3c6"></div><div class="tile" id="r3c7"></div><div class="tile" id="r3c8"></div>
-          <div class="tile" id="r4c0"></div><div class="tile" id="r4c1"></div><div class="tile" id="r4c2"></div><div class="tile" id="r4c3"></div><div class="tile" id="r4c4"></div><div class="tile" id="r4c5"></div><div class="tile" id="r4c6"></div><div class="tile" id="r4c7"></div><div class="tile" id="r4c8"></div>
-          <div class="tile" id="r5c0"></div><div class="tile" id="r5c1"></div><div class="tile" id="r5c2"></div><div class="tile" id="r5c3"></div><div class="tile" id="r5c4"></div><div class="tile" id="r5c5"></div><div class="tile" id="r5c6"></div><div class="tile" id="r5c7"></div><div class="tile" id="r5c8"></div>
-          <div class="tile" id="r6c0"></div><div class="tile" id="r6c1"></div><div class="tile" id="r6c2"></div><div class="tile" id="r6c3"></div><div class="tile" id="r6c4"></div><div class="tile" id="r6c5"></div><div class="tile" id="r6c6"></div><div class="tile" id="r6c7"></div><div class="tile" id="r6c8"></div>
-          <div class="tile" id="r7c0"></div><div class="tile" id="r7c1"></div><div class="tile" id="r7c2"></div><div class="tile" id="r7c3"></div><div class="tile" id="r7c4"></div><div class="tile" id="r7c5"></div><div class="tile" id="r7c6"></div><div class="tile" id="r7c7"></div><div class="tile" id="r7c8"></div>
-          <div class="tile" id="r8c0"></div><div class="tile" id="r8c1"></div><div class="tile" id="r8c2"></div><div class="tile" id="r8c3"></div><div class="tile" id="r8c4"></div><div class="tile" id="r8c5"></div><div class="tile" id="r8c6"></div><div class="tile" id="r8c7"></div><div class="tile" id="r8c8"></div>
+          <div class="tile" id="r0c0"></div>
+          <div class="tile" id="r0c1"></div>
+          <div class="tile" id="r0c2"></div>
+          <div class="tile" id="r0c3"></div>
+          <div class="tile" id="r0c4"></div>
+          <div class="tile" id="r0c5"></div>
+          <div class="tile" id="r0c6"></div>
+          <div class="tile" id="r0c7"></div>
+          <div class="tile" id="r0c8"></div>
+          <div class="tile" id="r1c0"></div>
+          <div class="tile" id="r1c1"></div>
+          <div class="tile" id="r1c2"></div>
+          <div class="tile" id="r1c3"></div>
+          <div class="tile" id="r1c4"></div>
+          <div class="tile" id="r1c5"></div>
+          <div class="tile" id="r1c6"></div>
+          <div class="tile" id="r1c7"></div>
+          <div class="tile" id="r1c8"></div>
+          <div class="tile" id="r2c0"></div>
+          <div class="tile" id="r2c1"></div>
+          <div class="tile" id="r2c2"></div>
+          <div class="tile" id="r2c3"></div>
+          <div class="tile" id="r2c4"></div>
+          <div class="tile" id="r2c5"></div>
+          <div class="tile" id="r2c6"></div>
+          <div class="tile" id="r2c7"></div>
+          <div class="tile" id="r2c8"></div>
+          <div class="tile" id="r3c0"></div>
+          <div class="tile" id="r3c1"></div>
+          <div class="tile" id="r3c2"></div>
+          <div class="tile" id="r3c3"></div>
+          <div class="tile" id="r3c4"></div>
+          <div class="tile" id="r3c5"></div>
+          <div class="tile" id="r3c6"></div>
+          <div class="tile" id="r3c7"></div>
+          <div class="tile" id="r3c8"></div>
+          <div class="tile" id="r4c0"></div>
+          <div class="tile" id="r4c1"></div>
+          <div class="tile" id="r4c2"></div>
+          <div class="tile" id="r4c3"></div>
+          <div class="tile" id="r4c4"></div>
+          <div class="tile" id="r4c5"></div>
+          <div class="tile" id="r4c6"></div>
+          <div class="tile" id="r4c7"></div>
+          <div class="tile" id="r4c8"></div>
+          <div class="tile" id="r5c0"></div>
+          <div class="tile" id="r5c1"></div>
+          <div class="tile" id="r5c2"></div>
+          <div class="tile" id="r5c3"></div>
+          <div class="tile" id="r5c4"></div>
+          <div class="tile" id="r5c5"></div>
+          <div class="tile" id="r5c6"></div>
+          <div class="tile" id="r5c7"></div>
+          <div class="tile" id="r5c8"></div>
+          <div class="tile" id="r6c0"></div>
+          <div class="tile" id="r6c1"></div>
+          <div class="tile" id="r6c2"></div>
+          <div class="tile" id="r6c3"></div>
+          <div class="tile" id="r6c4"></div>
+          <div class="tile" id="r6c5"></div>
+          <div class="tile" id="r6c6"></div>
+          <div class="tile" id="r6c7"></div>
+          <div class="tile" id="r6c8"></div>
+          <div class="tile" id="r7c0"></div>
+          <div class="tile" id="r7c1"></div>
+          <div class="tile" id="r7c2"></div>
+          <div class="tile" id="r7c3"></div>
+          <div class="tile" id="r7c4"></div>
+          <div class="tile" id="r7c5"></div>
+          <div class="tile" id="r7c6"></div>
+          <div class="tile" id="r7c7"></div>
+          <div class="tile" id="r7c8"></div>
+          <div class="tile" id="r8c0"></div>
+          <div class="tile" id="r8c1"></div>
+          <div class="tile" id="r8c2"></div>
+          <div class="tile" id="r8c3"></div>
+          <div class="tile" id="r8c4"></div>
+          <div class="tile" id="r8c5"></div>
+          <div class="tile" id="r8c6"></div>
+          <div class="tile" id="r8c7"></div>
+          <div class="tile" id="r8c8"></div>
         </div>
       </div>
-    </div>
-  
-  <div id="reset-button-container">
-    <button id="reset-button" class="button">
-      Reset Game
-    </button>
-  </div>
 
-  <div id="ga-logo-container">
-    <a href="https://generalassemb.ly/students/courses/software-engineering-bootcamp" target="_blank">
-    <img id="ga-logo" src="images/ga-logo.png" alt="General Assembly Logo">
-    </a>
-  </div>
-  <div id="pause-overlay">
-  </div>
-  
-  
+      <div id="message-box" class="message-box">
+        <h2 id="message-title">Let's Go!</h2>
+        <div id="message-content">It's a Beautiful Day!</div>
+      </div>
+
+      <div id="reset-button-container">
+        <button id="reset-button" class="button">
+          Reset Game
+        </button>
+      </div>
+
+    </div>
+
+    <div id="ga-logo-container">
+      <a href="https://generalassemb.ly/students/courses/software-engineering-bootcamp" target="_blank">
+        <img id="ga-logo" src="images/ga-logo.png" alt="General Assembly Logo">
+      </a>
+    </div>
+
+    <div id="pause-overlay"></div>
+
+
+
 </body>
-</html>  
+
+</html>
