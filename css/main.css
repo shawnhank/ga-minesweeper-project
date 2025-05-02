@@ -129,7 +129,7 @@ body {
   background-color: #111;
   padding: 4px;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.6);
-  z-index: 2; 
+  z-index: 2;
 }
 
 #game-board {
@@ -208,7 +208,7 @@ body {
   width: 78%;
   height: 30%;
   max-width: clamp(240px, 80vmin, 520px);
-  position: relative;           
+  position: relative;
   margin-top: 1.rem;
   margin-bottom: 1rem;
   align-self: center;
@@ -229,7 +229,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  
+
 }
 
 .message-box.visible {
@@ -239,7 +239,7 @@ body {
 #message-title {
   margin-top: 0;
   margin-bottom: 1.0em;
-  font-size:2.5rem;
+  font-size: 2.5rem;
   color: #d3d3d3;
 }
 
@@ -273,9 +273,8 @@ body {
   margin-top: 1.5rem;
   text-align: center;
 }
-#message-content p {
- 
-}
+
+#message-content p {}
 
 #message-content .emoji-line {
   font-size: 1.5rem;

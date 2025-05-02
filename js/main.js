@@ -90,7 +90,7 @@ function startGame() {
         isMine: false,
         isRevealed: false,
         isFlagged: false,
-        adjMineCount: 0,    
+        adjMineCount: 0,
         adjTiles: [],
         rowIdx,
         colIdx
@@ -104,7 +104,7 @@ function startGame() {
   renderBoard();
   updateDisplays();
 
- 
+
   if (gameCount === 0) {
     showGameMessage("Let's Play!", `
       <div class="msg-lines">
@@ -330,7 +330,7 @@ function handleTileClick(evtObj) {
       firstClick = true;
       startTimer();
     }
-    
+
     if (clickedTile.isFlagged || clickedTile.isRevealed) return;
     clickSound.currentTime = 0;
     clickSound.play();
