@@ -52,12 +52,12 @@ boardEl
 boardEl
   .addEventListener('contextmenu', handleTileClick);
 
-faceBtnEl.addEventListener('click', function(evtObj) {
+faceBtnEl.addEventListener('click', function (evtObj) {
   if (isGameOver || !firstClick) return;
-  pauseGame();  // toggle pause/resume
+  pauseGame();
 });
 
-faceBtnEl.addEventListener('contextmenu', function(evtObj) {
+faceBtnEl.addEventListener('contextmenu', function (evtObj) {
   evtObj.preventDefault();
 
   if (firstClick) {
@@ -80,10 +80,6 @@ resetBtnEl.addEventListener('click', function () {
 
 
 /*-------------------------------- Functions --------------------------------*/
-
-/*=====================*/
-/*    SETUP FUNCTIONS  */
-/*=====================*/
 
 function startGame() {
   board = [];
@@ -114,10 +110,6 @@ function startGame() {
   updateDisplays();
 
 };
-
-/*=====================*/
-/*  RENDERING FUNCTIONS  */
-/*=====================*/
 
 function render() {
   renderBoard();
@@ -268,270 +260,267 @@ function launchWinEmojis() {
 function showPanelMessage(title, message, autoClose = false) {
   document.getElementById('panel-title').textContent = title;
   document.getElementById('panel-message').innerHTML = message;
-
-  // msgPanel.classList.add('open');  //show message panel immediately
-  // expandPanelBtn.textContent = '<';
-
-  if (autoClose) {
-    setTimeout(() => {            // auto close panel after x seconds
-      msgPanel.classList.remove('open');
-      expandPanelBtn.textContent = '>';
-    }, 7000);
-  }
-}
-
-function revealAllTiles() {
-  for (let row = 0; row < BOARD_ROWS; row++) {
-    for (let col = 0; col < BOARD_COLS; col++) {
-      board[row][col].isRevealed = true;
-    }
-  }
 };
 
-/*=====================*/
-/*  EVENT HANDLERS     */
-/*=====================*/
-
-function handleTileClick(evtObj) {
-  if (isGameOver) return;
-  if (isPaused) return;
-  const tileEl = evtObj.target.closest('.tile');
-  if (!tileEl) return;
-  const tileId = tileEl.id;
-  const coords = tileId.slice(1).split('c');
-  const rowIdx = parseInt(coords[0]);
-  const colIdx = parseInt(coords[1]);
-  if (!board[rowIdx] || !board[rowIdx][colIdx]) return;
-  const clickedTile = board[rowIdx][colIdx];
-
-  if (evtObj.button === 2) {
-    evtObj.preventDefault();
-    if (!firstClick) return;
-    if (clickedTile.isRevealed) return;
-    if (clickedTile.isFlagged) {
-      flagCount--;
-    } else {
-      flagCount++;
-    }
-    clickedTile.isFlagged = !clickedTile.isFlagged;
-
-    flagSound.currentTime = 0;
-    flagSound.play();
-
-    updateDisplays();
-    render();
-    return;
-  }
-
-  if (evtObj.button === 0) {
-    if (!firstClick) {
-      setMines(rowIdx, colIdx);
-      assignAdjTilesAndCounts();
-      firstClick = true;
-      startTimer();
-    }
-    if (clickedTile.isFlagged || clickedTile.isRevealed) return;
-    clickSound.currentTime = 0;
-    clickSound.play();
-    revealTile(rowIdx, colIdx);
-
-    if (clickedTile.isMine) {
-      explosionSound.currentTime = 0;
-      explosionSound.play();
-      expandPanelBtn.click();
-      isGameOver = true;
-      clearInterval(timerInterval);
-      revealAllTiles();
-      launchLoseEmojis();
-      showPanelMessage("Game Over", `
-        <p>Oh No! Want to try again?</p>
-        <p class="emoji-line">😞 🤨 🥺</p>
-      `);
-      const faceBtn = document.getElementById('face-button');
-      faceBtn.textContent = '😭';
-    }
-    render();
-    checkGameOver();
-  }
-};
-
-/*=====================*/
-/*  GAME LOGIC         */
-/*=====================*/
-
-function setMines(rowIdx, colIdx) {
-  let mineCounter = 0;
-  while (mineCounter < TOTAL_MINES) {
-    const randomRow = Math.floor(Math.random() * BOARD_ROWS);
-    const randomCol = Math.floor(Math.random() * BOARD_COLS);
-    if (!board[randomRow][randomCol].isMine &&
-      !(randomRow === rowIdx && randomCol === colIdx)) {
-      board[randomRow][randomCol].isMine = true;
-      mineCounter++;
-    }
-  }
-};
-
-function getAdjTiles(rowIdx, colIdx) {
-  const adjTiles = [];
-  const directions = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]];
-
-  for (let i = 0; i < directions.length; i++) {
-    const dRow = directions[i][0];
-    const dCol = directions[i][1];
-    const r = rowIdx + dRow;
-    const c = colIdx + dCol;
-
-    if (r >= 0 && r < BOARD_ROWS && c >= 0 && c < BOARD_COLS) {
-      adjTiles.push(board[r][c]);
-    }
-  }
-  return adjTiles;
-};
-
-function countAdjMines(rowIdx, colIdx) {
-  const tile = board[rowIdx][colIdx];
-  let count = 0;
-  for (let neighbor of tile.adjTiles) {
-    if (neighbor.isMine) count++;
-  }
-  tile.adjMineCount = count;
-};
-
-function assignAdjTilesAndCounts() {
-  for (let rowIdx = 0; rowIdx < BOARD_ROWS; rowIdx++) {
-    for (let colIdx = 0; colIdx < BOARD_COLS; colIdx++) {
-      const tile = board[rowIdx][colIdx];
-      tile.adjTiles = getAdjTiles(rowIdx, colIdx);
-      countAdjMines(rowIdx, colIdx);
-    }
-  }
-};
-
-function revealTile(rowIdx, colIdx) {
-
-  const tile = board[rowIdx][colIdx];
-  if (tile.isRevealed || tile.isFlagged) {
-    return;
-  }
-  tile.isRevealed = true;
-
-  if (tile.adjMineCount === 0) {
-    for (let neighbor of tile.adjTiles) {
-      revealTile(neighbor.rowIdx, neighbor.colIdx);
-    }
-  }
-  renderTile(rowIdx, colIdx);
-  renderFlag(rowIdx, colIdx);
-};
-
-function checkGameOver() {
-  if (isGameOver) return;
-  let revealedCount = 0;
-  for (let rowIdx = 0; rowIdx < board.length; rowIdx++) {
-    for (let colIdx = 0; colIdx < board[rowIdx].length; colIdx++) {
-      const tile = board[rowIdx][colIdx];
-      if (tile.isRevealed && !tile.isMine) revealedCount++;
+  function revealAllTiles() {
+    for (let row = 0; row < BOARD_ROWS; row++) {
+      for (let col = 0; col < BOARD_COLS; col++) {
+        board[row][col].isRevealed = true;
+      }
     }
   };
 
-  if (revealedCount === TOTAL_TILES - TOTAL_MINES) {
-    isGameOver = true;
-    applauseSound.currentTime = 0;
-    applauseSound.play();
-    expandPanelBtn.click();
-    const faceBtn = document.getElementById('face-button');
-    faceBtn.textContent = '😎';
-    launchWinEmojis();
-    showPanelMessage("You Won!", `
+  function handleTileClick(evtObj) {
+    if (isGameOver) return;
+    if (isPaused) return;
+    const tileEl = evtObj.target.closest('.tile');
+    if (!tileEl) return;
+    const tileId = tileEl.id;
+    const coords = tileId.slice(1).split('c');
+    const rowIdx = parseInt(coords[0]);
+    const colIdx = parseInt(coords[1]);
+    if (!board[rowIdx] || !board[rowIdx][colIdx]) return;
+    const clickedTile = board[rowIdx][colIdx];
+
+    if (evtObj.button === 2) {
+      evtObj.preventDefault();
+      if (!firstClick) return;
+      if (clickedTile.isRevealed) return;
+      if (clickedTile.isFlagged) {
+        flagCount--;
+      } else {
+        flagCount++;
+      }
+      clickedTile.isFlagged = !clickedTile.isFlagged;
+
+      flagSound.currentTime = 0;
+      flagSound.play();
+
+      updateDisplays();
+      render();
+      return;
+    }
+
+    if (evtObj.button === 0) {
+      if (!firstClick) {
+        setMines(rowIdx, colIdx);
+        assignAdjTilesAndCounts();
+        firstClick = true;
+        startTimer();
+        autoClosePanelAfterDelay();
+      }
+      if (clickedTile.isFlagged || clickedTile.isRevealed) return;
+      clickSound.currentTime = 0;
+      clickSound.play();
+      revealTile(rowIdx, colIdx);
+
+      if (clickedTile.isMine) {
+        explosionSound.currentTime = 0;
+        explosionSound.play();
+        openPanel();
+        isGameOver = true;
+        clearInterval(timerInterval);
+        revealAllTiles();
+        launchLoseEmojis();
+        showPanelMessage("Game Over", `
+        <p>Oh No! Want to try again?</p>
+        <p class="emoji-line">😞 🤨 🥺</p>
+      `);
+        const faceBtn = document.getElementById('face-button');
+        faceBtn.textContent = '😭';
+      }
+      render();
+      checkGameOver();
+    }
+  };
+
+  function setMines(rowIdx, colIdx) {
+    let mineCounter = 0;
+    while (mineCounter < TOTAL_MINES) {
+      const randomRow = Math.floor(Math.random() * BOARD_ROWS);
+      const randomCol = Math.floor(Math.random() * BOARD_COLS);
+      if (!board[randomRow][randomCol].isMine &&
+        !(randomRow === rowIdx && randomCol === colIdx)) {
+        board[randomRow][randomCol].isMine = true;
+        mineCounter++;
+      }
+    }
+  };
+
+  function getAdjTiles(rowIdx, colIdx) {
+    const adjTiles = [];
+    const directions = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]];
+
+    for (let i = 0; i < directions.length; i++) {
+      const dRow = directions[i][0];
+      const dCol = directions[i][1];
+      const r = rowIdx + dRow;
+      const c = colIdx + dCol;
+
+      if (r >= 0 && r < BOARD_ROWS && c >= 0 && c < BOARD_COLS) {
+        adjTiles.push(board[r][c]);
+      }
+    }
+    return adjTiles;
+  };
+
+  function countAdjMines(rowIdx, colIdx) {
+    const tile = board[rowIdx][colIdx];
+    let count = 0;
+    for (let neighbor of tile.adjTiles) {
+      if (neighbor.isMine) count++;
+    }
+    tile.adjMineCount = count;
+  };
+
+  function assignAdjTilesAndCounts() {
+    for (let rowIdx = 0; rowIdx < BOARD_ROWS; rowIdx++) {
+      for (let colIdx = 0; colIdx < BOARD_COLS; colIdx++) {
+        const tile = board[rowIdx][colIdx];
+        tile.adjTiles = getAdjTiles(rowIdx, colIdx);
+        countAdjMines(rowIdx, colIdx);
+      }
+    }
+  };
+
+  function revealTile(rowIdx, colIdx) {
+
+    const tile = board[rowIdx][colIdx];
+    if (tile.isRevealed || tile.isFlagged) {
+      return;
+    }
+    tile.isRevealed = true;
+
+    if (tile.adjMineCount === 0) {
+      for (let neighbor of tile.adjTiles) {
+        revealTile(neighbor.rowIdx, neighbor.colIdx);
+      }
+    }
+    renderTile(rowIdx, colIdx);
+    renderFlag(rowIdx, colIdx);
+  };
+
+  function checkGameOver() {
+    if (isGameOver) return;
+    let revealedCount = 0;
+    for (let rowIdx = 0; rowIdx < board.length; rowIdx++) {
+      for (let colIdx = 0; colIdx < board[rowIdx].length; colIdx++) {
+        const tile = board[rowIdx][colIdx];
+        if (tile.isRevealed && !tile.isMine) revealedCount++;
+      }
+    };
+
+    if (revealedCount === TOTAL_TILES - TOTAL_MINES) {
+      isGameOver = true;
+      applauseSound.currentTime = 0;
+      applauseSound.play();
+      openPanel();
+      const faceBtn = document.getElementById('face-button');
+      faceBtn.textContent = '😎';
+      launchWinEmojis();
+      showPanelMessage("You Won!", `
       <p>Nice! You cleared all<br>the tiles!</p>
       <p class="emoji-line">🙌🏻 👏🏻 🤘🏼 😎</p>
     `);
-  }
-};
-
-function pauseGame() {
-  isPaused = !isPaused;
-
-  const faceBtn = document.getElementById('face-button');
-  faceBtn.textContent = isPaused ? '😴' : '😀';
-
-  if (isPaused) {
-    launchPauseEmojis();
-  }
-}
-
-function resetGame() {
-  clearInterval(timerInterval);
-  timer = 0;
-  flagCount = 0;
-  updateDisplays();
-  startGame();
-  const faceBtn = document.getElementById('face-button');
-  faceBtn.textContent = '😀';
-};
-
-
-/*--------------------Troublshooting Helpers-----------------------*/
-function createWin() {
-
-  for (let row = 0; row < board.length; row++) {
-    for (let col = 0; col < board[row].length; col++) {
-      const tile = board[row][col];
-      if (!tile.isMine) {
-        tile.isRevealed = true;
-      }
     }
-  }
+  };
 
-  renderBoard();
-  checkGameOver();
-}
+  function pauseGame() {
+    isPaused = !isPaused;
 
-window.createWin = createWin;
+    const faceBtn = document.getElementById('face-button');
+    faceBtn.textContent = isPaused ? '😴' : '😀';
 
-function createLoss() {
-  let safeClickCount = 0;
-
-  for (let row = 0; row < board.length; row++) {
-    for (let col = 0; col < board[row].length; col++) {
-      const tile = board[row][col];
-      if (!tile.isMine && safeClickCount < 10) {
-        tile.isRevealed = true;
-        safeClickCount++;
-      }
+    if (isPaused) {
+      launchPauseEmojis();
     }
+  };
+
+  function openPanel() {
+    if (!msgPanel.classList.contains('open')) {
+      expandPanelBtn.click();
+    }
+  };
+  
+  function closePanel() {
+    console.log("Trying to close panel. Is it open?", msgPanel.classList.contains('open'));
+    if (msgPanel.classList.contains('open')) {
+      expandPanelBtn.click();
+    }
+  };
+
+  function autoClosePanelAfterDelay() {
+    setTimeout(() => {
+      closePanel();
+    ;}, 3000);
   }
 
-  renderBoard();
+  function resetGame() {
+    clearInterval(timerInterval);
+    timer = 0;
+    flagCount = 0;
+    updateDisplays();
+    startGame();
 
-  for (let row = 0; row < board.length; row++) {
-    for (let col = 0; col < board[row].length; col++) {
-      const tile = board[row][col];
-      if (tile.isMine) {
-        const tileId = `r${row}c${col}`;
-        const tileEl = document.getElementById(tileId);
+    const faceBtn = document.getElementById('face-button');
+    faceBtn.textContent = '😀';
+    autoClosePanelAfterDelay();
+  };
 
-        if (tileEl) {
-          const fakeEvent = {
-            button: 0,
-            target: tileEl
-          };
+  function createWin() {
 
-          handleTileClick(fakeEvent);
+    for (let row = 0; row < board.length; row++) {
+      for (let col = 0; col < board[row].length; col++) {
+        const tile = board[row][col];
+        if (!tile.isMine) {
+          tile.isRevealed = true;
         }
-        return;
+      }
+    }
+
+    renderBoard();
+    checkGameOver();
+  }
+
+  window.createWin = createWin;
+
+  function createLoss() {
+    let safeClickCount = 0;
+
+    for (let row = 0; row < board.length; row++) {
+      for (let col = 0; col < board[row].length; col++) {
+        const tile = board[row][col];
+        if (!tile.isMine && safeClickCount < 10) {
+          tile.isRevealed = true;
+          safeClickCount++;
+        }
+      }
+    }
+
+    renderBoard();
+
+    for (let row = 0; row < board.length; row++) {
+      for (let col = 0; col < board[row].length; col++) {
+        const tile = board[row][col];
+        if (tile.isMine) {
+          const tileId = `r${row}c${col}`;
+          const tileEl = document.getElementById(tileId);
+
+          if (tileEl) {
+            const fakeEvent = {
+              button: 0,
+              target: tileEl
+            };
+
+            handleTileClick(fakeEvent);
+          }
+          return;
+        }
       }
     }
   }
-}
 
-window.createLoss = createLoss;
+  window.createLoss = createLoss;
 
 
-/*=====================*/
-/*  GAME STARTUP       */
-/*=====================*/
-
-startGame();
-
+  startGame();

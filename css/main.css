@@ -1,17 +1,16 @@
-/* === Global Reset === */
+
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
 
-/* === Global Design Variables === */
 :root {
   --tile-size: min(4.5vmin, 4.5vw);
   --tile-gap: 0.4vmin;
   --panel-width: clamp(240px, 30vmin, 340px);
 }
-/* === Stylizing === */
+
 body {
   margin: 0;
   padding: 0;
@@ -52,7 +51,6 @@ body {
   padding-bottom: 0.5em;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 0 2px 0 rgba(255, 255, 255, 0.08);
-  /* ← this creates the 2nd “visual line” */
 }
 
 #game-title-container h1 {
@@ -83,28 +81,21 @@ body {
 .digital-display {
   display: flex;
   justify-content: center;
-  /* centers horizontally */
   align-items: center;
-  /* centers vertically */
   font-family: 'Courier New', monospace;
   font-size: 4vmin;
   color: red;
   background-color: black;
   padding: 0 0.5vmin;
-  /* smaller padding so text isn't cramped */
   height: 5vmin;
-  /* increase height to avoid visual shift */
   width: 9vmin;
-  /* slight adjustment based on font width */
   text-align: center;
   box-sizing: border-box;
-
 }
 
 .digital-display span {
   position: relative;
   top: 0.1vmin;
-  /* only nudges the digits */
 }
 
 #face-button {
@@ -126,7 +117,6 @@ body {
 
 #face-button:hover {
   background-color: #666;
-  /* Slightly lighter grey for hover */
 }
 
 #grid-wrapper {
@@ -165,7 +155,6 @@ body {
 
 .tile:hover {
   background-color: #666;
-  /* Slightly lighter grey for hover */
 }
 
 .tile.revealed {
@@ -200,11 +189,18 @@ body {
   z-index: -1;
 }
 
+.message-panel.open {
+  right: 0;
+}
+
 .panel-content {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1vmin;
+  justify-content: flex-start;
+  height: 100%;
+  overflow: hidden;
 }
 
 #panel-title {
@@ -221,6 +217,10 @@ body {
   font-size: clamp(1rem, 1.8vmin, 1.2rem);
   line-height: 1.5;
   color: #d6d6d6;
+  max-height: 100%;
+  overflow-y: auto;
+  flex-grow: 1;
+  box-sizing: border-box;   
 }
 
 #panel-message p {
@@ -238,16 +238,13 @@ body {
 
 #panel-message p.rules-message {
   text-align: left;
-  font-size: clamp(1.2rem, 1.2vmin, 1.15rem);
+  font-size: clamp(.9rem, 1.2vmin, 1.15rem);
   font-weight: 500;
   line-height: 1.2;
   margin: .9vmin;
   text-shadow: none;
   padding-left: .8vmin;
-}
 
-.message-panel.open {
-  right: 0;
 }
 
 .expand-panel-btn {
@@ -265,6 +262,8 @@ body {
   z-index: 1;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
   transition: background 0.3s ease;
+  outline: none;
+  box-shadow: none;
 }
 
 .expand-panel-btn:hover {
