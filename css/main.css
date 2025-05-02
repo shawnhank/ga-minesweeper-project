@@ -1,5 +1,7 @@
 /* === Global Reset === */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -9,7 +11,7 @@
   --tile-gap: 0.4vmin;
   --panel-width: clamp(240px, 30vmin, 340px);
 }
-
+/* === Stylizing === */
 body {
   margin: 0;
   padding: 0;
@@ -49,7 +51,8 @@ body {
   margin-bottom: 4vh;
   padding-bottom: 0.5em;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 2px 0 rgba(255, 255, 255, 0.08); /* ← this creates the 2nd “visual line” */
+  box-shadow: 0 2px 0 rgba(255, 255, 255, 0.08);
+  /* ← this creates the 2nd “visual line” */
 }
 
 #game-title-container h1 {
@@ -79,23 +82,29 @@ body {
 
 .digital-display {
   display: flex;
-  justify-content: center;     /* centers horizontally */
-  align-items: center;         /* centers vertically */
+  justify-content: center;
+  /* centers horizontally */
+  align-items: center;
+  /* centers vertically */
   font-family: 'Courier New', monospace;
   font-size: 4vmin;
   color: red;
   background-color: black;
-  padding: 0 0.5vmin;     /* smaller padding so text isn't cramped */
-  height: 5vmin;              /* increase height to avoid visual shift */
-  width: 9vmin;                 /* slight adjustment based on font width */
+  padding: 0 0.5vmin;
+  /* smaller padding so text isn't cramped */
+  height: 5vmin;
+  /* increase height to avoid visual shift */
+  width: 9vmin;
+  /* slight adjustment based on font width */
   text-align: center;
   box-sizing: border-box;
- 
+
 }
 
 .digital-display span {
   position: relative;
-  top: 0.1vmin;  /* only nudges the digits */
+  top: 0.1vmin;
+  /* only nudges the digits */
 }
 
 #face-button {
@@ -116,7 +125,8 @@ body {
 }
 
 #face-button:hover {
-  background-color: #666; /* Slightly lighter grey for hover */
+  background-color: #666;
+  /* Slightly lighter grey for hover */
 }
 
 #grid-wrapper {
@@ -129,7 +139,7 @@ body {
   background-color: #111;
   padding: 4px;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.6);
-  z-index:2;
+  z-index: 2;
 }
 
 #game-board {
@@ -147,14 +157,15 @@ body {
   border-left: 3px solid #bcbcbc;
   border-bottom: 4px solid #444;
   border-right: 4px solid #444;
-  line-height: 0;           
-  overflow: hidden;         
+  line-height: 0;
+  overflow: hidden;
   box-sizing: border-box;
   cursor: pointer;
 }
 
 .tile:hover {
-  background-color: #666; /* Slightly lighter grey for hover */
+  background-color: #666;
+  /* Slightly lighter grey for hover */
 }
 
 .tile.revealed {
@@ -242,7 +253,7 @@ body {
 .expand-panel-btn {
   position: absolute;
   top: 10%;
-  right: -2.1rem;      
+  right: -2.1rem;
   width: 2rem;
   height: 3rem;
   background-color: #444;
@@ -252,7 +263,7 @@ body {
   cursor: pointer;
   font-size: 1.2rem;
   z-index: 1;
-  box-shadow: 0 0 6px rgba(0,0,0,0.4);
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
   transition: background 0.3s ease;
 }
 
@@ -329,9 +340,9 @@ body {
     transform: translate(0, 0) scale(1);
     opacity: 1;
   }
+
   100% {
     transform: translate(var(--x-move), var(--y-move)) scale(var(--scale));
     opacity: 0;
   }
 }
-
