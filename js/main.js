@@ -38,7 +38,6 @@ const timerEl = document.getElementById('game-timer');
 const msgPanel = document.getElementById('message-panel');
 const expandPanelBtn = document.getElementById('expand-panel-btn');
 
-
 /*----------------------------- Event Listeners -----------------------------*/
 
 document.addEventListener('contextmenu', function (evt) {
@@ -471,7 +470,6 @@ function resetGame() {
   const faceBtn = document.getElementById('face-button');
   faceBtn.textContent = '😀';
 };
-
 
 
 /*--------------------Troublshooting Helpers-----------------------*/
