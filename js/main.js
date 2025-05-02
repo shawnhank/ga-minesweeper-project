@@ -103,9 +103,19 @@ function startGame() {
   renderBoard();
   updateDisplays();
 
-
+  if (gameCount ===0) {
+  showGameMessage("Let's Go!!", `
+    <p>Click a tile to reveal what's underneath.</p>
+    <p>Right-click to place or remove a flag.</p>
+    <p>Flag suspected mines to avoid accidental clicks.</p>
+    <p>Numbers show how many mines are adjacent.</p>
+    <p>Your first click is always safe.</p>
+    <p>Clear all safe tiles to win the game.</p>
+  `, true);
+  } 
+  
   gameCount++;
-}
+};
 
 function render() {
   renderBoard();
@@ -228,7 +238,6 @@ function launchWinEmojis() {
   overlay.innerHTML = '';
 
   const numEmojis = 40;
-
   for (let i = 0; i < numEmojis; i++) {
     const emoji = document.createElement('div');
     emoji.classList.add('floating-emoji');
@@ -251,7 +260,7 @@ function launchWinEmojis() {
   setTimeout(() => {
     overlay.innerHTML = '';
   }, 4000);
-}
+};
 
 function revealAllTiles() {
   for (let row = 0; row < BOARD_ROWS; row++) {
@@ -298,8 +307,6 @@ function handleTileClick(evtObj) {
       assignAdjTilesAndCounts();
       firstClick = true;
       startTimer();
-    
-    
     }
     
     if (clickedTile.isFlagged || clickedTile.isRevealed) return;
@@ -313,7 +320,10 @@ function handleTileClick(evtObj) {
       isGameOver = true;
       revealAllTiles();
       launchLoseEmojis();
-
+      showGameMessage("Game Over", `
+        <p>Oh No! Want to try again?</p>
+        <p class="emoji-line">😞 🤨 🥺</p>
+      `);
       const faceBtn = document.getElementById('face-button');
       faceBtn.textContent = '😭';
     }
@@ -372,7 +382,6 @@ function assignAdjTilesAndCounts() {
 };
 
 function revealTile(rowIdx, colIdx) {
-
   const tile = board[rowIdx][colIdx];
   if (tile.isRevealed || tile.isFlagged) {
     return;
@@ -403,7 +412,10 @@ function checkGameOver() {
     clearInterval(timerInterval);
     applauseSound.currentTime = 0;
     applauseSound.play();
-    
+    showGameMessage("You Won!", `
+      <p>Nice! You cleared all<br>the tiles!</p>
+      <p class="emoji-line">🙌🏻 👏🏻 🤘🏼 😎</p>
+    `);
     const faceBtn = document.getElementById('face-button');
     faceBtn.textContent = '😎';
     launchWinEmojis();
@@ -446,7 +458,7 @@ function createWin() {
 
   renderBoard();
   checkGameOver();
-}
+};
 
 window.createWin = createWin;
 
@@ -484,7 +496,7 @@ function createLoss() {
       }
     }
   }
-}
+};
 
 window.createLoss = createLoss;
 
