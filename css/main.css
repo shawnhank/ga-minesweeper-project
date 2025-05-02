@@ -198,6 +198,66 @@ body {
   background-color: #555;
 }
 
+/* Floating Message Box (top right corner) */
+.message-box {
+  position: fixed;
+  top: 2.5vmin;
+  right: 2.5vmin;
+  background: #222;
+  border-top: 4px solid #bcbcbc;
+  border-left: 4px solid #bcbcbc;
+  border-bottom: 4px solid #2c2c2c;
+  border-right: 4px solid #2c2c2c;
+  padding: 1rem;
+  color: #e1dedebb;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: none;
+  max-width: 300px;
+  min-width: 220px;
+  border-radius: 3px;
+  font-size: 0.95rem;
+  text-align: left;
+}
+
+.message-box.visible {
+  display: block;
+}
+
+#message-title {
+  margin-top: 0;
+  margin-bottom: 0.5em;
+  font-size: 1.2rem;
+  color: #fff;
+}
+
+#message-content p {
+  margin: 0.5em 0;
+}
+
+#message-content .emoji-line {
+  font-size: 1.5rem;
+  margin-top: 0.75em;
+  text-align: center;
+}
+
+#close-message {
+  margin-top: 1em;
+  padding: 6px 12px;
+  background-color: #666;
+  border: none;
+  color: #eee;
+  cursor: pointer;
+  font-size: 0.9rem;
+  border-radius: 3px;
+}
+
+#close-message:hover {
+  background-color: #888;
+}
+
+
+
 #ga-logo-container {
   position: fixed;
   bottom: 1rem;

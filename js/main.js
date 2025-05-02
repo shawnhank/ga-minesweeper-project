@@ -73,6 +73,8 @@ resetBtnEl.addEventListener('click', function () {
   }
 });
 
+document.getElementById('close-message').addEventListener('click', closeMessage);
+
 
 /*-------------------------------- Functions --------------------------------*/
 
@@ -103,17 +105,15 @@ function startGame() {
   renderBoard();
   updateDisplays();
 
-  if (gameCount ===0) {
-  showGameMessage("Let's Go!!", `
-    <p>Click a tile to reveal what's underneath.</p>
-    <p>Right-click to place or remove a flag.</p>
-    <p>Flag suspected mines to avoid accidental clicks.</p>
-    <p>Numbers show how many mines are adjacent.</p>
-    <p>Your first click is always safe.</p>
-    <p>Clear all safe tiles to win the game.</p>
-  `, true);
-  } 
-  
+ 
+  if (gameCount === 0) {
+    showGameMessage("Let's Play!", `
+      <p>Click a tile to reveal what's underneath.</p>
+      <p>Right-click to flag suspected mines.</p>
+      <p class="emoji-line">💣 🚩 😊</p>
+    `);
+  }
+
   gameCount++;
 };
 
@@ -269,6 +269,29 @@ function revealAllTiles() {
     }
   }
 };
+
+function showGameMessage(title, message, autoHide = false) {
+  const messageBox = document.getElementById('message-box');
+  const titleEl = document.getElementById('message-title');
+  const contentEl = document.getElementById('message-content');
+
+  titleEl.textContent = title;
+  contentEl.innerHTML = message;
+
+  messageBox.classList.add('visible');
+
+  if (autoHide) {
+    setTimeout(() => {
+      messageBox.classList.remove('visible');
+    }, 3000);
+  }
+}
+
+function closeMessage() {
+  document.getElementById('message-box').classList.remove('visible');
+}
+
+
 
 function handleTileClick(evtObj) {
   if (isGameOver) return;
