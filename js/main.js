@@ -19,6 +19,7 @@ flagSound.volume = 0.25;
 /*---------------------------- Variables (state) ----------------------------*/
 
 let board;
+let gameCount = 0;
 let isGameOver;
 let tilesRevealedCount;
 let bombCounter;
@@ -73,8 +74,6 @@ resetBtnEl.addEventListener('click', function () {
   }
 });
 
-document.getElementById('close-message').addEventListener('click', closeMessage);
-
 
 /*-------------------------------- Functions --------------------------------*/
 
@@ -108,9 +107,11 @@ function startGame() {
  
   if (gameCount === 0) {
     showGameMessage("Let's Play!", `
-      <p>Click a tile to reveal what's underneath.</p>
-      <p>Right-click to flag suspected mines.</p>
-      <p class="emoji-line">💣 🚩 😊</p>
+      <div class="msg-lines">
+        <p>Click a tile to reveal what's underneath.</p>
+        <p>Right-click to flag suspected mines.</p>
+        <div class="emoji-line">💣 🚩 😊</div>
+      </div>
     `);
   }
 
