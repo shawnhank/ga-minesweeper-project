@@ -205,8 +205,9 @@ body {
 }
 
 .message-box {
-  width: 87%;
-  height: 300px;
+  width: 78%;
+  height: 30%;
+  max-width: clamp(240px, 80vmin, 520px);
   position: relative;           
   margin-top: 1.rem;
   margin-bottom: 1rem;

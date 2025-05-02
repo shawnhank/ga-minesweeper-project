@@ -344,8 +344,10 @@ function handleTileClick(evtObj) {
       revealAllTiles();
       launchLoseEmojis();
       showGameMessage("Game Over", `
-        <p>Oh No! Want to try again?</p>
-        <p class="emoji-line">😞 🤨 🥺</p>
+        <div class="msg-lines">
+          <p>Oh No! Want to try again?</p>
+          <div class="emoji-line">😞 🤨 🥺</div>
+        </div>
       `);
       const faceBtn = document.getElementById('face-button');
       faceBtn.textContent = '😭';
@@ -436,8 +438,10 @@ function checkGameOver() {
     applauseSound.currentTime = 0;
     applauseSound.play();
     showGameMessage("You Won!", `
-      <p>Nice! You cleared all<br>the tiles!</p>
-      <p class="emoji-line">🙌🏻 👏🏻 🤘🏼 😎</p>
+      <div class="msg-lines">
+        <p>Nice! You cleared all the tiles!</p>
+        <div class="emoji-line">🙌🏻 👏🏻 🤘🏼 😎</div>
+      </div>
     `);
     const faceBtn = document.getElementById('face-button');
     faceBtn.textContent = '😎';
