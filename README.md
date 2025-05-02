@@ -37,7 +37,7 @@ A classic Minesweeper game built with HTML, CSS, and JavaScript — fully reimag
 
 ## Tech Stack
 
-<img src="https://github.com/shawnhank/ga-minesweeper-project/blob/main/images/HTML.png" alt="HTML Logo" width="120" /> <img src="https://github.com/shawnhank/ga-minesweeper-project/blob/main/images/CSS.svg" alt="CSS Logo" width="120" /> <img src="https://github.com/shawnhank/ga-minesweeper-project/blob/main/images/JS.png" alt="JavaScript Logo" width="120" />
+<img style="display:inline; margin: 0px 0px 20px 20px;" src="https://raw.githubusercontent.com/shawnhank/ga-minesweeper-project/refs/heads/main/images/HTML.png" alt="HTML Logo" width="150"/> <img style="display:inline; margin 0px 0px 20px 20px;" src="https://raw.githubusercontent.com/shawnhank/ga-minesweeper-project/13931d340bff166585035b19048775a630c22dbe/images/CSS.svg" alt="CSS Logo" width="155px" /> <img style="display:inline; margin: 0px 0px 20px 20px;" src="https://raw.githubusercontent.com/shawnhank/ga-minesweeper-project/refs/heads/main/images/JS.png" alt="JavaScript Logo" width="150" />
 
 
 **HTML** – For layout and semantic structure
