@@ -26,19 +26,22 @@ A classic Minesweeper game built with HTML, CSS, and JavaScript — fully reimag
   - [Attributions](#attributions)
 
 ## Screenshots
-<p align="center">
-  <img src="https://github.com/shawnhank/ga-minesweeper-project/blob/main/app_shots/%20ms1.png" alt="A Mine Field" alt="A Mine Field" width="400" />
-  <img src="https://github.com/shawnhank/ga-minesweeper-project/blob/main/app_shots/ms2.png" alt="Starting a New Game" width="400" />
-  <img src="https://github.com/shawnhank/ga-minesweeper-project/blob/main/app_shots/ms5.png" alt="Game In Progress" width="400" />
-  <img src="https://github.com/shawnhank/ga-minesweeper-project/blob/main/app_shots/ms6.png" alt="Pause Game" width="400" />
-  <img src="https://github.com/shawnhank/ga-minesweeper-project/blob/main/app_shots/ms7.png" alt="A Winning Board" width=400" />
-  <img src="https://github.com/shawnhank/ga-minesweeper-project/blob/main/app_shots/ms3.png" alt="Losing Animation" width="400" />
+<p display="inline">
+  <img style="display:inline; margin: 0px 0px 20px 20px;" src="https://raw.githubusercontent.com/shawnhank/ga-minesweeper-project/refs/heads/main/images/app_shots/%20ms1.png" alt="A Mine Field" alt="A Mine Field" width="200" />
+  <img style="display:inline; margin: 0px 0px 20px 20px;" src="https://raw.githubusercontent.com/shawnhank/ga-minesweeper-project/refs/heads/main/images/app_shots/ms2.png" alt="Starting a New Game" width="200" />
+  <img style="display:inline; margin: 0px 0px 20px 20px;" src="https://raw.githubusercontent.com/shawnhank/ga-minesweeper-project/refs/heads/main/images/app_shots/ms5.png" alt="Game In Progress" width="200" />
+  <img style="display:inline; margin: 0px 0px 20px 20px;" src="https://github.com/shawnhank/ga-minesweeper-project/blob/main/images/app_shots/ms6.png?raw=true" alt="Pause Game" width="200" />
+  <img style="display:inline; margin: 0px 0px 20px 20px;" src="https://github.com/shawnhank/ga-minesweeper-project/blob/main/images/app_shots/ms7.png?raw=true" alt="A Winning Board" width=200" />
+  <img style="display:inline; margin: 0px 0px 20px 20px;" src="https://raw.githubusercontent.com/shawnhank/ga-minesweeper-project/refs/heads/main/images/app_shots/ms3.png" alt="Losing Animation" width="200" />
 </p>
 
 ## Tech Stack
 
-<img src="https://github.com/shawnhank/ga-minesweeper-project/blob/main/images/HTML.png" alt="HTML Logo" width="120" /> <img src="https://github.com/shawnhank/ga-minesweeper-project/blob/main/images/CSS.svg" alt="CSS Logo" width="120" /> <img src="https://github.com/shawnhank/ga-minesweeper-project/blob/main/images/JS.png" alt="JavaScript Logo" width="120" />
-
+<p display="inline">
+<img style="display:inline; margin: 0px 0px 20px 20px;" src="https://raw.githubusercontent.com/shawnhank/ga-minesweeper-project/refs/heads/main/images/HTML.png" alt="HTML Logo" width="150"/>
+<img style="display:inline; margin 0px 0px 20px 20px;" src="https://raw.githubusercontent.com/shawnhank/ga-minesweeper-project/refs/heads/main/images/CSS.png" alt="CSS Logo" width="155px" />
+<img style="display:inline; margin: 0px 0px 20px 20px;" src="https://raw.githubusercontent.com/shawnhank/ga-minesweeper-project/refs/heads/main/images/JS.png" alt="JavaScript Logo" width="150" />
+</p>
 
 **HTML** – For layout and semantic structure
 **CSS** – Grid layout, tile styling, animations, responsive design
@@ -66,14 +69,15 @@ The game includes key features like:
   - Handled with classes and transitions in .css file and rules that change visual states when certain classes
     are added or removed by JS.
   - Tile Reveal Effects: Beveled to flat look using .revealed class.
-  - Tile Explosion Coloring: Mine-hit tiles turn red via .mine-hit class.
+  - Tile Explosion Coloring: Mine tiles turn red via .isMine class.
   - Face Emoji Animations: The win/lose faces like 😎 and 😭 were animated by applying CSS classes tied to game state.
   - Hover Effects: For unrevealed tiles to show feedback on cursor movement.
+  - Leveraged CSS Grid for the tile board and Flexbox everything else. While technically not responsive (aka not mobile) ready, its playable across a wide variety of screen sizes.
  
 ### JavaScript-Triggered Animations (DOM Updates)
-  - JS was responsible for triggering and coordinating animations:
-  - JS adds/removes classes (like .revealed, .mine-hit) at the correct times.
-  - Face emoji transitions and message displays (like “You Win!”) were triggered in JS based on game events.
+  - JS was responsible for triggering and coordinating animations.
+  - JS adds/removes classes (like .revealed, .isMine) at the correct times.
+  - Emoji transitions and message displays (like “You Win!”) were triggered in JS based on game events.
   - Cascade Reveal: JavaScript handled per-tile reveals recursively but each reveal triggered a visual update via
     renderTile() — giving the illusion of animation as it happened tile-by-tile.
 
