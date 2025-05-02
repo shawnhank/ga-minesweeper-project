@@ -3,9 +3,12 @@
 
 A classic Minesweeper game built with HTML, CSS, and JavaScript — fully reimagined with sound, animation, and responsive polish. This version stays true to the original while adding modern feedback and user experience touches.
 
+# [Play MineSweeper Online](https://shawnhank.github.io/ga-minesweeper-project/)
+
 
 ## Table of Contents
 - [Minesweeper Game](#minesweeper-game)
+- [Play MineSweeper Online](#play-minesweeper-online)
   - [Table of Contents](#table-of-contents)
   - [Screenshots](#screenshots)
   - [Tech Stack](#tech-stack)
