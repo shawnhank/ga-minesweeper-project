@@ -473,6 +473,8 @@ function resetGame() {
 };
 
 
+
+/*--------------------Troublshooting Helpers-----------------------*/
 function createWin() {
 
   for (let row = 0; row < board.length; row++) {
