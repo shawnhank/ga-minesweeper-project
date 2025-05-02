@@ -291,8 +291,6 @@ function closeMessage() {
   document.getElementById('message-box').classList.remove('visible');
 }
 
-
-
 function handleTileClick(evtObj) {
   if (isGameOver) return;
   if (isPaused) return;
@@ -341,6 +339,7 @@ function handleTileClick(evtObj) {
       explosionSound.currentTime = 0;
       explosionSound.play();
       isGameOver = true;
+      clearInterval(timerInterval);
       revealAllTiles();
       launchLoseEmojis();
       showGameMessage("Game Over", `
