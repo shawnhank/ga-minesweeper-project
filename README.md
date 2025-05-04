@@ -26,7 +26,7 @@ A classic Minesweeper game built with HTML, CSS, and JavaScript — fully reimag
   - [Attributions](#attributions)
 
 ## Screenshots
-<p display="flex">
+<p display="inline">
   <img style="display:inline; margin: 0px 0px 20px 20px;" src="https://raw.githubusercontent.com/shawnhank/ga-minesweeper-project/refs/heads/main/images/app_shots/%20ms1.png" alt="A Mine Field" alt="A Mine Field" width="200" />
   <img style="display:inline; margin: 0px 0px 20px 20px;" src="https://raw.githubusercontent.com/shawnhank/ga-minesweeper-project/refs/heads/main/images/app_shots/ms2.png" alt="Starting a New Game" width="200" />
   <img style="display:inline; margin: 0px 0px 20px 20px;" src="https://raw.githubusercontent.com/shawnhank/ga-minesweeper-project/refs/heads/main/images/app_shots/ms5.png" alt="Game In Progress" width="200" />
@@ -37,8 +37,9 @@ A classic Minesweeper game built with HTML, CSS, and JavaScript — fully reimag
 
 ## Tech Stack
 
-<img style="display:inline; margin: 0px 0px 20px 20px;" src="https://raw.githubusercontent.com/shawnhank/ga-minesweeper-project/refs/heads/main/images/HTML.png" alt="HTML Logo" width="150"/> <img style="display:inline; margin 0px 0px 20px 20px;" src="https://raw.githubusercontent.com/shawnhank/ga-minesweeper-project/13931d340bff166585035b19048775a630c22dbe/images/CSS.svg" alt="CSS Logo" width="155px" /> <img style="display:inline; margin: 0px 0px 20px 20px;" src="https://raw.githubusercontent.com/shawnhank/ga-minesweeper-project/refs/heads/main/images/JS.png" alt="JavaScript Logo" width="150" />
-
+<p display="inline">
+  <img style="display:inline; margin: 0px 0px 20px 20px;" src="https://github.com/shawnhank/ga-minesweeper-project/blob/main/images/css3-html5-and-js-logos.png" alt="CSS HTML JavaScript Logots"/>
+</p>
 
 **HTML** – For layout and semantic structure
 **CSS** – Grid layout, tile styling, animations, responsive design
